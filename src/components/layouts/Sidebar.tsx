@@ -9,8 +9,8 @@ import { usePathname } from 'next/navigation'
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
-    { name: 'Categories', href: '/categories', icon: FileBoxIcon },
-    { name: 'Discussions', href: '/discussions', icon: TextQuoteIcon },
+    { name: 'Categories', href: '/categories/create', icon: FileBoxIcon },
+    { name: 'Discussions', href: '/discussions/create_dicussions', icon: TextQuoteIcon },
     { name: 'Staffs', href: '/staffs', icon: Users2Icon },
 ]
 

@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
     //   padding: '10px'
     // }} className=''>
     //   <p>© 2022 Your Company</p>
-    // </footer>
+    // </footer>}
   );
 };
 
