@@ -1,27 +1,28 @@
+"use client"
+
+import Form from "@/components/forms/Form";
 import { Switch } from "@headlessui/react";
 import React from "react";
 
 
 const page = () => {
 
-    const hrStyle = {
-        border: 'none',
-        height: '1px',
-        backgroundColor: 'black',
-        // Adjust margin as needed
-    };
+    const submit = () => {
+        return
+    }
 
     return (
-        <div className="p-4">
+        <div className="">
 
-            <div className="my-4 text-xl font-bold">
+            {/* <div className="my-4 text-xl font-bold">
                 <h1>Create Discussions</h1>
             </div>
 
             <hr className="my-4" style={hrStyle} />
 
-            <form className="w-full mx-auto">
+            <form className="w-full mx-auto"> */}
 
+            <Form title="Create Discussions" buttonText="Post" onSubmit={submit}>
                 <div className="mb-5">
                     <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                     <input type="text" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
@@ -49,15 +50,16 @@ const page = () => {
                         <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Post anonymously</span>
                     </label>
                 </div>
+            </Form>
 
-                <hr className="my-4" style={hrStyle} />
+            {/* <hr className="my-4" style={hrStyle} />
 
-                <div className="flex justify-end" >
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Post</button>
-                    <button type="submit" style={{ backgroundColor: '#B0B0B0',  marginLeft: '10px'}} className="text-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancel</button>
-                </div>
-            </form>
-        </div>
+            <div className="flex justify-end" >
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Post</button>
+                <button type="submit" style={{ backgroundColor: '#B0B0B0', marginLeft: '10px' }} className="text-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancel</button>
+            </div>
+        </form> */}
+        </div >
     )
 }
 
