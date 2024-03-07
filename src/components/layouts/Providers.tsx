@@ -23,13 +23,15 @@ const Providers = ({ children, ...props }: ThemeProviderProps) => {
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
             <main className="min-h-screen bg-[#FFFFFF]">
-                <Sidebar />
+                {/* <Sidebar />
                 <div className="md:pl-64 flex flex-col">
                     <div className="sticky top-0 flex-shrink-0 flex h-16 bg-white">
                         <Navbar />
                     </div>
-                    {children}
-                </div>
+                    <div className="content p-6"> */}
+                {children}
+                {/* </div>
+                </div> */}
             </main>
         </QueryClientProvider >
     )

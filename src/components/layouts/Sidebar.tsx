@@ -5,18 +5,15 @@ import { BarChartIcon, CogIcon, FileBoxIcon, HomeIcon, LogOutIcon, TextQuoteIcon
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
-    { name: 'Categories', href: '/categories/create', icon: FileBoxIcon },
-    { name: 'Discussions', href: '/discussions/create_dicussions', icon: TextQuoteIcon },
+    { name: 'Categories', href: '/categories', icon: FileBoxIcon },
+    { name: 'Discussions', href: '/discussions', icon: TextQuoteIcon },
     { name: 'Staffs', href: '/staffs', icon: Users2Icon },
 ]
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 const Sidebar = () => {
 
@@ -105,7 +102,7 @@ const Sidebar = () => {
                                                             <li key={item.name}>
                                                                 <Link
                                                                     href={item.href}
-                                                                    className={classNames(
+                                                                    className={cn(
                                                                         current?.href === item.href
                                                                             ? 'bg-gray-50 text-indigo-600'
                                                                             : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
@@ -113,7 +110,7 @@ const Sidebar = () => {
                                                                     )}
                                                                 >
                                                                     <item.icon
-                                                                        className={classNames(
+                                                                        className={cn(
                                                                             current?.href === item.href ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                                             'h-6 w-6 shrink-0'
                                                                         )}
@@ -174,7 +171,7 @@ const Sidebar = () => {
                                             <li key={item.name}>
                                                 <Link
                                                     href={item.href}
-                                                    className={classNames(
+                                                    className={cn(
                                                         current?.href === item.href
                                                             ? 'bg-gray-50 text-indigo-600'
                                                             : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
@@ -182,7 +179,7 @@ const Sidebar = () => {
                                                     )}
                                                 >
                                                     <item.icon
-                                                        className={classNames(
+                                                        className={cn(
                                                             current?.href === item.href ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                             'h-6 w-6 shrink-0'
                                                         )}
@@ -201,7 +198,7 @@ const Sidebar = () => {
                                         <li>
                                             <Link
                                                 href={"/settings"}
-                                                className={classNames(
+                                                className={cn(
                                                     pathname === '/settings'
                                                         ? 'bg-gray-50 text-indigo-600'
                                                         : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
@@ -209,7 +206,7 @@ const Sidebar = () => {
                                                 )}
                                             >
                                                 <CogIcon
-                                                    className={classNames(
+                                                    className={cn(
                                                         pathname === '/settings' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                         'h-6 w-6 shrink-0'
                                                     )}

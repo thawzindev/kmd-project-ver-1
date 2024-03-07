@@ -6,6 +6,10 @@ class HttpClient {
   constructor(baseURL: string) {
     this.instance = axios.create({
       baseURL,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     });
 
     this._initializeResponseInterceptor();

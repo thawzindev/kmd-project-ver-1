@@ -189,7 +189,7 @@ const FeedPage = () => {
         <>
             <div className='w-full'>
 
-                <div className="header py-6">
+                <div className="header py-2">
                     <h1 className='text-xl font-bold'>Discussions</h1>
                 </div>
 

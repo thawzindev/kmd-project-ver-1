@@ -2,8 +2,6 @@
 
 import React from 'react'
 import Image from 'next/image';
-import { SignOutButton } from "@clerk/nextjs";
-import { useAuth } from "@clerk/nextjs";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -15,12 +13,6 @@ import {
 import Link from 'next/link';
 
 const Navbar = () => {
-
-   const { isLoaded, userId, sessionId, getToken } = useAuth();
-
-   if (!isLoaded || !userId) {
-      return null;
-   }
 
    return (
       <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,15 +55,15 @@ const Navbar = () => {
                         <Image src="https://static.vecteezy.com/system/resources/previews/014/194/216/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg" alt="shadcn/ui" width={40} height={40} />
                      </DropdownMenuTrigger>
                      <DropdownMenuContent>
-                        <DropdownMenuLabel>{userId}</DropdownMenuLabel>
+                        <DropdownMenuLabel>Testing</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>Edit Profile</DropdownMenuItem>
                         <DropdownMenuItem>Billing</DropdownMenuItem>
                         <DropdownMenuItem>
 
-                           <div className='text-red-400'>
+                           {/* <div className='text-red-400'>
                               <SignOutButton />
-                           </div>
+                           </div> */}
                         </DropdownMenuItem>
                      </DropdownMenuContent>
                   </DropdownMenu>

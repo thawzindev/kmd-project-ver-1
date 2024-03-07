@@ -1,11 +1,16 @@
-"use client";
-import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
+import { getLoginData } from "@/lib/auth";
+import { cookies } from 'next/headers'
 
 export default function Home() {
+
+  const cookieStore = cookies();
+  const data = cookieStore.get('user');
+
   return (
     <section className="min-h-screen">
-      Dashboard
+      <p>
+        {JSON.stringify(data)}
+      </p>
     </section>
   );
 }
