@@ -6,6 +6,7 @@ const httpClient = new HttpClient(baseUrl);
 
 // login
 export const login = async (payload: any) => {
+  console.log(payload)
   const response = await httpClient.post(`login`, payload);
   return response as any;
 };
