@@ -22,3 +22,9 @@ export async function getLoginData() {
   const data = cookieStore.get("user");
   return data;
 }
+
+export async function removeLoginData() {
+  const cookieStore = cookies();
+  cookieStore.delete("user");
+  cookieStore.delete("token");
+}

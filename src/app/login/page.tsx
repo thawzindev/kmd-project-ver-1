@@ -11,6 +11,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
 
 const SignUpSchema = z.object({
     email: z.string().email(),
@@ -94,7 +95,14 @@ const Page = () => {
                         type="submit"
                         className="mb-3 w-full"
                         disabled={isSubmitting} >
-                        Sign in
+                        {isSubmitting ? (
+                            <>
+                                <Spinner width={5} height={5} className="mx-2" />
+                                <span>Signing in...</span>
+                            </>
+                        ) : (
+                            'Sign in'
+                        )}
                     </Button>
 
                     {

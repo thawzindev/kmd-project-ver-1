@@ -4,8 +4,9 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { BarChartIcon, CogIcon, FileBoxIcon, HomeIcon, LogOutIcon, TextQuoteIcon, Users2Icon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { removeLoginData } from '@/lib/auth'
 
 
 const navigation = [
@@ -17,16 +18,21 @@ const navigation = [
 
 const Sidebar = () => {
 
+    const router = useRouter()
+
     const pathname = usePathname()
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
-    console.log(pathname)
     const [current, setCurrent] = useState(navigation.find((item) => item.href === pathname))
 
     useEffect(() => {
         setCurrent(navigation.find((item) => item.href === pathname))
     }, [pathname])
 
+
+    const logout = () => {
+        removeLoginData();
+        router.push('/login')
+    }
 
     return (
         <>
@@ -216,16 +222,16 @@ const Sidebar = () => {
                                             </Link>
                                         </li>
                                         <li>
-                                            <a
-                                                href="#"
-                                                className="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-red-400 hover:bg-red-50 hover:text-red-600"
+                                            <button
+                                                onClick={() => logout()}
+                                                className="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-red-400 hover:bg-red-50 hover:text-red-600 w-full"
                                             >
                                                 <LogOutIcon
                                                     className="h-6 w-6 shrink-0 text-red-400 group-hover:text-red-600"
                                                     aria-hidden="true"
                                                 />
                                                 Logout
-                                            </a>
+                                            </button>
                                         </li>
                                     </ul>
                                 </li>
