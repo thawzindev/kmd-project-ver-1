@@ -14,7 +14,14 @@ import { cookies } from "next/headers";
 
 export async function setLoginData(data: LoginData) {
   cookies().set("user", JSON.stringify(data.staff), { secure: true });
-  cookies().set("token", JSON.stringify(data.token), { secure: true });
+  cookies().set("token", data.token, { secure: true });
+}
+
+export async function getToken() {
+  const cookieStore = cookies();
+  const token = cookieStore.has("token") ? cookieStore.get("token").value : "";
+  console.log(token);
+  return token;
 }
 
 export async function getLoginData() {

@@ -3,12 +3,16 @@
 import { HomeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import Spinner from "../ui/spinner";
+import { Button } from "../ui/button";
 
 interface FormInterface {
     title: string;
     buttonText: string;
+    buttonLoadingText: string;
     onSubmit: () => void;
     children: React.ReactNode;
+    isSubmitting: boolean;
 }
 
 const pages = [
@@ -16,7 +20,7 @@ const pages = [
     { name: 'Create', href: '#', current: true },
 ]
 
-const Form = ({ title, buttonText, onSubmit, children }: FormInterface) => {
+const Form = ({ title, buttonText, onSubmit, children, isSubmitting, buttonLoadingText }: FormInterface) => {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -75,15 +79,29 @@ const Form = ({ title, buttonText, onSubmit, children }: FormInterface) => {
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
-                    <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => router.back()}>
+                    {/* <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => router.back()}>
                         Cancel
-                    </button>
-                    <button
+                    </button> */}
+                    <Button variant={'outline'}
                         type="submit"
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        {buttonText}
-                    </button>
+                        className="mb-3"
+                        onClick={() => router.back()}
+                        disabled={isSubmitting} >
+                        Cancel
+                    </Button>
+                    <Button variant={'primary'}
+                        type="submit"
+                        className="mb-3 w-24"
+                        disabled={isSubmitting} >
+                        {isSubmitting ? (
+                            <>
+                                <Spinner width={5} height={5} className="mx-2" />
+                                <span>{buttonLoadingText}</span>
+                            </>
+                        ) : (
+                            `${buttonText}`
+                        )}
+                    </Button>
                 </div>
             </form>
         </div >

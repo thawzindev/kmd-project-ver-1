@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
@@ -11,6 +13,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 
 const pages = [
     { name: 'Categories', href: '#', current: false },
@@ -31,7 +34,14 @@ const people = [
     { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
 ]
 
-const page = () => {
+const Page = () => {
+
+    const perPage = 20
+
+    const { data: categories, isFetching, error } = useFetchCategories(perPage);
+
+    console.log(categories)
+
     return (
         <>
             <div className="flex items-center justify-between gap-x-6">
@@ -146,4 +156,4 @@ const page = () => {
     )
 }
 
-export default page;
+export default Page;

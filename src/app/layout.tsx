@@ -5,7 +5,7 @@ import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import Providers from "@/components/layouts/Providers";
 
-const inter = Raleway({
+const inter = Kanit({
   subsets: ["latin"],
   weight: "400"
 });

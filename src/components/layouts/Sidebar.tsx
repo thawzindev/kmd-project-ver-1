@@ -10,7 +10,7 @@ import { removeLoginData } from '@/lib/auth'
 
 
 const navigation = [
-    { name: 'Dashboard', href: '/', icon: HomeIcon },
+    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'Categories', href: '/categories', icon: FileBoxIcon },
     { name: 'Discussions', href: '/discussions', icon: TextQuoteIcon },
     { name: 'Staffs', href: '/staffs', icon: Users2Icon },

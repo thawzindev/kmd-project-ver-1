@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { getToken } from "./auth";
 
 class HttpClient {
   private readonly instance: AxiosInstance;
@@ -12,8 +13,22 @@ class HttpClient {
       },
     });
 
+    this._initializeRequestInterceptor();
     this._initializeResponseInterceptor();
   }
+
+  private _initializeRequestInterceptor = () => {
+    this.instance.interceptors.request.use(async (config: InternalAxiosRequestConfig<any>) => {
+      const token = await getToken(); // Call your getToken function here
+      if (token) {
+        config.headers = {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        } as AxiosRequestHeaders; // Explicitly type as AxiosRequestHeaders
+      }
+      return config;
+    }, this._handleError);
+  };
 
   private _initializeResponseInterceptor = () => {
     this.instance.interceptors.response.use(this._handleResponse, this._handleError);

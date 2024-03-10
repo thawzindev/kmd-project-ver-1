@@ -6,7 +6,20 @@ const httpClient = new HttpClient(baseUrl);
 
 // login
 export const login = async (payload: any) => {
-  console.log(payload)
   const response = await httpClient.post(`login`, payload);
   return response as any;
+};
+
+// Categories
+
+//create
+export const createCategory = async (payload: any) => {
+  const response = await httpClient.post(`categories`, payload);
+  return response as any;
+};
+
+//list
+export const getCategoryList = async (perPage: number) => {
+  const response = await httpClient.get(`categories?perpage=10`);
+  return response.data as any;
 };
