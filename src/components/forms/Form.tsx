@@ -36,7 +36,7 @@ const Form = ({ title, buttonText, onSubmit, children, isSubmitting, buttonLoadi
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <div className="flex items-center justify-between gap-x-6">
-                            <h2 className="text-xl font-bold leading-7 text-gray-900">Create Category</h2>
+                            <h2 className="text-xl font-bold leading-7 text-gray-900">{title}</h2>
                             <nav className="flex" aria-label="Breadcrumb">
                                 <ol role="list" className="flex items-center space-x-1">
                                     <li>
@@ -79,9 +79,6 @@ const Form = ({ title, buttonText, onSubmit, children, isSubmitting, buttonLoadi
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
-                    {/* <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => router.back()}>
-                        Cancel
-                    </button> */}
                     <Button variant={'outline'}
                         type="submit"
                         className="mb-3"

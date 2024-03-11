@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-import { BarChartIcon, CogIcon, FileBoxIcon, HomeIcon, LogOutIcon, TextQuoteIcon, Users2Icon, XIcon } from 'lucide-react'
+import { AlignJustifyIcon, BarChartIcon, CogIcon, FileBoxIcon, HomeIcon, LogOutIcon, TextQuoteIcon, Users2Icon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -38,7 +38,7 @@ const Sidebar = () => {
         <>
             <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
                 <span className="sr-only">Open sidebar</span>
-                <BarChartIcon className="h-6 w-6" aria-hidden="true" />
+                <AlignJustifyIcon className="h-6 w-6" aria-hidden="true" />
             </button>
 
             <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 overflow-auto bg-[#F9F9F9] lg:border-r lg:border-gray-200 lg:pt-1 lg:pb-1">
@@ -152,7 +152,7 @@ const Sidebar = () => {
 
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
+                <div className="hidden lg:block md:block lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
                         <div className="flex h-16 shrink-0 items-center">

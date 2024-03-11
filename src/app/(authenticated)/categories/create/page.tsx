@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createCategory } from "@/routes/api";
 import { Input } from "@/components/ui/input";
+import toast, { Toaster } from 'react-hot-toast';
 
 const CategorySchema = z.object({
     name: z.string().min(4).max(20)
@@ -38,6 +39,7 @@ const Page = () => {
             return createCategory(payload);
         },
         onSuccess: async (data) => {
+            toast.success('Successfully created the new category!', { duration: 2000 })
             router.push('/categories')
         },
         onError: (error) => {

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { getToken } from "./auth";
+import { getToken, removeLoginData } from "./auth";
+import { NextRouter } from "next/router";
 
 class HttpClient {
   private readonly instance: AxiosInstance;
@@ -36,8 +37,11 @@ class HttpClient {
 
   private _handleResponse = ({ data }: AxiosResponse) => data;
 
-  private _handleError(error: any): void {
+  private _handleError(error: any, router: NextRouter): void {
     if (error.response) {
+      if (error.response.status === 401) {
+        router.push("/login");
+      }
       console.log("HTTP Error:", error.response.data);
     } else if (error.request) {
       console.log("No response received:", error.request);

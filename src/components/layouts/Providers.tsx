@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { ClerkProvider } from "@clerk/nextjs";
 import Sidebar from "./Sidebar";
+import { Toaster } from "react-hot-toast";
 
 const Providers = ({ children, ...props }: ThemeProviderProps) => {
 
@@ -32,6 +33,7 @@ const Providers = ({ children, ...props }: ThemeProviderProps) => {
                 {children}
                 {/* </div>
                 </div> */}
+                <Toaster />
             </main>
         </QueryClientProvider >
     )
