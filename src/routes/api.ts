@@ -19,7 +19,7 @@ export const createCategory = async (payload: any) => {
 };
 
 //list
-export const getCategoryList = async (perPage: number) => {
-  const response = await httpClient.get(`categories?perpage=40`);
+export const getCategoryList = async (perPage: number, page: number) => {
+  const response = await httpClient.get(`categories?perpage=${perPage}&page=${page}`);
   return response as any;
 };

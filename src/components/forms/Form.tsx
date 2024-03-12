@@ -80,7 +80,7 @@ const Form = ({ title, buttonText, onSubmit, children, isSubmitting, buttonLoadi
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                     <Button variant={'outline'}
-                        type="submit"
+                        type="button"
                         className="mb-3"
                         onClick={() => router.back()}
                         disabled={isSubmitting} >

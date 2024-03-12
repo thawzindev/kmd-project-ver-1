@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import {
     Pagination,
     PaginationContent,
@@ -22,11 +22,16 @@ const pages = [
 
 const Page = () => {
 
-    const perPage = 20
+    const [perPage, setPerPage] = useState(10);
+    const [page, setPage] = useState(1);
 
-    const { data, isFetching, error, isLoading } = useFetchCategories(perPage);
+    const { data, isFetching, error, isLoading } = useFetchCategories(perPage, page);
 
     const categories = data?.results?.data
+
+    const meta = data?.results?.meta
+
+    console.log(meta)
 
     return (
 
@@ -114,24 +119,34 @@ const Page = () => {
                 </div>
             </div>
 
-            <div className="float-right py-3">
-                <Pagination>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                            <PaginationLink href="#">2</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className=" py-3">
+                <nav
+                    className="flex items-center justify-between bg-white px-4 py-3 sm:px-6"
+                    aria-label="Pagination"
+                >
+                    <div className="hidden sm:block">
+                        <p className="text-sm text-gray-700">
+                            Showing <span className="font-medium">{meta?.from}</span> to <span className="font-medium">{meta?.to}</span> of{' '}
+                            <span className="font-medium">{meta?.total}</span> results
+                        </p>
+                    </div>
+                    <div className="flex flex-1 justify-between sm:justify-end">
+                        <button
+                            onClick={() => setPage(page - 1)}
+                            className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                            disabled={page === 1}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={() => setPage(page + 1)}
+                            className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                            disabled={page === meta?.last_page}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </nav>
             </div>
 
 
