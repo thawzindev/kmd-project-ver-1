@@ -25,13 +25,11 @@ const Page = () => {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
 
-    const { data, isFetching, error, isLoading } = useFetchCategories(perPage, page);
+    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchCategories(perPage, page);
 
     const categories = data?.results?.data
 
     const meta = data?.results?.meta
-
-    console.log(meta)
 
     return (
 
@@ -100,7 +98,7 @@ const Page = () => {
                                     {categories && categories.map((category, key) => (
                                         <tr key={category.slug}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {key + 1}
+                                                {meta?.from + key}
                                             </td>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {category.name}
@@ -132,14 +130,18 @@ const Page = () => {
                     </div>
                     <div className="flex flex-1 justify-between sm:justify-end">
                         <button
-                            onClick={() => setPage(page - 1)}
+                            onClick={() => setPage((page) => page - 1)}
                             className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
                             disabled={page === 1}
                         >
                             Previous
                         </button>
                         <button
-                            onClick={() => setPage(page + 1)}
+                            onClick={() => {
+                                if (!isPlaceholderData && page < meta?.last_page) {
+                                    setPage((page) => page + 1)
+                                }
+                            }}
                             className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
                             disabled={page === meta?.last_page}
                         >

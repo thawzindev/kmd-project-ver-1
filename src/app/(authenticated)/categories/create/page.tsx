@@ -20,11 +20,6 @@ type CategorySchemaType = z.infer<typeof CategorySchema>;
 
 const Page = () => {
 
-    const pages = [
-        { name: 'Categories', href: '#', current: false },
-        { name: 'Create', href: '#', current: true },
-    ]
-
     const queryClient = new QueryClient()
 
     const {
@@ -41,8 +36,7 @@ const Page = () => {
             return createCategory(payload);
         },
         onSuccess: async (data) => {
-            await queryClient.refetchQueries()
-            await queryClient.invalidateQueries()
+            await queryClient.invalidateQueries({ queryKey: ['categories'] })
             toast.success('Successfully created the new category!', { duration: 2000 })
             router.push('/categories?page=1')
         },
