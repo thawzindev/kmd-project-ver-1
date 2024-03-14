@@ -60,6 +60,10 @@ class HttpClient {
     return this.instance.post<T, R>(url, data, config);
   }
 
+  delete<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
+    return this.instance.delete<T, R>(url, config);
+  }
+
   // Add other methods as needed
 }
 

@@ -16,9 +16,10 @@ import {
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import useEditModal from "@/app/hooks/customs/useEditModal";
+import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
 
 const pages = [
-    { name: 'Categories', href: '#', current: false },
+    { name: 'Departments', href: '#', current: false },
     { name: 'List', href: '#', current: true },
 ]
 
@@ -31,7 +32,7 @@ const Page = () => {
     const deleteModal = useDeleteModal();
 
 
-    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchCategories(perPage, page);
+    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchDepartment(perPage, page);
 
     const categories = data?.results?.data
 
@@ -74,9 +75,9 @@ const Page = () => {
                     ))}
                 </ol>
                 <div className="flex items-center justify-between gap-x-6">
-                    <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Categories</h2>
+                    <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Departments</h2>
                     <nav className="flex" aria-label="Breadcrumb">
-                        <Link href="/categories/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Category</Link>
+                        <Link href="/departments/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Department</Link>
                     </nav>
                 </div>
             </div >

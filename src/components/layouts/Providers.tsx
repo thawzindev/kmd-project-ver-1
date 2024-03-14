@@ -9,6 +9,8 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import { ClerkProvider } from "@clerk/nextjs";
 import Sidebar from "./Sidebar";
 import { Toaster } from "react-hot-toast";
+import EditModal from "../modals/EditCategoryModal";
+import DeleteModal from "../modals/DeleteModal";
 
 const Providers = ({ children, ...props }: ThemeProviderProps) => {
 
@@ -34,6 +36,8 @@ const Providers = ({ children, ...props }: ThemeProviderProps) => {
                 {/* </div>
                 </div> */}
                 <Toaster />
+                <EditModal />
+                <DeleteModal />
             </main>
         </QueryClientProvider >
     )

@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { createCategory } from "@/routes/api";
+import { createCategory, createDepartment } from "@/routes/api";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from 'react-hot-toast';
 import { CategorySchema } from "@/schemas/CategorySchema";
@@ -31,12 +31,12 @@ const Page = () => {
 
     const mutation = useMutation({
         mutationFn: (payload: any) => {
-            return createCategory(payload);
+            return createDepartment(payload);
         },
         onSuccess: async (data) => {
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
-            toast.success('Successfully created the new category!', { duration: 2000 })
-            router.push('/categories?page=1')
+            await queryClient.invalidateQueries({ queryKey: ['departments'] })
+            toast.success(data?.message, { duration: 2000 })
+            router.push('/departments?page=1')
         },
         onError: (error) => {
             console.log('error', error.message)
@@ -60,12 +60,12 @@ const Page = () => {
 
 
     return (
-        <Form title="Create Category" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
+        <Form title="Create Department" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
             <div className="sm:col-span-6">
                 <div className="mt-2">
                     <Input type="text" label="Name"
                         autoFocus
-                        placeholder="Enter the category name ..."
+                        placeholder="Enter the department name ..."
                         error={errors.name && errors.name.message}
                         {...register("name")}
                         className="bg-gray-100"

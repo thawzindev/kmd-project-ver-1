@@ -85,15 +85,15 @@ const Page = () => {
                         />
                     </div>
 
-                    <div className="flex justify-between mb-5 mt-2">
+                    {/* <div className="flex justify-between mb-5 mt-2">
                         <a href="#" className="text-blue-500 hover:underline text-sm font-sans">
                             Forgot password?
                         </a>
-                    </div>
+                    </div> */}
 
                     <Button variant={'primary'}
                         type="submit"
-                        className="mb-3 w-full"
+                        className="mb-3 w-full mt-5"
                         disabled={isSubmitting} >
                         {isSubmitting ? (
                             <>
