@@ -10,9 +10,12 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from 'next/link';
 
 const Navbar = () => {
+
+   const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
+   const user = JSON.parse(cookieObj.get("user") as string)
+
 
    return (
       <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -27,6 +30,10 @@ const Navbar = () => {
                   <span className="hidden font-bold sm:inline-block">Group 11</span>
                </a> */}
                <nav className="flex items-center gap-6 text-sm">
+
+                  <p>
+                     Last Login -{user.lastLoggedInAt}
+                  </p>
                   {/* <Link className="transition-colors hover:text-foreground/80 text-gray-600 font-bold" href="/feeds">Feeds</Link>
                   <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/categories">Admins</Link>
                   <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/feeds">Departments</Link>
