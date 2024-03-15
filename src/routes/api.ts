@@ -25,14 +25,15 @@ export const getCategoryList = async (perPage: number, page: number) => {
   return response as any;
 };
 
-<<<<<<< HEAD
+
 // Academic year
 
 //create 
 export const createAcademicYear = async (payload: any) => {
   console.log(payload)
   const response = await httpClient.post(`academic-dates`, payload);
-=======
+};
+
 //delete
 export const deleteCategory = async (slug: string) => {
   const response = await httpClient.delete(`categories/${slug}`);
@@ -76,6 +77,6 @@ export const getDepartmentList = async (perPage: number, page: number) => {
 //delete
 export const deleteDepartment = async (slug: string) => {
   const response = await httpClient.delete(`departments/${slug}`);
->>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
+
   return response as any;
 };
