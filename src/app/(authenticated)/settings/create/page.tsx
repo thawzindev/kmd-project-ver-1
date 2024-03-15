@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react";
-import { HomeIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import Form from "@/components/forms/Form";
 import { Input } from "@/components/ui/input";
@@ -15,13 +15,17 @@ import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { AcademicSchema } from "@/schemas/AcademicSchema";
 
-const AcademicSchema = z.object({
-    academic_year: z.string().min(4).max(20),
-    start_date: z.string().min(4).max(20),
-    closure_date: z.string().min(4).max(20),
-    final_closure_date: z.string().min(4).max(20)
-});
 
 type AcademicSchemaType = z.infer<typeof AcademicSchema>;
 
@@ -29,19 +33,36 @@ const page = () => {
 
     const queryClient = new QueryClient()
 
-    
-    const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState();
-
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm<AcademicSchemaType>({ resolver: zodResolver(AcademicSchema) });
 
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [startDate, setStartDate] = useState<Date>()
+    const [finalClosureDate, setFinalClosureDate] = useState<Date>()
+    const [closureDate, setClosureDate] = useState<Date>()
+
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+    const handleInputClick = () => {
+        console.log("CLick", showCalendar)
+        setShowCalendar(!showCalendar);
+    };
+
+    const handleCalendarSelect = (selectedDate: Date, field: string) => {
+        if (field === "start_date") {
+            setStartDate(selectedDate);
+        } else if (field === "final_closure_date") {
+            setFinalClosureDate(selectedDate);
+        } else if (field === "closure_date"){
+            setClosureDate(selectedDate)
+        }
+        setShowCalendar(false);
+    };
 
     const mutation = useMutation({
         mutationFn: (payload: any) => {
@@ -69,26 +90,16 @@ const page = () => {
 
     const submit = handleSubmit(onSubmit);
 
+    const onCancel = () => {
+        router.back()
+    }
 
     return (
-        <Form title="Create Academic Year" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting}>
+        <Form title="Create Academic Year" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
             <div className="sm:col-span-6">
 
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholderText="Start Date"
-                    showIcon
-                    toggleCalendarOnIconClick
-                    disabledKeyboardNavigation
-                    isClearable
-                />
-
-
                 <div className="mt-2">
-                    <Input type="text" label="Start Date"
+                    <Input type="text" label="Academic Year"
                         autoFocus
                         placeholder="Enter academic year ..."
                         error={errors.academic_year && errors.academic_year.message}
@@ -97,7 +108,39 @@ const page = () => {
                     />
                 </div>
 
-                <div className="mt-2">
+                <div className="mt-2 w-full">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <div className="relative">
+                                <Input
+                                    type="text"
+                                    label="Start Date"
+                                    readOnly
+                                    autoFocus
+                                    placeholder="Select start date..."
+                                    value={startDate ? format(startDate, 'yyyy-MM-dd') : ''}
+                                    onClick={handleInputClick}
+                                    className="bg-gray-100"
+                                    {...register("start_date")}
+                                    error={errors.start_date && errors.start_date.message}
+                                />
+                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                            </div>
+                        </PopoverTrigger>
+
+                        <PopoverContent className="w-full" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={startDate}
+                                onDayClick={(selectedDate) => handleCalendarSelect(selectedDate, "start_date")}
+                                initialFocus
+                            />
+                        </PopoverContent>
+
+                    </Popover>
+                </div>
+
+                {/* <div className="mt-2">
                     <Input type="text" label="Start Date"
                         autoFocus
                         placeholder="Enter start date..."
@@ -105,9 +148,39 @@ const page = () => {
                         {...register("start_date")}
                         className="bg-gray-100"
                     />
+                </div> */}
+
+                <div className="mt-2 w-full">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <div className="relative">
+                                <Input
+                                    type="text"
+                                    label="Final Final Closure Date"
+                                    readOnly
+                                    placeholder="Select final closure date..."
+                                    value={finalClosureDate ? format(finalClosureDate, 'yyyy-MM-dd') : ''}
+                                    onClick={handleInputClick}
+                                    className="bg-gray-100 w-full px-4 py-2 pr-10 rounded-lg focus:outline-none"
+                                    {...register("final_closure_date")}
+                                    error={errors.final_closure_date && errors.final_closure_date.message}
+                                />
+                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                            </div>
+                        </PopoverTrigger>
+
+                        <PopoverContent className="w-full" align="start">
+                            <Calendar
+                                mode="single"
+                                onDayClick={(selectedDate) => handleCalendarSelect(selectedDate, "final_closure_date")}
+                                initialFocus
+                            />
+                        </PopoverContent>
+
+                    </Popover>
                 </div>
 
-                <div className="mt-2">
+                {/* <div className="mt-2">
                     <Input type="text" label="Final Closure Date"
                         autoFocus
                         placeholder="Enter final closure date..."
@@ -115,9 +188,40 @@ const page = () => {
                         {...register("final_closure_date")}
                         className="bg-gray-100"
                     />
+                </div> */}
+
+                <div className="mt-2 w-full">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <div className="relative">
+                                <Input
+                                    type="text"
+                                    label="Closure Date"
+                                    readOnly
+                                    placeholder="Select closure date..."
+                                    value={closureDate ? format(closureDate, 'yyyy-MM-dd') : ''}
+                                    onClick={handleInputClick}
+                                    className="bg-gray-100 w-full px-4 py-2 pr-10 rounded-lg focus:outline-none"
+                                    {...register("closure_date")}
+                                    error={errors.closure_date && errors.closure_date.message}
+                                />
+                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                            </div>
+                        </PopoverTrigger>
+
+                        <PopoverContent className="w-full" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={closureDate}
+                                onDayClick={(selectedDate) => handleCalendarSelect(selectedDate, "closure_date")}
+                                initialFocus
+                            />
+                        </PopoverContent>
+
+                    </Popover>
                 </div>
 
-                <div className="mt-2">
+                {/* <div className="mt-2">
                     <Input type="text" label="Closure Date"
                         autoFocus
                         placeholder="Enter closure date..."
@@ -125,7 +229,7 @@ const page = () => {
                         {...register("closure_date")}
                         className="bg-gray-100"
                     />
-                </div>
+                </div> */}
             </div>
         </Form>
     )

@@ -29,7 +29,7 @@ const Page = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const mutation = useMutation({
+    const mutation = useMutation ({
         mutationFn: (payload: any) => {
             return createCategory(payload);
         },
