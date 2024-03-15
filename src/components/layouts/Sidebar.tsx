@@ -14,6 +14,7 @@ const navigation = [
     { name: 'Categories', href: '/categories', icon: FileBoxIcon },
     { name: 'Discussions', href: '/discussions', icon: TextQuoteIcon },
     { name: 'Staffs', href: '/staffs', icon: Users2Icon },
+    { name: 'Departments', href: '/departments', icon: HomeIcon },
 ]
 
 const Sidebar = () => {

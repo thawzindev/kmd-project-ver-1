@@ -25,11 +25,57 @@ export const getCategoryList = async (perPage: number, page: number) => {
   return response as any;
 };
 
+<<<<<<< HEAD
 // Academic year
 
 //create 
 export const createAcademicYear = async (payload: any) => {
   console.log(payload)
   const response = await httpClient.post(`academic-dates`, payload);
+=======
+//delete
+export const deleteCategory = async (slug: string) => {
+  const response = await httpClient.delete(`categories/${slug}`);
+  return response as any;
+};
+
+//Staffs
+
+//create
+export const createStaff = async (payload: any) => {
+  const response = await httpClient.post(`staffs`, payload);
+  return response as any;
+};
+
+//list
+export const getStaffList = async (perPage: number, page: number) => {
+  const response = await httpClient.get(`staffs?perpage=${perPage}&page=${page}`);
+  return response as any;
+};
+
+//delete
+export const deleteStaff = async (slug: string) => {
+  const response = await httpClient.delete(`staffs/${slug}`);
+  return response as any;
+};
+
+//Departments
+
+//create
+export const createDepartment = async (payload: any) => {
+  const response = await httpClient.post(`departments`, payload);
+  return response as any;
+};
+
+//list
+export const getDepartmentList = async (perPage: number, page: number) => {
+  const response = await httpClient.get(`departments?perpage=${perPage}&page=${page}`);
+  return response as any;
+};
+
+//delete
+export const deleteDepartment = async (slug: string) => {
+  const response = await httpClient.delete(`departments/${slug}`);
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
   return response as any;
 };

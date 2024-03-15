@@ -243,10 +243,17 @@
   dependencies:
     glob "10.3.10"
 
+<<<<<<< HEAD
 "@next/swc-win32-x64-msvc@14.1.0":
   version "14.1.0"
   resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.1.0.tgz"
   integrity sha512-9WEbVRRAqJ3YFVqEZIxUqkiO8l1nool1LmNxygr5HWF8AcSYsEpneUDhmjUVJEzO2A04+oPtZdombzzPPkTtgg==
+=======
+"@next/swc-darwin-arm64@14.1.0":
+  version "14.1.0"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.1.0.tgz"
+  integrity sha512-nUDn7TOGcIeyQni6lZHfzNoo9S0euXnu0jhsbMOmMJUBfgsnESdjN97kM7cBqQxZa8L/bM9om/S5/1dzCrW6wQ==
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -801,15 +808,23 @@
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.7.tgz"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
+<<<<<<< HEAD
 "@types/react-datepicker@^6.2.0":
   version "6.2.0"
   resolved "https://registry.npmjs.org/@types/react-datepicker/-/react-datepicker-6.2.0.tgz"
   integrity sha512-+JtO4Fm97WLkJTH8j8/v3Ldh7JCNRwjMYjRaKh4KHH0M3jJoXtwiD3JBCsdlg3tsFIw9eQSqyAPeVDN2H2oM9Q==
+=======
+"@types/react-dom@*", "@types/react-dom@^18":
+  version "18.2.19"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.19.tgz"
+  integrity sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
   dependencies:
     "@floating-ui/react" "^0.26.2"
     "@types/react" "*"
     date-fns "^3.3.1"
 
+<<<<<<< HEAD
 "@types/react-dom@*", "@types/react-dom@^18":
   version "18.2.19"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.19.tgz"
@@ -818,6 +833,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^16.9.0 || ^17.0.0 || ^18.0.0", "@types/react@^18":
+=======
+"@types/react@*", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^16.9.0 || ^17.0.0 || ^18.0.0", "@types/react@^18", "@types/react@>=16.8":
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
   version "18.2.56"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.2.56.tgz"
   integrity sha512-NpwHDMkS/EFZF2dONFQHgkPRwhvgq/OAvIaGQzxGSBmaeR++kTg6njr15Vatz0/2VcCEwJQFi6Jf4Q0qBu0rLA==
@@ -1270,11 +1288,14 @@ class-variance-authority@^0.7.0:
   dependencies:
     clsx "2.0.0"
 
+<<<<<<< HEAD
 classnames@^2.2.6:
   version "2.5.1"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz"
   integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
+=======
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
 client-only@^0.0.1, client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz"
@@ -2934,6 +2955,7 @@ quick-lru@^4.0.1:
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-4.0.1.tgz"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
+<<<<<<< HEAD
 react-datepicker@^6.3.0:
   version "6.3.0"
   resolved "https://registry.npmjs.org/react-datepicker/-/react-datepicker-6.3.0.tgz"
@@ -2946,6 +2968,9 @@ react-datepicker@^6.3.0:
     react-onclickoutside "^6.13.0"
 
 react-dom@*, "react-dom@^15.5.x || ^16.x || ^17.x || ^18.x", "react-dom@^16 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.9.0 || ^17 || ^18", "react-dom@^17.0.2 || ^18.0.0-0", react-dom@^18, react-dom@^18.2.0, react-dom@>=16, react-dom@>=16.8.0:
+=======
+react-dom@*, "react-dom@^16 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", react-dom@^18, react-dom@^18.2.0, react-dom@>=16, react-dom@>=16.8.0:
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -3003,7 +3028,11 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+<<<<<<< HEAD
 react@*, "react@^15.5.x || ^16.x || ^17.x || ^18.x", "react@^16 || ^17 || ^18", "react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^16.5.1 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17 || ^18", "react@^17.0.2 || ^18.0.0-0", react@^18, react@^18.0.0, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, react@>=16.8.0:
+=======
+react@*, "react@^16 || ^17 || ^18", "react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^16.5.1 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", react@^18, react@^18.0.0, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, react@>=16.8, react@>=16.8.0:
+>>>>>>> 093cbbf7db951881d50be3c6a49f67b6d36607f1
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -3596,7 +3625,7 @@ use-sidecar@^1.1.2:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
-use-sync-external-store@^1.2.0:
+use-sync-external-store@^1.2.0, use-sync-external-store@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
@@ -3716,3 +3745,10 @@ zod@^3.22.4:
   version "3.22.4"
   resolved "https://registry.npmjs.org/zod/-/zod-3.22.4.tgz"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+
+zustand@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.npmjs.org/zustand/-/zustand-4.5.2.tgz"
+  integrity sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==
+  dependencies:
+    use-sync-external-store "1.2.0"
