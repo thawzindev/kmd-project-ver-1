@@ -1,4 +1,4 @@
-import { deleteCategory, deleteDepartment, deleteStaff } from "@/routes/api";
+import { deleteAcademicyear, deleteCategory, deleteDepartment, deleteStaff } from "@/routes/api";
 import { type ClassValue, clsx } from "clsx";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -14,5 +14,7 @@ export function getDeleteFun(path: string) {
     return deleteDepartment;
   } else if (path === "/staffs") {
     return deleteStaff;
+  } else if (path === "/settings"){
+    return deleteAcademicyear;
   }
 }

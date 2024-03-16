@@ -1,4 +1,5 @@
 import HttpClient from "@/lib/http-client";
+import { log } from "console";
 
 const baseUrl = process.env.BASE_URL || "http://18.143.147.216/api/";
 console.log(baseUrl);
@@ -73,5 +74,28 @@ export const getDepartmentList = async (perPage: number, page: number) => {
 //delete
 export const deleteDepartment = async (slug: string) => {
   const response = await httpClient.delete(`departments/${slug}`);
+
+  return response as any;
+};
+
+
+// Academic year
+
+//create 
+export const createAcademicYear = async (payload: any) => {
+  console.log(payload)
+  const response = await httpClient.post(`academic-dates`, payload);
+  return response as any;
+};
+
+//list
+export const getAcademicYearList = async (perPage: number, page: number) => {
+  const response = await httpClient.get(`academic-dates?perpage=${perPage}&page=${page}`);
+  return response as any;
+};
+
+//delete
+export const deleteAcademicyear = async (slug: string) => {
+  const response = await httpClient.delete(`academic-dates/${slug}`);
   return response as any;
 };
