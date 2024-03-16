@@ -24,6 +24,12 @@ export const getCategoryList = async (perPage: number, page: number) => {
   return response as any;
 };
 
+//list
+export const updateCategory = async (payload: any, slug: string) => {
+  const response = await httpClient.put(`categories/${slug}`, payload);
+  return response as any;
+};
+
 //delete
 export const deleteCategory = async (slug: string) => {
   const response = await httpClient.delete(`categories/${slug}`);

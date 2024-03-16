@@ -130,17 +130,43 @@ const Sidebar = () => {
                                                     </ul>
                                                 </li>
 
-                                                <li className="mt-auto">
-                                                    <a
-                                                        href="#"
-                                                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
-                                                    >
-                                                        <CogIcon
-                                                            className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
-                                                            aria-hidden="true"
-                                                        />
-                                                        Settings
-                                                    </a>
+                                                <hr />
+
+                                                <li>
+                                                    <ul role="list" className="-mx-2 space-y-3">
+                                                        <li>
+                                                            <Link
+                                                                href={"/settings"}
+                                                                className={cn(
+                                                                    pathname === '/settings'
+                                                                        ? 'bg-gray-50 text-indigo-600'
+                                                                        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                                                )}
+                                                            >
+                                                                <CogIcon
+                                                                    className={cn(
+                                                                        pathname === '/settings' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                                                        'h-6 w-6 shrink-0'
+                                                                    )}
+                                                                    aria-hidden="true"
+                                                                />
+                                                                Settings
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <button
+                                                                onClick={() => logout()}
+                                                                className="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-red-400 hover:bg-red-50 hover:text-red-600 w-full"
+                                                            >
+                                                                <LogOutIcon
+                                                                    className="h-6 w-6 shrink-0 text-red-400 group-hover:text-red-600"
+                                                                    aria-hidden="true"
+                                                                />
+                                                                Logout
+                                                            </button>
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                             </ul>
                                         </nav>
