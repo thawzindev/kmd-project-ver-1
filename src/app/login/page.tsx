@@ -36,7 +36,6 @@ const Page = () => {
             return login(payload);
         },
         onSuccess: async (data) => {
-            console.log('success', data)
             await setLoginData(data);
             router.push('/dashboard')
         },

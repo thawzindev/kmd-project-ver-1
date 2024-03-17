@@ -43,13 +43,13 @@ const EditCategoryModal = () => {
             await queryClient.invalidateQueries({ queryKey: ['categories'] })
             toast.success('Successfully updated the category!', { duration: 2000 })
             router.push('/categories?page=1')
-            onToggle()
         },
         onError: (error) => {
-            console.log('error', error.message)
+            toast.error(error.message, { duration: 2000 })
         },
         onSettled: () => {
             setIsSubmitting(false);
+            onToggle()
         },
     })
 

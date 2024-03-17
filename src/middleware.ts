@@ -1,16 +1,24 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { checkPermission } from "./lib/permissions";
+import { Permissions } from "./types/LoginResponse";
+import next from "next";
 
 const LOGIN_PATH = "/login";
 const HOME_PATH = "/";
+const UNAUTHORIZED = "/unauthorized";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const userCookie = request.cookies.get("user");
   const tokenCookie = request.cookies.get("token");
+  const permissionsCookie = request.cookies.get("permissions");
+  const permissions: string[] = permissionsCookie ? JSON.parse(permissionsCookie.value) : [];
 
   const redirectTo = (path: string) => NextResponse.redirect(new URL(path, request.url));
 
-  switch (request.nextUrl.pathname) {
+  const nextPath = request.nextUrl.pathname;
+
+  switch (nextPath) {
     case LOGIN_PATH:
       if (userCookie && tokenCookie && userCookie.value && tokenCookie.value) {
         return redirectTo(HOME_PATH);
@@ -20,6 +28,12 @@ export function middleware(request: NextRequest) {
     default:
       if (!userCookie || !tokenCookie) {
         return redirectTo(LOGIN_PATH);
+      }
+
+      if (!(nextPath === "/" || nextPath === "/dashboard" || nextPath === "/unauthorized")) {
+        console.log("checkking");
+        let myPermission = permissions.find((p) => p === nextPath);
+        if (!myPermission) return redirectTo(UNAUTHORIZED);
       }
   }
 

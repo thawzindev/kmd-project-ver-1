@@ -1,32 +1,34 @@
+"use client";
+
 import React, { useEffect } from 'react'
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-import { AlignJustifyIcon, BarChartIcon, CogIcon, FileBoxIcon, HomeIcon, LogOutIcon, TextQuoteIcon, Users2Icon, XIcon } from 'lucide-react'
+import { AlignJustifyIcon, CogIcon, LogOutIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { removeLoginData } from '@/lib/auth'
-
-
-const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-    { name: 'Categories', href: '/categories', icon: FileBoxIcon },
-    { name: 'Discussions', href: '/discussions', icon: TextQuoteIcon },
-    { name: 'Staffs', href: '/staffs', icon: Users2Icon },
-    { name: 'Departments', href: '/departments', icon: HomeIcon },
-]
+import { Permissions } from '@/types/LoginResponse'
+import Icon from '../icons/Icon'
 
 const Sidebar = () => {
 
-    const router = useRouter()
+    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
+    const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
 
+    const permissions = navigations.filter((item) => {
+        return item.permissions.includes('/')
+    })
+
+    const router = useRouter()
     const pathname = usePathname()
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [current, setCurrent] = useState(navigation.find((item) => item.href === pathname))
+    const [current, setCurrent] = useState(permissions.find((item) => item.url === pathname))
 
     useEffect(() => {
-        setCurrent(navigation.find((item) => item.href === pathname))
+        setCurrent(permissions.find((item) => item.url === pathname))
+        //eslint-disable-next-line
     }, [pathname])
 
 
@@ -105,25 +107,22 @@ const Sidebar = () => {
                                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                                 <li>
                                                     <ul role="list" className="-mx-2 space-y-1">
-                                                        {navigation.map((item) => (
-                                                            <li key={item.name}>
+                                                        {permissions.map((item) => (
+                                                            <li key={item.title}>
                                                                 <Link
-                                                                    href={item.href}
+                                                                    href={item.url}
                                                                     className={cn(
-                                                                        current?.href === item.href
+                                                                        current?.url === item.url || current?.url === '/dashboard'
                                                                             ? 'bg-gray-50 text-indigo-600'
                                                                             : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                                                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                                     )}
                                                                 >
-                                                                    <item.icon
-                                                                        className={cn(
-                                                                            current?.href === item.href ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
-                                                                            'h-6 w-6 shrink-0'
-                                                                        )}
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                    {item.name}
+                                                                    <Icon name={item.icon} className={cn(
+                                                                        current?.url === item.url || current?.url === '/dashboard' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                                                        'h-6 w-6 shrink-0'
+                                                                    )} />
+                                                                    {item.title}
                                                                 </Link>
                                                             </li>
                                                         ))}
@@ -151,7 +150,7 @@ const Sidebar = () => {
                                                                     )}
                                                                     aria-hidden="true"
                                                                 />
-                                                                Settings
+                                                                Academic Settings
                                                             </Link>
                                                         </li>
                                                         <li>
@@ -200,25 +199,29 @@ const Sidebar = () => {
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                 <li>
                                     <ul role="list" className="-mx-2 space-y-3">
-                                        {navigation.map((item) => (
-                                            <li key={item.name}>
+                                        {permissions.map((item) => (
+                                            <li key={item.title}>
                                                 <Link
-                                                    href={item.href}
+                                                    href={item.url}
                                                     className={cn(
-                                                        current?.href === item.href
+                                                        current?.url === item.url || current?.url === '/dashboard'
                                                             ? 'bg-gray-50 text-indigo-600'
                                                             : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                     )}
                                                 >
-                                                    <item.icon
+                                                    {/* <item.icon
                                                         className={cn(
-                                                            current?.href === item.href ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                                            current?.url === item.url ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                             'h-6 w-6 shrink-0'
                                                         )}
                                                         aria-hidden="true"
-                                                    />
-                                                    {item.name}
+                                                    /> */}
+                                                    <Icon name={item.icon} className={cn(
+                                                        current?.url === item.url || current?.url === '/dashboard' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                                        'h-6 w-6 shrink-0'
+                                                    )} />
+                                                    {item.title}
                                                 </Link>
                                             </li>
                                         ))}
@@ -245,7 +248,7 @@ const Sidebar = () => {
                                                     )}
                                                     aria-hidden="true"
                                                 />
-                                                Settings
+                                                Academic Settings
                                             </Link>
                                         </li>
                                         <li>
@@ -258,6 +261,7 @@ const Sidebar = () => {
                                                     aria-hidden="true"
                                                 />
                                                 Logout
+
                                             </button>
                                         </li>
                                     </ul>

@@ -1,21 +1,15 @@
 "use server";
 
-interface LoginData {
-  staff: {
-    id?: string;
-    email: string;
-    name: string;
-    username: string;
-  };
-  token: string;
-  isFirstLogin: boolean;
-}
-
+import { LoginResponse } from "@/types/LoginResponse";
 import { cookies } from "next/headers";
 
-export async function setLoginData(data: LoginData) {
+export async function setLoginData(data: LoginResponse) {
   let loginData = { ...data.staff, isFirstLogin: data.isFirstLogin };
   cookies().set("user", JSON.stringify(data.staff), { secure: true });
+  const permissionResult = data.sidebarData.flatMap((item) => item.permissions.map((permission) => item.url + permission));
+  const cleanedResult = permissionResult.map((url) => url.replace("/", "/").replace(/\/$/, ""));
+  cookies().set("permissions", JSON.stringify(cleanedResult), { secure: true });
+  cookies().set("sidebar", JSON.stringify(data.sidebarData), { secure: true });
   cookies().set("firstLogin", JSON.stringify(data.isFirstLogin), { secure: true });
   cookies().set("token", data.token, { secure: true });
 }
