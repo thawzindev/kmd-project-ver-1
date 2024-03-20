@@ -64,7 +64,7 @@ const Page = () => {
                 <div className="flex items-center justify-between gap-x-6">
                     <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Staffs</h2>
                     <nav className="flex" aria-label="Breadcrumb">
-                        <Link href="/categories/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Category</Link>
+                        <Link href="/staffs/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Staff</Link>
                     </nav>
                 </div>
             </div >

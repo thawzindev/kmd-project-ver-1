@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { CalendarIcon, HomeIcon } from "lucide-react";
-import Link from "next/link";
 import Form from "@/components/forms/Form";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,12 +11,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { createAcademicYear } from "@/routes/api";
 import { useRouter } from "next/navigation";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { format } from "date-fns"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
     Popover,
@@ -116,7 +112,6 @@ const page = () => {
                                     type="text"
                                     label="Start Date"
                                     readOnly
-                                    autoFocus
                                     placeholder="Select start date..."
                                     value={startDate ? format(startDate, 'yyyy-MM-dd') : ''}
                                     onClick={handleInputClick}

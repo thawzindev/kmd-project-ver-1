@@ -35,6 +35,7 @@ export const deleteCategory = async (slug: string) => {
 
 //create
 export const createStaff = async (payload: any) => {
+  console.log(JSON.stringify(payload))
   const response = await httpClient.post(`staffs`, payload);
   return response as any;
 };
@@ -93,3 +94,4 @@ export const deleteAcademicyear = async (slug: string) => {
   const response = await httpClient.delete(`academic-dates/${slug}`);
   return response as any;
 };
+
