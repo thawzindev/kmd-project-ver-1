@@ -37,10 +37,10 @@ class HttpClient {
 
   private _handleResponse = ({ data }: AxiosResponse) => data;
 
-  private _handleError(error: any, router: NextRouter): void {
+  private _handleError = (error: any) => {
     if (error.response) {
       if (error.response.status === 401) {
-        router.push("/login");
+        // router.push("/login");
       }
       console.log("HTTP Error:", error.response.data);
     } else if (error.request) {
@@ -50,7 +50,7 @@ class HttpClient {
     }
     console.log("Error MSG : ", error.response.data.message);
     throw new Error(error.response.data.message);
-  }
+  };
 
   get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
     return this.instance.get<T, R>(url, config);
@@ -64,7 +64,9 @@ class HttpClient {
     return this.instance.delete<T, R>(url, config);
   }
 
-  // Add other methods as needed
+  put<T = any, R = AxiosResponse<T>>(url: string, data?: T, config?: AxiosRequestConfig): Promise<R> {
+    return this.instance.put<T, R>(url, data, config);
+  }
 }
 
 export default HttpClient;

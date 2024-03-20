@@ -23,10 +23,7 @@ const DeleteModal = () => {
     const mutation = useMutation({
         mutationFn: async (slug: string) => {
             const deleteFun = getDeleteFun(pathname);
-            if (deleteFun) {
-                await deleteFun(slug);
-            }
-            throw Error('Invalid request!');
+            await deleteFun(slug);
         },
         onSuccess: async (data) => {
             console.log('no error')

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Pagination,
     PaginationContent,
@@ -16,6 +16,7 @@ import {
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import useEditModal from "@/app/hooks/customs/useEditModal";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const pages = [
     { name: 'Categories', href: '#', current: false },
@@ -24,11 +25,24 @@ const pages = [
 
 const Page = () => {
 
+    const searchParams = useSearchParams();
+    const urlParams = searchParams.get('page') || 1;
+
     const [perPage, setPerPage] = useState(10);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(+urlParams);
 
     const editModal = useEditModal();
     const deleteModal = useDeleteModal();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', `${page}`);
+        router.push(`${pathname}?${params.toString()}`);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page])
+
 
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchCategories(perPage, page);
