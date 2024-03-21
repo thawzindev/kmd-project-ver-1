@@ -112,7 +112,6 @@ const SettingPage = () => {
                                     type="text"
                                     label="Start Date"
                                     readOnly
-                                    autoFocus
                                     placeholder="Select start date..."
                                     value={startDate ? format(startDate, 'yyyy-MM-dd') : ''}
                                     onClick={handleInputClick}
