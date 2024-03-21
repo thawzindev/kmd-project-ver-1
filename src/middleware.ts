@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
         return redirectTo(LOGIN_PATH);
       }
 
-      if (!(nextPath === "/" || nextPath === "/dashboard" || nextPath === "/unauthorized")) {
+      if (!(nextPath === "/" || nextPath === "/dashboard" || nextPath === "/unauthorized" || nextPath === "/settings")) {
         console.log("checkking");
         let myPermission = permissions.find((p) => p === nextPath);
         if (!myPermission) return redirectTo(UNAUTHORIZED);

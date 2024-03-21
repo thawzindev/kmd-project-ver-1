@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 
 import React, { useEffect } from 'react'
@@ -118,10 +120,11 @@ const Sidebar = () => {
                                                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                                     )}
                                                                 >
-                                                                    <Icon name={item.icon} className={cn(
+                                                                    {/* eslint-disabled-next-line */}
+                                                                    {/* <Icon name={item.icon} className={cn(
                                                                         current?.url === item.url || current?.url === '/dashboard' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                                         'h-6 w-6 shrink-0'
-                                                                    )} />
+                                                                    )} /> */}
                                                                     {item.title}
                                                                 </Link>
                                                             </li>
@@ -217,10 +220,10 @@ const Sidebar = () => {
                                                         )}
                                                         aria-hidden="true"
                                                     /> */}
-                                                    <Icon name={item.icon} className={cn(
+                                                    {/* <Icon name={item.icon} className={cn(
                                                         current?.url === item.url || current?.url === '/dashboard' ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                                         'h-6 w-6 shrink-0'
-                                                    )} />
+                                                    )} /> */}
                                                     {item.title}
                                                 </Link>
                                             </li>

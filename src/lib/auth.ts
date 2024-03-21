@@ -35,4 +35,6 @@ export async function removeLoginData() {
   const cookieStore = cookies();
   cookieStore.delete("user");
   cookieStore.delete("token");
+  cookieStore.delete("permissions");
+  cookieStore.delete("sidebar");
 }

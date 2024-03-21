@@ -113,7 +113,7 @@ const Page = () => {
                                     }
 
                                     {(staffs && !isFetching) && staffs.map((staff, key) => (
-                                        <tr key={staff.slug}>
+                                        <tr key={key}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-4 bg-gray-100">
                                                 {meta?.from + key}
                                             </td>

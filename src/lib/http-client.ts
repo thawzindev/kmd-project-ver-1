@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { getToken, removeLoginData } from "./auth";
-import { NextRouter } from "next/router";
 
 class HttpClient {
   private readonly instance: AxiosInstance;
@@ -40,7 +39,8 @@ class HttpClient {
   private _handleError = (error: any) => {
     if (error.response) {
       if (error.response.status === 401) {
-        // router.push("/login");
+        removeLoginData();
+        window.location.href = "/login";
       }
       console.log("HTTP Error:", error.response.data);
     } else if (error.request) {

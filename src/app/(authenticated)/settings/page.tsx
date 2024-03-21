@@ -13,7 +13,7 @@ const pages = [
     { name: 'Academic', href: '#', current: true },
 ]
 
-const page = () => {
+const Page = () => {
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
@@ -107,7 +107,7 @@ const page = () => {
                                     }
 
                                     {(academics && !isFetching) && academics.map((Academic, key) => (
-                                        <tr key={Academic.slug}>
+                                        <tr key={key}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-4 bg-gray-100">
                                                 {meta?.from + key}
                                             </td>
@@ -123,7 +123,7 @@ const page = () => {
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
                                                 {Academic.finalClosureDate}
                                             </td>
-                    
+
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                 <button onClick={() => editModal.onOpen(Academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                     Edit<span className="sr-only">, {Academic.academicYear}</span>
@@ -175,7 +175,7 @@ const page = () => {
                 </nav>
             </div>
 
-            
+
         </>
 
 
@@ -185,4 +185,4 @@ const page = () => {
     )
 }
 
-export default page;
+export default Page;

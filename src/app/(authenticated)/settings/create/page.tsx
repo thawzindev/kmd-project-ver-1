@@ -1,8 +1,8 @@
 "use client"
 
+//eslint-disable react-hooks/rules-of-hooks
 import React, { useState } from "react";
 import { CalendarIcon, HomeIcon } from "lucide-react";
-import Link from "next/link";
 import Form from "@/components/forms/Form";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,12 +12,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { createAcademicYear } from "@/routes/api";
 import { useRouter } from "next/navigation";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { format } from "date-fns"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
     Popover,
@@ -29,7 +25,7 @@ import { AcademicSchema } from "@/schemas/AcademicSchema";
 
 type AcademicSchemaType = z.infer<typeof AcademicSchema>;
 
-const page = () => {
+const SettingPage = () => {
 
     const queryClient = new QueryClient()
 
@@ -58,7 +54,7 @@ const page = () => {
             setStartDate(selectedDate);
         } else if (field === "final_closure_date") {
             setFinalClosureDate(selectedDate);
-        } else if (field === "closure_date"){
+        } else if (field === "closure_date") {
             setClosureDate(selectedDate)
         }
         setShowCalendar(false);
@@ -236,4 +232,4 @@ const page = () => {
 
 }
 
-export default page;
+export default SettingPage;

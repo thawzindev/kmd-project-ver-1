@@ -34,7 +34,7 @@ const Page = () => {
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchDepartment(perPage, page);
 
-    const categories = data?.results?.data
+    const departments = data?.results?.data
 
     const meta = data?.results?.meta
 
@@ -102,20 +102,20 @@ const Page = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {categories && categories.map((category, key) => (
-                                        <tr key={category.slug}>
+                                    {departments && departments.map((department: any, key: number) => (
+                                        <tr key={department.slug}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {meta?.from + key}
                                             </td>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {category.name}
+                                                {department.name}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                <button onClick={() => editModal.onOpen(category)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {category.name}</span>
+                                                <button onClick={() => editModal.onOpen(department)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                    Edit<span className="sr-only">, {department.name}</span>
                                                 </button>
-                                                <button onClick={() => deleteModal.onOpen(category.slug, category.name)} className="text-red-600 hover:text-red-900 mx-2">
-                                                    Delete<span className="sr-only">, {category.name}</span>
+                                                <button onClick={() => deleteModal.onOpen(department.slug, department.name)} className="text-red-600 hover:text-red-900 mx-2">
+                                                    Delete<span className="sr-only">, {department.name}</span>
                                                 </button>
                                             </td>
                                         </tr>
