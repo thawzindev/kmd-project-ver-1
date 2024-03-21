@@ -11,17 +11,27 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { StaffSchema } from "@/schemas/StaffSchema";
 import toast, { Toaster } from 'react-hot-toast';
-import { createStaff } from "@/routes/api";
+import { createStaff, getDepartmentList } from "@/routes/api";
+import { useFetchRole } from "@/app/hooks/queries/useFetchRoles";
+import Select from 'react-select'
+import { Label } from "@/components/ui/label";
+import AsyncSelect from 'react-select/async';
+import { Department } from "@/types/Department";
+import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
 
 type StaffSchemaType = z.infer<typeof StaffSchema>;
 
-const page = () => {
+const Page = () => {
 
     const queryClient = new QueryClient()
+
+    const [department, setDepartment] = useState("");
+    const [role, setRole] = useState("");
 
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors }
     } = useForm<StaffSchemaType>({ resolver: zodResolver(StaffSchema) });
 
@@ -33,9 +43,9 @@ const page = () => {
             return createStaff(payload);
         },
         onSuccess: async (data) => {
-            await queryClient.invalidateQueries({ queryKey: ['settings'] })
-            toast.success('Successfully created the new academic year!', { duration: 2000 })
-            router.push('/settings')
+            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            toast.success('Successfully created the new staff!', { duration: 2000 })
+            router.push('/staffs')
         },
         onError: (error) => {
             toast.success(error.message, { duration: 2000 })
@@ -47,35 +57,26 @@ const page = () => {
     })
 
     const onSubmit: SubmitHandler<StaffSchemaType> = async (data) => {
-        
-        // setIsSubmitting(true);
-        // // console.log(data)
+        const avatarFile = data.avatar[0];
 
-        // mutation.mutate(data);
+        // Creating a FormData object to correctly format the avatar field
+        const formData = new FormData();
 
-     // Extracting the first file from the FileList
-    const avatarFile = data.avatar[0];
+        // Appending the avatar file to the FormData object
+        formData.append('avatar', avatarFile);
 
-    // Creating a FormData object to correctly format the avatar field
-    const formData = new FormData();
+        // Removing the avatar field from the data object
+        delete data.avatar;
 
-    // Appending the avatar file to the FormData object
-    formData.append('avatar', avatarFile);
-
-    // Removing the avatar field from the data object
-    delete data.avatar;
-
-    // Adding the rest of the fields to the FormData object
-    for (const key in data) {
-        if (Object.prototype.hasOwnProperty.call(data, key)) {
-            // Asserting that key is keyof StaffSchemaType to resolve the TypeScript error
-            const typedKey = key as keyof StaffSchemaType;
-            formData.append(typedKey, data[typedKey]);
+        // Adding the rest of the fields to the FormData object
+        for (const key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+                // Asserting that key is keyof StaffSchemaType to resolve the TypeScript error
+                const typedKey = key as keyof StaffSchemaType;
+                formData.append(typedKey, data[typedKey]);
+            }
         }
-    }
-
-    // Calling the API with the formatted data
-    mutation.mutate(formData);
+        mutation.mutate(formData);
     }
 
     const submit = handleSubmit(onSubmit);
@@ -83,6 +84,20 @@ const page = () => {
     const onCancel = () => {
         router.back()
     }
+
+    const { data: rolesRaw, isLoading, error } = useFetchRole();
+
+    const roles = rolesRaw?.results.map((role) => {
+        return {
+            label: role.name,
+            value: role.name
+        }
+    })
+
+    const loadDepartmentOptions = async (inputValue: string) => {
+        const response = await getDepartmentList(20, 1, inputValue)
+        return response?.results?.data.map(item => ({ label: item.name, value: item.slug }));
+    };
 
     return (
         <Form title="Create Staff" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
@@ -108,25 +123,43 @@ const page = () => {
                 </div>
 
                 <div className="mt-2">
-                    <Input type="text" label="Department"
-                        placeholder="Enter department ..."
-                        error={errors.department && errors.department.message}
+                    <Label htmlFor={"Department"}>Department</Label>
+                    <AsyncSelect
+                        cacheOptions
+                        loadOptions={loadDepartmentOptions}
+                        defaultOptions
                         {...register("department")}
-                        className="bg-gray-100"
+                        onChange={(newValue: any) => {
+                            setValue('department', newValue.value as string)
+                        }}
                     />
+                    {
+                        errors.department && <p className="text-red-500 text-xs my-2">{errors.department.message}</p>
+                    }
+
                 </div>
 
                 <div className="mt-2">
-                    <Input type="text" label="Role"
-                        placeholder="Enter role ..."
-                        error={errors.role && errors.role.message}
-                        {...register("role")}
-                        className="bg-gray-100"
-                    />
+                    <Label htmlFor={"Role"}>Role</Label>
+
+                    {
+                        <Select
+                            options={roles}
+                            className=""
+                            {...register("role")}
+                            onChange={(newValue: any) => {
+                                setValue('role', newValue.value as string)
+                            }}
+                        />
+                    }
+                    {
+                        errors.role && <p className="text-red-500 text-xs my-2">{errors.role.message}</p>
+                    }
+
                 </div>
 
                 <div className="mt-2">
-                    <Input type="text" label="Password"
+                    <Input type="password" label="Password"
                         placeholder="Enter password ..."
                         error={errors.password && errors.password.message}
                         {...register("password")}
@@ -135,7 +168,7 @@ const page = () => {
                 </div>
 
                 <div className="mt-2">
-                    <Input type="text" label="Confirm Password"
+                    <Input type="password" label="Confirm Password"
                         placeholder="Confirm password ..."
                         error={errors.password_confirmation && errors.password_confirmation.message}
                         {...register("password_confirmation")}
@@ -150,6 +183,7 @@ const page = () => {
                         {...register("avatar")}
                         className="bg-gray-100"
                     />
+                    {/* <input name="file" type="file" {...register("avatar")} /> */}
                 </div>
 
 
@@ -159,4 +193,4 @@ const page = () => {
 
 };
 
-export default page;
+export default Page;

@@ -41,8 +41,7 @@ export const deleteCategory = async (slug: string) => {
 
 //create
 export const createStaff = async (payload: any) => {
-  console.log(JSON.stringify(payload))
-  const response = await httpClient.post(`staffs`, payload);
+  const response = await httpClient.postAsForm(`staffs`, payload);
   return response as any;
 };
 
@@ -67,8 +66,10 @@ export const createDepartment = async (payload: any) => {
 };
 
 //list
-export const getDepartmentList = async (perPage: number, page: number) => {
-  const response = await httpClient.get(`departments?perpage=${perPage}&page=${page}`);
+export const getDepartmentList = async (perPage: number, page: number, search?: string) => {
+  let url = `departments?perpage=${perPage}&page=${page}`;
+  if (search) url += `&search=${search}`;
+  const response = await httpClient.get(url);
   return response as any;
 };
 
@@ -79,12 +80,10 @@ export const deleteDepartment = async (slug: string) => {
   return response as any;
 };
 
-
 // Academic year
 
-//create 
+//create
 export const createAcademicYear = async (payload: any) => {
-  console.log(payload)
   const response = await httpClient.post(`academic-dates`, payload);
   return response as any;
 };
@@ -101,3 +100,10 @@ export const deleteAcademicyear = async (slug: string) => {
   return response as any;
 };
 
+// Roles
+
+//lists
+export const getRoleList = async () => {
+  const response = await httpClient.get(`roles`);
+  return response as any;
+};

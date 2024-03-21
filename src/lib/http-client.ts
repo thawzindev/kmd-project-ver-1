@@ -67,6 +67,18 @@ class HttpClient {
   put<T = any, R = AxiosResponse<T>>(url: string, data?: T, config?: AxiosRequestConfig): Promise<R> {
     return this.instance.put<T, R>(url, data, config);
   }
+
+  postAsForm<T = any, R = AxiosResponse<T>>(url: string, data?: T, config?: AxiosRequestConfig): Promise<R> {
+    const formConfig = {
+      ...config,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...config?.headers,
+      },
+    };
+
+    return this.instance.post<T, R>(url, data, formConfig);
+  }
 }
 
 export default HttpClient;

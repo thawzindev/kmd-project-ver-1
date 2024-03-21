@@ -67,7 +67,7 @@ const SettingPage = () => {
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ['settings'] })
             toast.success('Successfully created the new academic year!', { duration: 2000 })
-            router.push('/settings')
+            router.push('/academics')
         },
         onError: (error) => {
             toast.success(error.message, { duration: 2000 })

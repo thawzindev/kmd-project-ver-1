@@ -136,7 +136,7 @@ const Sidebar = () => {
 
                                                 <li>
                                                     <ul role="list" className="-mx-2 space-y-3">
-                                                        <li>
+                                                        {/* <li>
                                                             <Link
                                                                 href={"/settings"}
                                                                 className={cn(
@@ -155,7 +155,7 @@ const Sidebar = () => {
                                                                 />
                                                                 Academic Settings
                                                             </Link>
-                                                        </li>
+                                                        </li> */}
                                                         <li>
                                                             <button
                                                                 onClick={() => logout()}
@@ -234,7 +234,7 @@ const Sidebar = () => {
                                 <hr />
                                 <li>
                                     <ul role="list" className="-mx-2 space-y-3">
-                                        <li>
+                                        {/* <li>
                                             <Link
                                                 href={"/settings"}
                                                 className={cn(
@@ -253,7 +253,7 @@ const Sidebar = () => {
                                                 />
                                                 Academic Settings
                                             </Link>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <button
                                                 onClick={() => logout()}

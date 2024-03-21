@@ -1,7 +1,4 @@
-interface Department {
-  name: string;
-  slug: string;
-}
+import { Department } from "./Department";
 
 export interface Staff {
   id: string;
