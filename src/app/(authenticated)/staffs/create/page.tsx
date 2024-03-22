@@ -2,7 +2,6 @@
 
 import Form from "@/components/forms/Form";
 import { Input } from "@/components/ui/input";
-import { AcademicSchema } from "@/schemas/AcademicSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -16,17 +15,12 @@ import { useFetchRole } from "@/app/hooks/queries/useFetchRoles";
 import Select from 'react-select'
 import { Label } from "@/components/ui/label";
 import AsyncSelect from 'react-select/async';
-import { Department } from "@/types/Department";
-import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
 
 type StaffSchemaType = z.infer<typeof StaffSchema>;
 
 const Page = () => {
 
     const queryClient = new QueryClient()
-
-    const [department, setDepartment] = useState("");
-    const [role, setRole] = useState("");
 
     const {
         register,
@@ -76,6 +70,14 @@ const Page = () => {
                 formData.append(typedKey, data[typedKey]);
             }
         }
+        // Convert FormData to plain object
+        const formDataObject: any = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Log formDataObject as JSON
+        console.log(JSON.stringify(formDataObject));
         mutation.mutate(formData);
     }
 

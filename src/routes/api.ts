@@ -107,3 +107,12 @@ export const getRoleList = async () => {
   const response = await httpClient.get(`roles`);
   return response as any;
 };
+
+//Ideas
+
+//create
+export const createIdea = async (payload: any) => {
+  const response = await httpClient.post(`ideas`, payload);
+  return response as any;
+};
+
