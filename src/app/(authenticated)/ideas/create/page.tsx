@@ -157,7 +157,7 @@ const Page = () => {
                     />
                 </div>
 
-                <div className="flex items-center space-x-2 mt-5">
+                <div className="flex items-center space-x-2 mt-10">
                     {
                         <Switch
                             {...register("is_anonymous", { value: "1" })}
