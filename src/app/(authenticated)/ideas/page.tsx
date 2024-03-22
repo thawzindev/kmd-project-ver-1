@@ -124,7 +124,7 @@ const FeedPage = () => {
                     ))}
                 </ol>
                 <div className="flex items-center justify-between gap-x-6">
-                    <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Staffs</h2>
+                    <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Ideas</h2>
                     <nav className="flex" aria-label="Breadcrumb">
                         <Link href="/ideas/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Idea</Link>
                     </nav>

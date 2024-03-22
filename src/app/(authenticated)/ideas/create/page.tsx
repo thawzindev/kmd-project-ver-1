@@ -51,7 +51,6 @@ const Page = () => {
 
     const onSubmit: SubmitHandler<IdeaSchemaType> = async (data) => {
         const fileUpload = data.file[0];
-        console.log(fileUpload)
 
         // Creating a FormData object to correctly format the avatar field
         const formData = new FormData();
@@ -70,6 +69,7 @@ const Page = () => {
                 formData.append(typedKey, data[typedKey]);
             }
         }
+        
         // Convert FormData to plain object
         const formDataObject: any = {};
         formData.forEach((value, key) => {
@@ -139,7 +139,6 @@ const Page = () => {
                     <Label htmlFor={"Content"}>Content</Label>
                     <textarea
                         rows={8} className="mt-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        autoFocus
                         placeholder="Enter Content ..."
                         error={errors.content && errors.content.message}
                         {...register("content")}
@@ -161,7 +160,7 @@ const Page = () => {
                 <div className="flex items-center space-x-2 mt-5">
                     {
                         <Switch
-                            {...register("is_anonymous")}
+                            {...register("is_anonymous", { value: "1" })}
                             onCheckedChange={(newValue: any) => {
                                 console.log(newValue)
                                 setValue('is_anonymous', newValue ? "1" : "0")
