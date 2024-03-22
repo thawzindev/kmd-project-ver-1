@@ -25,5 +25,5 @@ export const IdeaSchema = z.object({
             message: `Max file size is 5MB.`,
         }).optional(),
     is_anonymous: z.string().optional(),
-    category: z.string().min(4).max(20),
+    category: z.string().max(30),
 });
