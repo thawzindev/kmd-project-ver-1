@@ -1,29 +1,16 @@
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-    "application/pdf",
-    "application/msword"
-];
+const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp", "application/pdf", "application/msword"];
 
 export const IdeaSchema = z.object({
-    title: z.string().min(5).max(20),
-    content: z.string().min(5).max(200),
-    file: z
-        .any()
-        .refine((files) => files?.length >= 1, { message: "Image is required." })
-        // To not allow files other than images
-        .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
-            message: ".jpg, .jpeg, .png and .webp files are accepted.",
-        })
-        // To not allow files larger than 5MB
-        .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
-            message: `Max file size is 5MB.`,
-        }).optional(),
-    is_anonymous: z.string().optional(),
-    category: z.string().max(30),
+  title: z.string().min(5).max(20),
+  content: z.string().min(5).max(200),
+  file: z
+    .any()
+    .optional()
+    .refine((file) => (file.length == 1 ? (ACCEPTED_FILE_TYPES.includes(file?.[0]?.type) ? true : false) : true), "Invalid file. choose JPEG, PNG, JPG, WEBP, PDF or DOC")
+    .refine((file) => (file.length == 1 ? (file[0]?.size <= MAX_FILE_SIZE ? true : false) : true), "Max file size allowed is 5MB."),
+  is_anonymous: z.string().optional(),
+  category: z.string().max(30),
 });

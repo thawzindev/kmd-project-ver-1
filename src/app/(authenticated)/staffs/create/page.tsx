@@ -42,7 +42,7 @@ const Page = () => {
             router.push('/staffs')
         },
         onError: (error) => {
-            toast.success(error.message, { duration: 2000 })
+            toast.error(error.message, { duration: 2000 })
             console.log('error', error.message)
         },
         onSettled: () => {

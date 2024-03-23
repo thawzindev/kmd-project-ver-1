@@ -112,7 +112,6 @@ export const getRoleList = async () => {
 
 //create
 export const createIdea = async (payload: any) => {
-  const response = await httpClient.post(`ideas`, payload);
+  const response = await httpClient.postAsForm(`ideas`, payload);
   return response as any;
 };
-

@@ -41,7 +41,7 @@ const Page = () => {
             router.push('/ideas')
         },
         onError: (error) => {
-            toast.success(error.message, { duration: 2000 })
+            toast.error(error.message, { duration: 2000 })
             console.log('error', error.message)
         },
         onSettled: () => {
@@ -51,12 +51,16 @@ const Page = () => {
 
     const onSubmit: SubmitHandler<IdeaSchemaType> = async (data) => {
         const fileUpload = data.file[0];
+        let file = fileUpload === undefined ? null : fileUpload;
+
 
         // Creating a FormData object to correctly format the avatar field
         const formData = new FormData();
 
         // Appending the avatar file to the FormData object
-        formData.append('file', fileUpload);
+        if (file) {
+            formData.append('file', file);
+        }
 
         // Removing the avatar field from the data object
         delete data.file;
@@ -69,7 +73,7 @@ const Page = () => {
                 formData.append(typedKey, data[typedKey]);
             }
         }
-        
+
         // Convert FormData to plain object
         const formDataObject: any = {};
         formData.forEach((value, key) => {
@@ -77,7 +81,7 @@ const Page = () => {
         });
 
         // Log formDataObject as JSON
-        console.log(formDataObject);
+        console.log(JSON.stringify(formDataObject));
 
         mutation.mutate(formData);
     }
