@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import { useFetchStaffs } from "@/app/hooks/queries/useFetchStaffs";
 import { Staff } from "@/types/Staff";
-import useEditModal from "@/app/hooks/customs/useEditModal";
+import useEditModal from "@/app/hooks/customs/useCategoryEditModal";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 
 const pages = [

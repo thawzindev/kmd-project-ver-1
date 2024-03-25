@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 import AsyncSelect from 'react-select/async';
 import { Switch } from "@/components/ui/switch";
+import { useCreateIdeaMutation } from "@/app/hooks/mutations/useCreateIdeaMutation";
 
 type IdeaSchemaType = z.infer<typeof IdeaSchema>;
 
@@ -80,10 +81,8 @@ const Page = () => {
             formDataObject[key] = value;
         });
 
-        // Log formDataObject as JSON
-        console.log(JSON.stringify(formDataObject));
-
-        mutation.mutate(formData);
+        // mutation.mutate(formData);
+        useCreateIdeaMutation(formData);
     }
 
     const loadCategoryOptions = async (inputValue: string) => {

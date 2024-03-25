@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/pagination"
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
-import useEditModal from "@/app/hooks/customs/useEditModal";
 import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
+import useDepartmentEditModal from "@/app/hooks/customs/useDepartmentEditModal";
 
 const pages = [
     { name: 'Departments', href: '#', current: false },
@@ -28,7 +28,7 @@ const Page = () => {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
 
-    const editModal = useEditModal();
+    const editModal = useDepartmentEditModal();
     const deleteModal = useDeleteModal();
 
 

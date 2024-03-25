@@ -1,4 +1,5 @@
 import HttpClient from "@/lib/http-client";
+import { removeEmptyParameters } from "@/lib/utils";
 import { log } from "console";
 
 const baseUrl = process.env.BASE_URL || "http://18.143.147.216/api/";
@@ -20,8 +21,10 @@ export const createCategory = async (payload: any) => {
 };
 
 //list
-export const getCategoryList = async (perPage: number, page: number) => {
-  const response = await httpClient.get(`categories?perpage=${perPage}&page=${page}`);
+export const getCategoryList = async (perPage: number, page: number, keyword?: string) => {
+  let url = `categories?perpage=${perPage}&page=${page}`;
+  if (keyword) url += `&search=${keyword}`;
+  const response = await httpClient.get(url);
   return response as any;
 };
 
@@ -76,7 +79,12 @@ export const getDepartmentList = async (perPage: number, page: number, search?: 
 //delete
 export const deleteDepartment = async (slug: string) => {
   const response = await httpClient.delete(`departments/${slug}`);
+  return response as any;
+};
 
+//list
+export const updateDepartment = async (payload: any, slug: string) => {
+  const response = await httpClient.put(`departments/${slug}`, payload);
   return response as any;
 };
 
@@ -116,9 +124,18 @@ export const createIdea = async (payload: any) => {
   return response as any;
 };
 
+//list
+export const getIdeaList = async (perPage: number, page: number, queryString?: string) => {
+  // if (!queryString?.startsWith("?")) queryString = `?${queryString}`;
+  let url = `ideas?perpage=${perPage}&page=${page}`;
+  if (queryString) url += `&${queryString}`;
+  url = removeEmptyParameters(url);
+  const response = await httpClient.get(url);
+  return response as any;
+};
 
 //list
-export const getIdeaList = async (perPage: number, page: number) => {
-  const response = await httpClient.get(`ideas?perpage=${perPage}&page=${page}`);
+export const getStatistics = async () => {
+  const response = await httpClient.get("statistics");
   return response as any;
 };

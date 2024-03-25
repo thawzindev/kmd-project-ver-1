@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createCategory, createDepartment } from "@/routes/api";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ type CategorySchemaType = z.infer<typeof CategorySchema>;
 
 const Page = () => {
 
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient()
 
     const router = useRouter()
 
@@ -34,7 +34,7 @@ const Page = () => {
             return createDepartment(payload);
         },
         onSuccess: async (data) => {
-            await queryClient.invalidateQueries({ queryKey: ['departments'] })
+            await queryClient.invalidateQueries('departments')
             toast.success(data?.message, { duration: 2000 })
             router.push('/departments?page=1')
         },

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createCategory } from "@/routes/api";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ type CategorySchemaType = z.infer<typeof CategorySchema>;
 
 const Page = () => {
 
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient()
 
     const router = useRouter()
 
@@ -29,14 +29,15 @@ const Page = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const mutation = useMutation ({
+    const mutation = useMutation({
         mutationFn: (payload: any) => {
             return createCategory(payload);
         },
         onSuccess: async (data) => {
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+            await queryClient.invalidateQueries(['categories'])
             toast.success('Successfully created the new category!', { duration: 2000 })
-            router.push('/categories?page=1')
+            router.push('/categories')
+
         },
         onError: (error) => {
             console.log('error', error.message)

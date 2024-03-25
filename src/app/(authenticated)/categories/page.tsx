@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/pagination"
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
-import useEditModal from "@/app/hooks/customs/useEditModal";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useCategoryEditModal from "@/app/hooks/customs/useCategoryEditModal";
 
 const pages = [
     { name: 'Categories', href: '#', current: false },
@@ -31,7 +31,7 @@ const Page = () => {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(+urlParams);
 
-    const editModal = useEditModal();
+    const editModal = useCategoryEditModal();
     const deleteModal = useDeleteModal();
     const router = useRouter();
     const pathname = usePathname();

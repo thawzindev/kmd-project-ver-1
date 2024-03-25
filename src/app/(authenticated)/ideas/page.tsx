@@ -11,12 +11,17 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import Feed from '@/components/Feed';
 import Link from 'next/link';
 import { useFetchIdeas } from '@/app/hooks/queries/useFetchIdeas';
 import React, { useState } from 'react';
 import { Ideas } from '@/types/Idea';
+import { Label } from '@/components/ui/label';
+import AsyncSelect from 'react-select/async';
+import { getCategoryList } from '@/routes/api';
+import { any } from 'zod';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { set } from 'date-fns';
+import toast from 'react-hot-toast';
 
 const pages = [
     { name: 'Idea', href: '#', current: false },
@@ -25,81 +30,40 @@ const pages = [
 
 const FeedPage = () => {
 
-    const discussions = [
-        {
-            id: 1,
-            title: 'Atque perspiciatis et et aut ut porro voluptatem blanditiis?',
-            href: '#',
-            author: { name: 'Leslie Alexander', href: '#' },
-            date: '2d ago',
-            dateTime: '2023-01-23T22:34Z',
-            status: 'active',
-            totalComments: 24,
-            commenters: [
-                {
-                    id: 12,
-                    name: 'Emma Dorsey',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-                {
-                    id: 6,
-                    name: 'Tom Cook',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-                {
-                    id: 4,
-                    name: 'Lindsay Walton',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-                {
-                    id: 16,
-                    name: 'Benjamin Russel',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-                {
-                    id: 23,
-                    name: 'Hector Gibbons',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-            ],
-        },
-        {
-            id: 4,
-            title: 'Voluptatum ducimus voluptatem qui in eum quasi consequatur vel?',
-            href: '#',
-            author: { name: 'Lindsay Walton', href: '#' },
-            date: '5d ago',
-            dateTime: '2023-01-20T10:04Z',
-            status: 'resolved',
-            totalComments: 8,
-            commenters: [
-                {
-                    id: 10,
-                    name: 'Emily Selman',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-                {
-                    id: 11,
-                    name: 'Kristin Watson',
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                },
-            ],
-        }
-    ]
+    const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    const [queryString, setQueryString] = useState("");
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
+    const [keyword, setKeyword] = useState('');
+    const [category, setCategory] = useState('');
+    const [type, setType] = useState('');
+    const [sort, setSort] = useState('');
 
-    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchIdeas(perPage, page);
+    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchIdeas(perPage, page, queryString);
+
+    console.log(data?.results?.data.length);
     const ideas = data?.results?.data as Ideas[]
     const meta = data?.results?.meta
+
+    const loadCategoryOptions = async (inputValue: string) => {
+        const response = await getCategoryList(20, 1, inputValue)
+        return response?.results?.data.map(item => ({ label: item.name, value: item.slug }));
+    };
+
+    const filterResult = () => {
+        const params = new URLSearchParams(searchParams);
+        params.set('search', `${keyword}`);
+        params.set('type', `${type}`);
+        params.set('category', `${category}`);
+        params.set('sort', `${sort}`);
+        setQueryString(params.toString());
+        router.push(`${pathname}?${params.toString()}`);
+    }
 
     return (
         <>
@@ -144,17 +108,55 @@ const FeedPage = () => {
             </div >
 
             <div className='flex gap-4 text-sm mb-5'>
-                <Input placeholder='Search here ...' />
                 <div>
-                    <Select defaultValue='created_date'>
+                    <Label>Keywords</Label>
+                    <Input placeholder='Search here ...' className='h-10 w-72' onChange={(e) => setKeyword(e.target.value)} />
+                </div>
+                <div className='mt-2'>
+                    <Label>Type</Label>
+                    <Select defaultValue='all' onValueChange={(value) => {
+                        setType(value)
+                    }}>
                         <SelectTrigger className="w-[220px]">
                             <SelectValue placeholder="Sort" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="created_date">Sort by Created Date</SelectItem>
-                            <SelectItem value="latest_comment">Sort by Latest Comment</SelectItem>
+                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="anonymous">Anonymous</SelectItem>
+                            <SelectItem value="not_anonymous">Not Anonymous</SelectItem>
                         </SelectContent>
                     </Select>
+                </div>
+                <div className=''>
+                    <Label>Category</Label>
+                    <AsyncSelect
+                        className="mt-2 w-32"
+                        cacheOptions
+                        loadOptions={loadCategoryOptions}
+                        defaultOptions
+                        onChange={(newValue: any) => {
+                            setCategory(newValue.value as string)
+                        }}
+                    />
+                </div>
+                <div className='mt-2'>
+                    <Label className=''>Sort</Label>
+                    <Select defaultValue='all' onValueChange={(value) => {
+                        setSort(value)
+                    }}>
+                        <SelectTrigger className="w-[220px]">
+                            <SelectValue placeholder="Sort" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="popular">Sort by most popular</SelectItem>
+                            <SelectItem value="views">Sort by most view</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className='mt-7'>
+                    <Label />
+                    <Button className='w-32' variant={'primary'} onClick={() => filterResult()} type='submit'>Filter</Button>
                 </div>
             </div>
 
@@ -174,6 +176,7 @@ const FeedPage = () => {
             }
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
+                // eslint-disable-next-line react/jsx-key
                 <div className="w-full mb-4">
                     <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
                         <div className="flex justify-between items-start">
@@ -213,41 +216,53 @@ const FeedPage = () => {
                 </div>
             ))}
 
+            {
+                (ideas && ideas.length === 0) && (
+                    <div className=''>
+                        <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
+                            No Result Found
+                        </div>
+                    </div>
+                )
+            }
 
 
-            <div className=" py-3">
-                <nav
-                    className="flex items-center justify-between bg-white px-4 py-3 sm:px-6"
-                    aria-label="Pagination"
-                >
-                    <div className="hidden sm:block">
-                        <p className="text-sm text-gray-700">
-                            Showing <span className="font-medium">{meta?.from}</span> to <span className="font-medium">{meta?.to}</span> of{' '}
-                            <span className="font-medium">{meta?.total}</span> results
-                        </p>
-                    </div>
-                    <div className="flex flex-1 justify-between sm:justify-end">
-                        <button
-                            onClick={() => setPage((page) => page - 1)}
-                            className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (!isPlaceholderData && page < meta?.last_page) {
-                                    setPage((page) => page + 1)
-                                }
-                            }}
-                            className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
-                            disabled={page === meta?.last_page}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </nav>
-            </div>
+            {
+                (meta && meta?.from) && <div className=" py-3">
+                    <nav
+                        className="flex items-center justify-between bg-white px-4 py-3 sm:px-6"
+                        aria-label="Pagination"
+                    >
+                        <div className="hidden sm:block">
+                            <p className="text-sm text-gray-700">
+                                Showing <span className="font-medium">{meta?.from}</span> to <span className="font-medium">{meta?.to}</span> of{' '}
+                                <span className="font-medium">{meta?.total}</span> results
+                            </p>
+                        </div>
+                        <div className="flex flex-1 justify-between sm:justify-end">
+                            <button
+                                onClick={() => setPage((page) => page - 1)}
+                                className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                                disabled={page === 1}
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => {
+                                    if (!isPlaceholderData && page < meta?.last_page) {
+                                        setPage((page) => page + 1)
+                                    }
+                                }}
+                                className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                                disabled={page === meta?.last_page}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </nav>
+                </div>
+
+            }
 
         </>
     )

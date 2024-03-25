@@ -7,13 +7,13 @@ import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import Modal from "./Modal";
 import Heading from "./components/Heading";
 import { Button } from "../ui/button";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCategory } from "@/routes/api";
 import { getDeleteFun } from "@/lib/utils";
 
 const DeleteModal = () => {
 
-    const queryClient = new QueryClient();
+    const queryClient = useQueryClient();
 
     const router = useRouter();
     const deleteModal = useDeleteModal();

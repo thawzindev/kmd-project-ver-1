@@ -19,7 +19,7 @@ const Sidebar = () => {
     const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
     const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
 
-    const permissions = navigations.filter((item) => {
+    const permissions = navigations?.filter((item) => {
         return item.permissions.includes('/')
     })
 

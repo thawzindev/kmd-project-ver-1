@@ -7,11 +7,11 @@ interface EditModalStore {
   onClose: () => void;
 }
 
-const useEditModal = create<EditModalStore>((set) => ({
+const useDepartmentEditModal = create<EditModalStore>((set) => ({
   isOpen: false,
   payload: {},
   onOpen: (payload) => set({ isOpen: true, payload }),
   onClose: () => set({ isOpen: false }),
 }));
 
-export default useEditModal;
+export default useDepartmentEditModal;

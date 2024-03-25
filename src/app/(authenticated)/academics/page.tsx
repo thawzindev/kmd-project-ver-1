@@ -1,7 +1,7 @@
 "use client"
 
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
-import useEditModal from "@/app/hooks/customs/useEditModal";
+import useEditModal from "@/app/hooks/customs/useCategoryEditModal";
 import { useFetchAcedamicYear } from "@/app/hooks/queries/useFetchAcademicYear";
 import { AcademicYear } from "@/types/AcademicYear";
 import { HomeIcon } from "lucide-react";

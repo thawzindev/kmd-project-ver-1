@@ -10,6 +10,7 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { format } from 'date-fns';
 
 const Navbar = () => {
 
@@ -19,7 +20,7 @@ const Navbar = () => {
 
    return (
       <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-         <div className="container flex h-14 max-w-screen-2xl items-center">
+         <div className="mx-6 flex h-14 max-w-screen-full items-center">
             <div className="mr-4 hidden md:flex">
                {/* <a className="mr-6 flex items-center space-x-2" href="/">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6">
@@ -32,7 +33,7 @@ const Navbar = () => {
                <nav className="flex items-center gap-6 text-sm">
 
                   <p>
-                     Last Login -{user.lastLoggedInAt}
+                     Last Login - {format(new Date(user.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
                   </p>
                   {/* <Link className="transition-colors hover:text-foreground/80 text-gray-600 font-bold" href="/feeds">Feeds</Link>
                   <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/categories">Admins</Link>
