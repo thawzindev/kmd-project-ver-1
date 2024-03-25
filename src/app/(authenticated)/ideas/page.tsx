@@ -1,5 +1,7 @@
+"use client"
+
 import { Input } from '@/components/ui/input';
-import { CheckCircleIcon, HeartIcon, HomeIcon, MessageCircleIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
+import { CheckCircleIcon, HeartIcon, HomeIcon, MessageCircleIcon, MoreHorizontalIcon, Paperclip, PaperclipIcon, ShareIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 import Image from 'next/image';
 import {
     Select,
@@ -12,6 +14,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Feed from '@/components/Feed';
 import Link from 'next/link';
+import { useFetchIdeas } from '@/app/hooks/queries/useFetchIdeas';
+import React, { useState } from 'react';
+import { Ideas } from '@/types/Idea';
 
 const pages = [
     { name: 'Idea', href: '#', current: false },
@@ -89,6 +94,13 @@ const FeedPage = () => {
         }
     ]
 
+    const [perPage, setPerPage] = useState(10);
+    const [page, setPage] = useState(1);
+
+    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchIdeas(perPage, page);
+    const ideas = data?.results?.data as Ideas[]
+    const meta = data?.results?.meta
+
     return (
         <>
             <div>
@@ -131,11 +143,7 @@ const FeedPage = () => {
                 </div>
             </div >
 
-            {/* <div className="header py-2">
-                    <h1 className='text-xl font-bold'>Discussions</h1>
-                </div> */}
-
-            <div className='flex gap-4 text-sm'>
+            <div className='flex gap-4 text-sm mb-5'>
                 <Input placeholder='Search here ...' />
                 <div>
                     <Select defaultValue='created_date'>
@@ -150,13 +158,95 @@ const FeedPage = () => {
                 </div>
             </div>
 
-            <div className="mx-auto py-4">
+            {/* <div className="mx-auto py-4">
                 <Feed />
                 <Feed />
-                <Feed />
-                <Feed />
-                <Feed />
-                <Feed />
+            </div> */}
+
+            {
+                isFetching && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+                        <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
+                            Loading...
+                        </div>
+                    </div>
+                )
+            }
+
+            {(ideas && !isFetching) && ideas.map((idea, key) => (
+                <div className="w-full mb-4">
+                    <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
+                        <div className="flex justify-between items-start">
+                            <h2 className="text-2xl font-bold">{idea.title}</h2>
+                            <MoreHorizontalIcon className="text-gray-400" />
+                        </div>
+                        <div className="flex items-center space-x-4 mt-4">
+                            <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={24} height={24} />
+                            <div>
+                                <div className="font-semibold">{idea.staff?.name}</div>
+                                <div className="text-xs text-gray-500">{idea.submittedAt}</div>
+                            </div>
+                        </div>
+                        <p className="mt-4 text-gray-700">
+                            {idea.content}
+                        </p>
+                        <div className="flex items-center space-x-2 mt-4">
+                            <ThumbsUpIcon className="text-gray-400" />
+                            <span className="text-gray-700">{idea.reactionsCount.THUMBS_UP?.toString()}</span>
+                            <ThumbsDownIcon className="text-gray-400" />
+                            <span className="text-gray-700">{idea.reactionsCount.THUMBS_DOWN?.toString()}</span>
+                            <MessageCircleIcon className="text-gray-400" />
+                            <span className="text-gray-700">{idea.commentsCount?.toString()}</span>
+                            {/* <ShareIcon className="text-gray-400" />
+                            <span className="text-gray-700">2k</span> */}
+                        </div>
+                        <div className="flex items-center justify-between mt-4">
+                            <div className="flex items-center space-x-1">
+                                <PaperclipIcon className="text-gray-400" />
+                                <span className="text-blue-600">Ideas.pdf</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                                <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">{idea.category?.name}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+
+
+
+            <div className=" py-3">
+                <nav
+                    className="flex items-center justify-between bg-white px-4 py-3 sm:px-6"
+                    aria-label="Pagination"
+                >
+                    <div className="hidden sm:block">
+                        <p className="text-sm text-gray-700">
+                            Showing <span className="font-medium">{meta?.from}</span> to <span className="font-medium">{meta?.to}</span> of{' '}
+                            <span className="font-medium">{meta?.total}</span> results
+                        </p>
+                    </div>
+                    <div className="flex flex-1 justify-between sm:justify-end">
+                        <button
+                            onClick={() => setPage((page) => page - 1)}
+                            className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                            disabled={page === 1}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (!isPlaceholderData && page < meta?.last_page) {
+                                    setPage((page) => page + 1)
+                                }
+                            }}
+                            className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 disabled:text-gray-400"
+                            disabled={page === meta?.last_page}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </nav>
             </div>
 
         </>

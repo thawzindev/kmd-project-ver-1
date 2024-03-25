@@ -115,3 +115,10 @@ export const createIdea = async (payload: any) => {
   const response = await httpClient.postAsForm(`ideas`, payload);
   return response as any;
 };
+
+
+//list
+export const getIdeaList = async (perPage: number, page: number) => {
+  const response = await httpClient.get(`ideas?perpage=${perPage}&page=${page}`);
+  return response as any;
+};
