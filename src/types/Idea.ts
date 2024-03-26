@@ -1,3 +1,4 @@
+
 export interface Ideas {
     slug: string;
     title: string;
@@ -15,8 +16,8 @@ export interface Ideas {
   }
 
   export interface IdeaStaff{
-    name : String | null;
-    avatar : String | null;
+    name : String | "";
+    avatar : String | "";
   }
 
   export interface File{

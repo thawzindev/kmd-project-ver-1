@@ -54,34 +54,26 @@ const Page = () => {
         const fileUpload = data.file[0];
         let file = fileUpload === undefined ? null : fileUpload;
 
-
-        // Creating a FormData object to correctly format the avatar field
         const formData = new FormData();
 
-        // Appending the avatar file to the FormData object
         if (file) {
             formData.append('file', file);
         }
 
-        // Removing the avatar field from the data object
         delete data.file;
 
-        // Adding the rest of the fields to the FormData object
         for (const key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) {
-                // Asserting that key is keyof StaffSchemaType to resolve the TypeScript error
                 const typedKey = key as keyof IdeaSchemaType;
                 formData.append(typedKey, data[typedKey]);
             }
         }
 
-        // Convert FormData to plain object
         const formDataObject: any = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
 
-        // mutation.mutate(formData);
         useCreateIdeaMutation(formData);
     }
 

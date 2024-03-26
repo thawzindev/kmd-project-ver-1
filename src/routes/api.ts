@@ -145,6 +145,13 @@ export const getIdeaList = async (perPage: number, page: number, queryString?: s
   return response as any;
 };
 
+//details
+export const getIdeaDetail = async (slug: string) => {
+  console.log(slug)
+  const response = await httpClient.get(`ideas/${slug}`);
+  return response as any;
+};
+
 //list
 export const getStatistics = async () => {
   const response = await httpClient.get("statistics");
@@ -162,5 +169,12 @@ export const getReports = async (perPage: number, page: number, queryString?: st
   let url = `reports?perpage=${perPage}&page=${page}`;
   if (queryString) url += `&${queryString}`;
   const response = await httpClient.get(url);
+  return response as any;
+};
+
+//comment
+export const getComment = async (slug: string) => {
+  console.log(slug)
+  const response = await httpClient.get(`ideas/${slug}/comments`);
   return response as any;
 };

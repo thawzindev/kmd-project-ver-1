@@ -207,12 +207,12 @@ const FeedPage = () => {
                             <div className="inline-flex items-center px-4 py-2 space-x-2 bg-gray-100 rounded-lg mt-5">
                                 {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
                                     <div className="inline-flex items-center px-4 py-2 space-x-2">
-                                        <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
-                                        <DownloadIcon className="text-gray-700" />
-                                    </div>
-                                ) : (
-                                    <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
-                                )}
+                                <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
+                                <DownloadIcon className="text-gray-700" />
+                                </div>
+                            ) : (
+                                <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
+                            )}
 
                             </div>
                         )}
