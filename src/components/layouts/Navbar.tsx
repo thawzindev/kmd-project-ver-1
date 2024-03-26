@@ -3,82 +3,115 @@
 import React from 'react'
 import Image from 'next/image';
 import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+   Sheet,
+   SheetContent,
+   SheetDescription,
+   SheetHeader,
+   SheetTitle,
+   SheetTrigger,
+} from "@/components/ui/sheet"
 import { format } from 'date-fns';
+import { BellIcon } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { getNotifications } from '@/routes/api';
 
 const Navbar = () => {
 
    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
    const user = JSON.parse(cookieObj.get("user") as string)
 
+   // const { data, error, isLoading } = useQuery('notifications', getNotifications, {
+   //    refetchInterval: 5000,
+   // });
+
+   const { data, error, isLoading } = useQuery({
+      queryKey: ['notifications'],
+      queryFn: () => getNotifications(),
+      retry: false,
+      refetchInterval: 5000,
+   });
+
+   console.log(data?.notifications?.data)
+
 
    return (
-      <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-         <div className="mx-6 flex h-14 max-w-screen-full items-center">
-            <div className="mr-4 hidden md:flex">
-               {/* <a className="mr-6 flex items-center space-x-2" href="/">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6">
-                     <rect width="256" height="256" fill="none"></rect>
-                     <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                     <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+
+      <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+         <div className="max-w-screen-full flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+               {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"> */}
+               {/* <Image src={'/images/logo/logo-color.png'} width={32} height={32} alt="EduGateways Logo" /> */}
+               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">EduGateways</span>
+            </a>
+            <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+
+
+               <Sheet>
+                  <SheetTrigger>
+                     <button type="button" className="text-blue-700 bg-gray-200 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                        <BellIcon className="w-5 h-5" />
+                     </button>
+                  </SheetTrigger>
+                  <SheetContent>
+                     <SheetHeader>
+                        <SheetTitle>Notifications</SheetTitle>
+                        <SheetDescription className='overflow-y-auto'>
+                           <div>
+                              {
+                                 data?.notifications?.data && data?.notifications?.data.map((notification: any) => (
+                                    // <div key={notification.id} className="flex items-center justify-between p-2 border-b border-gray-100 dark:border-gray-700">
+                                    //    <div className="flex items-center space-x-2">
+                                    //       <span className="text-sm font-medium">{notification.title}</span>
+                                    //       <span className="text-xs text-gray-500 dark:text-gray-400">{notification.dateTime}</span>
+                                    //    </div>
+                                    //    <br />
+                                    //    <p className="text-xs text-gray-500 dark:text-gray-400">{notification.body}</p>
+                                    // </div>
+                                    <div className="flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2" key={notification.id}>
+                                       <div className="w-0 flex-1 pt-0.5">
+                                          <p className="text-sm font-medium text-gray-900">{notification.title}</p>
+                                          <p className="mt-1 text-sm text-gray-500">{notification.body}</p>
+                                       </div>
+                                       <div className="ml-4 flex flex-shrink-0">
+                                          <p>{notification.dateTime}</p>
+                                       </div>
+                                    </div>
+                                 ))
+                              }
+                           </div>
+                        </SheetDescription>
+                     </SheetHeader>
+                  </SheetContent>
+               </Sheet>
+
+
+               <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                  <span className="sr-only">Open main menu</span>
+                  <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
                   </svg>
-                  <span className="hidden font-bold sm:inline-block">Group 11</span>
-               </a> */}
-               <nav className="flex items-center gap-6 text-sm">
-
-                  <p>
-                     Last Login - {format(new Date(user.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
-                  </p>
-                  {/* <Link className="transition-colors hover:text-foreground/80 text-gray-600 font-bold" href="/feeds">Feeds</Link>
-                  <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/categories">Admins</Link>
-                  <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/feeds">Departments</Link>
-                  <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/feeds">QA Coordinator</Link>
-                  <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/feeds">Staffs</Link> */}
-                  {/* <a className="transition-colors hover:text-foreground/80 text-foreground" href="/docs/components">Components</a>
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/themes">Themes</a>
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/examples">Examples</a>
-            <a className="hidden text-foreground/60 transition-colors hover:text-foreground/80 lg:block" href="https://github.com/shadcn-ui/ui">GitHub</a> */}
-               </nav>
+               </button>
             </div>
-            <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:R96la:" data-state="closed">
-               <svg stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
-                  <path d="M3 5H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M3 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M3 19H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-               </svg>
-               <span className="sr-only">Toggle Menu</span>
-            </button>
-            <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-               <div className="w-full flex-1 md:w-auto md:flex-none">
+            <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+               {/* <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                  <li>
+                     <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
+                  </li>
+                  <li>
+                     <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+                  </li>
+                  <li>
+                     <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
+                  </li>
+                  <li>
+                     <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                  </li>
+               </ul> */}
 
-
-                  <DropdownMenu>
-                     <DropdownMenuTrigger>
-                        <Image src="https://static.vecteezy.com/system/resources/previews/014/194/216/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg" alt="shadcn/ui" width={40} height={40} />
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent>
-                        <DropdownMenuLabel>Testing</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Edit Profile</DropdownMenuItem>
-                        <DropdownMenuItem>Billing</DropdownMenuItem>
-                        <DropdownMenuItem>
-
-                           {/* <div className='text-red-400'>
-                              <SignOutButton />
-                           </div> */}
-                        </DropdownMenuItem>
-                     </DropdownMenuContent>
-                  </DropdownMenu>
-               </div>
+               Last Login - {format(new Date(user.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
             </div>
          </div>
-      </header>
+      </nav>
    )
 }
 

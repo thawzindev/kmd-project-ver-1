@@ -183,7 +183,7 @@ const Sidebar = () => {
                 {/* Static sidebar for desktop */}
                 <div className="hidden lg:block md:block lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4 h-full">
                         <div className="flex h-16 shrink-0 items-center">
                             {/* <Image
                             className="h-8 w-auto"

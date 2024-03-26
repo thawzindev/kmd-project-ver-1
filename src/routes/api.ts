@@ -92,7 +92,7 @@ export const updateDepartment = async (payload: any, slug: string) => {
 
 //create
 export const createAcademicYear = async (payload: any) => {
-  const response = await httpClient.post(`academic-dates`, payload);
+  const response = await httpClient.post(`academics`, payload);
   return response as any;
 };
 
@@ -137,5 +137,19 @@ export const getIdeaList = async (perPage: number, page: number, queryString?: s
 //list
 export const getStatistics = async () => {
   const response = await httpClient.get("statistics");
+  return response as any;
+};
+
+//list
+export const getNotifications = async () => {
+  const response = await httpClient.get("notifications");
+  return response as any;
+};
+
+//list
+export const getReports = async (perPage: number, page: number, queryString?: string) => {
+  let url = `reports?perpage=${perPage}&page=${page}`;
+  if (queryString) url += `&${queryString}`;
+  const response = await httpClient.get(url);
   return response as any;
 };

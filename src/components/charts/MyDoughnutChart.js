@@ -10,6 +10,8 @@ const MyDoughnutChart = (chartData) => {
             <h2 style={{ textAlign: "center" }}>{chartData.chartData.label}</h2>
             <Doughnut
                 data={data}
+                width={60}
+                height={30}
                 options={{
                     plugins: {
                         // title: {

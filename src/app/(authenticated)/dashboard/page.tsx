@@ -40,7 +40,7 @@ const Page = () => {
                             return (
                                 <div key={key} className="bg-gray-200 p-5 rounded-lg shadow-sm">
                                     <h1 className="text-lg font-bold">{stat.label}</h1>
-                                    <h1 className="text-2xl font-bold">{stat.value}</h1>
+                                    <h1 className="text-3xl font-bold">{stat.value}</h1>
                                 </div>
                             )
                         })
@@ -50,7 +50,7 @@ const Page = () => {
 
             <hr />
 
-            <div className="grid grid-cols-2 gap-2 mt-5">
+            <div className="grid grid-cols-2 gap-2 mt-5 h-1/3">
                 {
                     data?.charts && (
                         data?.charts.map((chart) => {
