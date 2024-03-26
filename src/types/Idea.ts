@@ -2,7 +2,7 @@ export interface Ideas {
     slug: string;
     title: string;
     content: string;
-    file: string | null;
+    file: File;
     staff: IdeaStaff | null;
     reactionsCount: ReactionsCount;
     viewsCount: Number | null;
@@ -17,6 +17,11 @@ export interface Ideas {
   export interface IdeaStaff{
     name : String | null;
     avatar : String | null;
+  }
+
+  export interface File{
+    url : String | "";
+    type : String | "";
   }
 
   export interface ReactionsCount{

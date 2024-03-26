@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
       if (!(nextPath === "/" || nextPath === "/dashboard" || nextPath === "/unauthorized" || nextPath === "/settings")) {
         console.log("checkking");
         let myPermission = permissions.find((p) => p === nextPath);
-        if (!myPermission) return redirectTo(UNAUTHORIZED);
+        // if (!myPermission) return redirectTo(UNAUTHORIZED);
       }
   }
 
