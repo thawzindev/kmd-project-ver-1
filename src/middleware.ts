@@ -8,6 +8,8 @@ const LOGIN_PATH = "/login";
 const HOME_PATH = "/";
 const UNAUTHORIZED = "/unauthorized";
 
+const excludedPaths = ['/', '/dashboard', '/unauthorized', '/settings', '/verify'];
+
 export async function middleware(request: NextRequest) {
   const userCookie = request.cookies.get("user");
   const tokenCookie = request.cookies.get("token");
@@ -30,7 +32,7 @@ export async function middleware(request: NextRequest) {
         return redirectTo(LOGIN_PATH);
       }
 
-      if (!(nextPath === "/" || nextPath === "/dashboard" || nextPath === "/unauthorized" || nextPath === "/settings")) {
+      if (!excludedPaths.includes(nextPath)) {
         console.log("checkking");
         let myPermission = permissions.find((p) => p === nextPath);
         // if (!myPermission) return redirectTo(UNAUTHORIZED);
@@ -39,6 +41,7 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+
 
 // // See "Matching Paths" below to learn more
 export const config = {

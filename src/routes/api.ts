@@ -2,13 +2,24 @@ import HttpClient from "@/lib/http-client";
 import { removeEmptyParameters } from "@/lib/utils";
 import { log } from "console";
 
-const baseUrl = process.env.BASE_URL || "http://18.143.147.216/api/";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://18.143.147.216/api/";
 console.log(baseUrl);
 const httpClient = new HttpClient(baseUrl);
 
 // login
 export const login = async (payload: any) => {
   const response = await httpClient.post(`login`, payload);
+  return response as any;
+};
+
+export const resendVerificationEmail = async (payload: any) => {
+  const response = await httpClient.post(`email/verification-notification`, payload);
+  return response as any;
+};
+
+// verify
+export const verifyEmail = async (payload: any) => {
+  const response = await httpClient.post(`email/verify`, payload);
   return response as any;
 };
 
