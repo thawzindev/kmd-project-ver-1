@@ -177,7 +177,7 @@ const FeedPage = () => {
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
                 // eslint-disable-next-line react/jsx-key
-                <div className="w-full mb-4" onClick={() => router.push(`/ideas/detail?${idea.slug}`)}>
+                <div className="w-full mb-4" onClick={() => router.push(`/ideas/${idea.slug}`)}>
                     <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
                         <div className="flex justify-between items-start">
                             <h2 className="text-2xl font-bold">{idea.title}</h2>
@@ -207,12 +207,12 @@ const FeedPage = () => {
                             <div className="inline-flex items-center px-4 py-2 space-x-2 bg-gray-100 rounded-lg mt-5">
                                 {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
                                     <div className="inline-flex items-center px-4 py-2 space-x-2">
-                                <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
-                                <DownloadIcon className="text-gray-700" />
-                                </div>
-                            ) : (
-                                <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
-                            )}
+                                        <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
+                                        <DownloadIcon className="text-gray-700" />
+                                    </div>
+                                ) : (
+                                    <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
+                                )}
 
                             </div>
                         )}

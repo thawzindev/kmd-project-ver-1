@@ -1,12 +1,16 @@
 "use client"
 
+import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 const Page = () => {
 
-    return(
+    const { slug } = useParams();
+
+
+    return (
         <>
-        
+            <h1>Detail - {slug}</h1>
         </>
     )
 
