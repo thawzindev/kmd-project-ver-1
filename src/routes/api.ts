@@ -147,7 +147,7 @@ export const getIdeaList = async (perPage: number, page: number, queryString?: s
 
 //details
 export const getIdeaDetail = async (slug: string) => {
-  console.log(slug)
+  console.log(slug);
   const response = await httpClient.get(`ideas/${slug}`);
   return response as any;
 };
@@ -173,8 +173,21 @@ export const getReports = async (perPage: number, page: number, queryString?: st
 };
 
 //comment
-export const getComment = async (slug: string) => {
-  console.log(slug)
-  const response = await httpClient.get(`ideas/${slug}/comments`);
+export const getComments = async (perPage: number, page: number, slug: string) => {
+  let url = `ideas/${slug}/comments?perPage=${perPage}&page=${page}`;
+  const response = await httpClient.get(url);
+  return response as any;
+};
+
+//post comment
+export const createComment = async (slug: string, payload: any) => {
+  const response = await httpClient.post(`ideas/${slug}/comments`, payload);
+  return response as any;
+};
+
+//post comment
+export const postReaction = async (reaction: string, slug: string) => {
+  console.log("OKKK", slug, reaction);
+  const response = await httpClient.get(`ideas/${slug}/react?type=${reaction}`);
   return response as any;
 };
