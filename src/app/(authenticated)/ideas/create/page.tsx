@@ -74,7 +74,7 @@ const Page = () => {
             formDataObject[key] = value;
         });
 
-        useCreateIdeaMutation(formData);
+        mutation.mutate(formData);
     }
 
     const loadCategoryOptions = async (inputValue: string) => {

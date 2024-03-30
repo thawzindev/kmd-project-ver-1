@@ -24,14 +24,14 @@ const Navbar = () => {
    //    refetchInterval: 5000,
    // });
 
+   const perPage = 5;
+
    const { data, error, isLoading } = useQuery({
       queryKey: ['notifications'],
-      queryFn: () => getNotifications(),
+      queryFn: () => getNotifications(perPage),
       retry: false,
       refetchInterval: 5000,
    });
-
-   console.log(data?.notifications?.data)
 
 
    return (

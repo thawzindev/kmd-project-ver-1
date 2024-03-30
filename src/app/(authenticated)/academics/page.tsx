@@ -112,7 +112,7 @@ const Page = () => {
                                                 {meta?.from + key}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.academicYear}
+                                                {Academic.name}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
                                                 {Academic.startDate}

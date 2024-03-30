@@ -16,6 +16,8 @@ import Icon from '../icons/Icon'
 
 const Sidebar = () => {
 
+    // const document = window.document
+
     const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
     const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
 

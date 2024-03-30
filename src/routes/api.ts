@@ -109,13 +109,13 @@ export const createAcademicYear = async (payload: any) => {
 
 //list
 export const getAcademicYearList = async (perPage: number, page: number) => {
-  const response = await httpClient.get(`academic-dates?perpage=${perPage}&page=${page}`);
+  const response = await httpClient.get(`academics?perpage=${perPage}&page=${page}`);
   return response as any;
 };
 
 //delete
 export const deleteAcademicyear = async (slug: string) => {
-  const response = await httpClient.delete(`academic-dates/${slug}`);
+  const response = await httpClient.delete(`academics/${slug}`);
   return response as any;
 };
 
@@ -159,8 +159,9 @@ export const getStatistics = async () => {
 };
 
 //list
-export const getNotifications = async () => {
-  const response = await httpClient.get("notifications");
+export const getNotifications = async (perPage: number) => {
+  let url = `notifications?perpage=${perPage}`;
+  const response = await httpClient.get(url);
   return response as any;
 };
 
