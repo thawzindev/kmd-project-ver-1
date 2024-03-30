@@ -184,9 +184,11 @@ const FeedPage = () => {
                             <MoreHorizontalIcon className="text-gray-400" />
                         </div>
                         <div className="flex items-center space-x-4 mt-4">
-                            <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={24} height={24} />
+                            <Image className="aspect-square" alt="Sarrah" src={
+                                idea.staff ? idea.staff.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"
+                            } width={24} height={24} />
                             <div>
-                                <div className="font-semibold">{idea.staff?.name}</div>
+                                <div className="font-semibold">{idea.staff ? idea.staff.name : "Anonymous"}</div>
                                 <div className="text-xs text-gray-500">{idea.submittedAt}</div>
                             </div>
                         </div>
@@ -207,12 +209,12 @@ const FeedPage = () => {
                             <div className="inline-flex items-center px-4 py-2 space-x-2 bg-gray-100 rounded-lg mt-5">
                                 {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
                                     <div className="inline-flex items-center px-4 py-2 space-x-2">
-                                <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
-                                <DownloadIcon className="text-gray-700" />
-                                </div>
-                            ) : (
-                                <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
-                            )}
+                                        <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
+                                        <DownloadIcon className="text-gray-700" />
+                                    </div>
+                                ) : (
+                                    <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
+                                )}
 
                             </div>
                         )}
