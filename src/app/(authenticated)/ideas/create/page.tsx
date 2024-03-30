@@ -15,6 +15,7 @@ import { z } from "zod";
 import AsyncSelect from 'react-select/async';
 import { Switch } from "@/components/ui/switch";
 import { useCreateIdeaMutation } from "@/app/hooks/mutations/useCreateIdeaMutation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type IdeaSchemaType = z.infer<typeof IdeaSchema>;
 
@@ -26,6 +27,7 @@ const Page = () => {
         register,
         handleSubmit,
         setValue,
+        getValues,
         formState: { errors }
     } = useForm<IdeaSchemaType>({ resolver: zodResolver(IdeaSchema) });
 
@@ -74,6 +76,8 @@ const Page = () => {
             formDataObject[key] = value;
         });
 
+        setIsSubmitting(true)
+
         mutation.mutate(formData);
     }
 
@@ -91,7 +95,7 @@ const Page = () => {
 
     return (
 
-        <Form title="Create Idea" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
+        <Form title="Create Idea" buttonText="Post" buttonLoadingText="Posting ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
             <div className="sm:col-span-6">
                 <div className="mt-2">
                     <Input type="text" label="Title"
@@ -157,7 +161,6 @@ const Page = () => {
                         <Switch
                             {...register("is_anonymous", { value: "1" })}
                             onCheckedChange={(newValue: any) => {
-                                console.log(newValue)
                                 setValue('is_anonymous', newValue ? "1" : "0")
                             }}
                         />
@@ -166,6 +169,29 @@ const Page = () => {
 
                     {
                         errors.is_anonymous && <p className="text-red-500 text-xs my-2">{errors.is_anonymous.message}</p>
+                    }
+                </div>
+
+                <div className="mt-10">
+                    <div className="items-top flex space-x-2">
+                        <Checkbox id="terms1" {...register("terms_and_conditions")} onCheckedChange={(newValue) => {
+                            setValue('terms_and_conditions', newValue ? "1" : "0")
+                        }} />
+                        <div className="grid gap-1.5 leading-none">
+                            <label
+                                htmlFor="terms1"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Accept terms and conditions
+                            </label>
+                            <p className="text-sm text-muted-foreground">
+                                You agree to our Terms of Service and Privacy Policy.
+                            </p>
+                        </div>
+                    </div>
+
+                    {
+                        errors.terms_and_conditions && <p className="text-red-500 text-xs my-2">{errors.terms_and_conditions.message}</p>
                     }
                 </div>
 

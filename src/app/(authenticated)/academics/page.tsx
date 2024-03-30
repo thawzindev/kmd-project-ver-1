@@ -62,7 +62,7 @@ const Page = () => {
                 <div className="flex items-center justify-between gap-x-6">
                     <h2 className="text-xl font-bold leading-7 text-gray-900 my-3">Academic Year</h2>
                     <nav className="flex" aria-label="Breadcrumb">
-                        <Link href="/settings/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Academic Year</Link>
+                        <Link href="/academics/create" className="bg-blue-600 px-3 py-2 rounded text-white text-sm">Create Academic Year</Link>
                     </nav>
                 </div>
             </div >
@@ -126,10 +126,10 @@ const Page = () => {
 
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                 <button onClick={() => editModal.onOpen(Academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {Academic.academicYear}</span>
+                                                    Edit<span className="sr-only">, {Academic.name}</span>
                                                 </button>
                                                 <button onClick={() => deleteModal.onOpen(Academic.id, Academic.startDate)} className="text-red-600 hover:text-red-900 mx-2">
-                                                    Delete<span className="sr-only">, {Academic.academicYear}</span>
+                                                    Delete<span className="sr-only">, {Academic.name}</span>
                                                 </button>
                                             </td>
                                         </tr>

@@ -3,6 +3,7 @@
 import { useFetchComments } from '@/app/hooks/queries/useFetchComments';
 import { useFetchIdeaDetails } from '@/app/hooks/queries/useFetchIdeaDetails';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { createComment, postReaction } from '@/routes/api';
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DownloadIcon, MessageCircleIcon, MoreHorizontalIcon, ThumbsDownIcon, ThumbsUp, ThumbsUpIcon } from 'lucide-react';
@@ -10,6 +11,9 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const Page = () => {
 
@@ -20,6 +24,7 @@ const Page = () => {
 
     const [comment, setComment] = useState('');
     const [isCommenting, setIsCommenting] = useState(false);
+    const [anonymous, setAnonymous] = useState(false);
 
     const { data, isFetching, error, isLoading } = useFetchIdeaDetails(slug.toString());
     const { data: comments } = useFetchComments(30, 1, slug.toString());
@@ -69,12 +74,19 @@ const Page = () => {
         setIsCommenting(true)
         const payload = {
             content: comment,
-            is_anonymous: 0,
+            is_anonymous: anonymous,
         }
         commentMutation.mutate(payload);
     }
 
     const createReaction = (type: string) => {
+        if (idea?.currentReaction === 'THUMBS_UP' && type === 'THUMBS_DOWN') {
+            toast.error('you have already thumb up. Please remove current reaction to thumb down.');
+            return;
+        } else if (idea?.currentReaction === 'THUMBS_DOWN' && type === 'THUMBS_UP') {
+            toast.error('you have already thumb down. Please remove current reaction to thumb up.');
+            return;
+        }
         reactionMutation.mutate(type);
     }
 
@@ -90,9 +102,9 @@ const Page = () => {
                                 <h2 className="text-2xl font-bold">{idea.title}</h2>
                             </div>
                             <div className="flex items-center space-x-4 mt-4">
-                                <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={24} height={24} />
+                                <Image className="aspect-square" alt="Sarrah" src={idea?.staff?.avatar ? idea?.staff?.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"} width={30} height={30} />
                                 <div>
-                                    <div className="font-semibold">{idea.staff?.name}</div>
+                                    <div className="font-semibold">{idea.staff?.name || "Anonymous"}</div>
                                     <div className="text-xs text-gray-500">{idea.submittedAt}</div>
                                 </div>
                             </div>
@@ -101,18 +113,17 @@ const Page = () => {
                             </p>
                             <div className="flex items-center space-x-2 mt-4">
                                 <ThumbsUpIcon
-                                    className={idea?.currentReaction === 'THUMBS_UP' ? 'fill-red-400' : 'text-gray-400'}
+                                    className={cn(idea?.currentReaction === 'THUMBS_UP' ? 'fill-emerald-600' : '', 'cursor-pointer')}
                                     onClick={() => createReaction('THUMBS_UP')}
-
                                 />
                                 <span className="text-gray-700">{idea.reactionsCount.THUMBS_UP?.toString()}</span>
                                 <ThumbsDownIcon
-                                    className={idea?.currentReaction === 'THUMBS_DOWN' ? 'fill-red-400' : 'text-gray-400'}
+                                    className={cn(idea?.currentReaction === 'THUMBS_DOWN' ? 'fill-red-400' : '', 'cursor-pointer')}
                                     onClick={() => createReaction('THUMBS_DOWN')}
                                 />
                                 <span className="text-gray-700">{idea.reactionsCount.THUMBS_DOWN?.toString()}</span>
-                                <MessageCircleIcon className="text-gray-400" />
-                                <span className="text-gray-700">{idea.commentsCount?.toString()}</span>
+                                {/* <MessageCircleIcon className="text-gray-400" />
+                                <span className="text-gray-700">{idea.commentsCount?.toString()}</span> */}
                                 {/* <ShareIcon className="text-gray-400" />
                             <span className="text-gray-700">2k</span> */}
                             </div>
@@ -205,11 +216,24 @@ const Page = () => {
 
 
                     </div>
+
                     <div className="mt-6">
                         <textarea rows={4} className="mt-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Type something..." onChange={(e) => setComment(e.target.value)} />
+                            placeholder="Type something..." onChange={(e) => setComment(e.target.value)} value={comment} />
                         <div className="flex justify-end mt-2 space-x-2">
                             {/* <Button variant="outline">Cancel</Button> */}
+
+                            <div className="flex items-center space-x-2">
+                                {
+                                    <Switch
+                                        onCheckedChange={(newValue: any) => {
+                                            setAnonymous(newValue)
+                                        }}
+                                    />
+                                }
+                                <Label htmlFor="is_anonymous">Post anonymously</Label>
+                            </div>
+
                             <Button disabled={comment.length === 0 || isCommenting} onClick={() => postComment()}>
                                 {
                                     isCommenting ? "Commenting" : "Comment"

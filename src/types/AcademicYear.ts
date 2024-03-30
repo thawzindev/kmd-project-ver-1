@@ -1,8 +1,9 @@
-export interface AcademicYear {
-    id: string;
-    academicYear: string;
-    startDate: string;
-    closureDate: string;
-    finalClosureDate: string | null;
-    isActive: boolean | null;
-  }
+export interface Notification {
+  id: string;
+  read: boolean;
+  dateTime: boolean;
+  title: string;
+  body: string;
+  link: string;
+  icon: string;
+}

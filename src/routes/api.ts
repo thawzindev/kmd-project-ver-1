@@ -159,8 +159,16 @@ export const getStatistics = async () => {
 };
 
 //list
-export const getNotifications = async (perPage: number) => {
+export const getNotifications = async (perPage: number, page?: number) => {
   let url = `notifications?perpage=${perPage}`;
+  if (page) url += `&page=${page}`;
+  const response = await httpClient.get(url);
+  return response as any;
+};
+
+//read all
+export const markAllNotificationAsRead = async () => {
+  let url = `notifications/read-all`;
   const response = await httpClient.get(url);
   return response as any;
 };

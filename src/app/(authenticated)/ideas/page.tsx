@@ -177,7 +177,7 @@ const FeedPage = () => {
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
                 // eslint-disable-next-line react/jsx-key
-                <div className="w-full mb-4" onClick={() => router.push(`/ideas/${idea.slug}`)}>
+                <div className="w-full mb-4 cursor-pointer" onClick={() => router.push(`/ideas/${idea.slug}`)}>
                     <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
                         <div className="flex justify-between items-start">
                             <h2 className="text-2xl font-bold">{idea.title}</h2>

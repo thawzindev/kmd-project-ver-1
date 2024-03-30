@@ -13,16 +13,22 @@ import {
 import { format } from 'date-fns';
 import { BellIcon } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { getNotifications } from '@/routes/api';
+import { getNotifications, markAllNotificationAsRead } from '@/routes/api';
+import Link from 'next/link';
 
 const Navbar = () => {
+
+   const [allNotificationAsRead, setAllNotificationAsRead] = React.useState(false)
 
    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
    const user = JSON.parse(cookieObj.get("user") as string)
 
-   // const { data, error, isLoading } = useQuery('notifications', getNotifications, {
-   //    refetchInterval: 5000,
-   // });
+   const { data: markAllAsReadResp } = useQuery({
+      queryKey: [`noti-read-all`],
+      queryFn: () => markAllNotificationAsRead(),
+      retry: false,
+      enabled: allNotificationAsRead
+   });
 
    const perPage = 5;
 
@@ -33,16 +39,20 @@ const Navbar = () => {
       refetchInterval: 5000,
    });
 
+   const markAllAsRead = () => {
+      setAllNotificationAsRead(true)
+   }
+
 
    return (
 
       <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
          <div className="max-w-screen-full flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"> */}
                {/* <Image src={'/images/logo/logo-color.png'} width={32} height={32} alt="EduGateways Logo" /> */}
                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">EduGateways</span>
-            </a>
+            </Link>
             <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
 
@@ -50,12 +60,22 @@ const Navbar = () => {
                   <SheetTrigger>
                      <button type="button" className="text-blue-700 bg-gray-200 font-medium rounded-lg text-sm px-2 py-2 text-center">
                         <BellIcon className="w-5 h-5" />
+                        {/* {data?.unread_count && ( */}
+                        <span className="absolute top-2 right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                           {data?.unread_count || 0}
+                        </span>
+                        {/* )} */}
                      </button>
                   </SheetTrigger>
                   <SheetContent>
                      <SheetHeader>
-                        <SheetTitle>Notifications</SheetTitle>
-                        <SheetDescription className='overflow-y-auto'>
+                        <SheetTitle>
+                           Notifications
+                           <span>
+                              <button className='underline ml-3 text-sm text-blue-600' onClick={() => markAllAsRead()}>Mark all as read</button>
+                           </span>
+                        </SheetTitle>
+                        <SheetDescription className='h-full'>
                            <div>
                               {
                                  data?.notifications?.data && data?.notifications?.data.map((notification: any) => (
@@ -78,6 +98,9 @@ const Navbar = () => {
                                     </div>
                                  ))
                               }
+                           </div>
+                           <div className='mx-auto text-center mt-10'>
+                              <Link href="/notifications" className='mx-2 my-2 bg-gray-200 p-3 w-screen hover:bg-gray-300 rounded-md'>See Previous Notifications</Link>
                            </div>
                         </SheetDescription>
                      </SheetHeader>
