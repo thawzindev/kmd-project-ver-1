@@ -196,7 +196,24 @@ export const createComment = async (slug: string, payload: any) => {
 
 //post comment
 export const postReaction = async (reaction: string, slug: string) => {
-  console.log("OKKK", slug, reaction);
   const response = await httpClient.get(`ideas/${slug}/react?type=${reaction}`);
+  return response as any;
+};
+
+//post comment
+export const postCommentReaction = async (reaction: string, slug: string, commentSlug: string) => {
+  const response = await httpClient.get(`ideas/${slug}/comments/${commentSlug}/react?type=${reaction}`);
+  return response as any;
+};
+
+//post comment
+export const reportIdea = async (slug: string, payload: any) => {
+  const response = await httpClient.post(`ideas/${slug}/report`, payload);
+  return response as any;
+};
+
+//delete idea
+export const deleteIdea = async (slug: string) => {
+  const response = await httpClient.delete(`ideas/${slug}`);
   return response as any;
 };

@@ -1,8 +1,7 @@
 "use client"
 
 import { Input } from '@/components/ui/input';
-import { CheckCircleIcon, DownloadIcon, HeartIcon, HomeIcon, MessageCircleIcon, MoreHorizontalIcon, Paperclip, PaperclipIcon, ShareIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
-import Image from 'next/image';
+import { HomeIcon } from 'lucide-react';
 import {
     Select,
     SelectContent,
@@ -18,10 +17,9 @@ import { Ideas } from '@/types/Idea';
 import { Label } from '@/components/ui/label';
 import AsyncSelect from 'react-select/async';
 import { getCategoryList } from '@/routes/api';
-import { any } from 'zod';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { set } from 'date-fns';
-import toast from 'react-hot-toast';
+import Idea from '@/components/Idea';
+
 
 const pages = [
     { name: 'Idea', href: '#', current: false },
@@ -177,49 +175,7 @@ const FeedPage = () => {
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
                 // eslint-disable-next-line react/jsx-key
-                <div className="w-full mb-4 cursor-pointer" onClick={() => router.push(`/ideas/${idea.slug}`)}>
-                    <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
-                        <div className="flex justify-between items-start">
-                            <h2 className="text-2xl font-bold">{idea.title}</h2>
-                            <MoreHorizontalIcon className="text-gray-400" />
-                        </div>
-                        <div className="flex items-center space-x-4 mt-4">
-                            <Image className="aspect-square" alt="Sarrah" src={
-                                idea.staff ? idea.staff.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"
-                            } width={24} height={24} />
-                            <div>
-                                <div className="font-semibold">{idea.staff ? idea.staff.name : "Anonymous"}</div>
-                                <div className="text-xs text-gray-500">{idea.submittedAt}</div>
-                            </div>
-                        </div>
-                        <p className="mt-4 text-gray-700">
-                            {idea.content}
-                        </p>
-                        <div className="flex items-center space-x-2 mt-4">
-                            <ThumbsUpIcon className="text-gray-400" />
-                            <span className="text-gray-700">{idea.reactionsCount.THUMBS_UP?.toString()}</span>
-                            <ThumbsDownIcon className="text-gray-400" />
-                            <span className="text-gray-700">{idea.reactionsCount.THUMBS_DOWN?.toString()}</span>
-                            <MessageCircleIcon className="text-gray-400" />
-                            <span className="text-gray-700">{idea.commentsCount?.toString()}</span>
-                            {/* <ShareIcon className="text-gray-400" />
-                            <span className="text-gray-700">2k</span> */}
-                        </div>
-                        {idea.file && (
-                            <div className="inline-flex items-center px-4 py-2 space-x-2 bg-gray-100 rounded-lg mt-5">
-                                {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
-                                    <div className="inline-flex items-center px-4 py-2 space-x-2">
-                                        <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
-                                        <DownloadIcon className="text-gray-700" />
-                                    </div>
-                                ) : (
-                                    <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
-                                )}
-
-                            </div>
-                        )}
-                    </div>
-                </div>
+                <Idea {...idea} key={idea.id} />
             ))}
 
             {
