@@ -111,7 +111,7 @@ const Sidebar = () => {
                                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                                 <li>
                                                     <ul role="list" className="-mx-2 space-y-1">
-                                                        {permissions.map((item) => (
+                                                        {permissions?.map((item) => (
                                                             <li key={item.title}>
                                                                 <Link
                                                                     href={item.url}
@@ -204,7 +204,7 @@ const Sidebar = () => {
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                 <li>
                                     <ul role="list" className="-mx-2 space-y-3">
-                                        {permissions.map((item) => (
+                                        {permissions?.map((item) => (
                                             <li key={item.title}>
                                                 <Link
                                                     href={item.url}

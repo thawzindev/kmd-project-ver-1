@@ -67,6 +67,16 @@ const Page = () => {
                 </div>
             </div >
 
+            {
+                isFetching && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+                        <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
+                            Loading...
+                        </div>
+                    </div>
+                )
+            }
+
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -95,18 +105,7 @@ const Page = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-
-                                    {
-                                        (isFetching) && (
-                                            <tr>
-                                                <td colSpan={7} className="py-12 pl-4 pr-3 text-sm font-medium text-center text-gray-900 sm:pl-6">
-                                                    Loading...
-                                                </td>
-                                            </tr>
-                                        )
-                                    }
-
-                                    {(academics && !isFetching) && academics.map((Academic, key) => (
+                                    {(academics) && academics.map((Academic, key) => (
                                         <tr key={key}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-4 bg-gray-100">
                                                 {meta?.from + key}
