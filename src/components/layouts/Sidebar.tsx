@@ -28,7 +28,7 @@ const Sidebar = () => {
     const router = useRouter()
     const pathname = usePathname()
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [current, setCurrent] = useState(permissions.find((item) => item.url === pathname))
+    const [current, setCurrent] = useState(permissions?.find((item) => item.url === pathname))
 
     useEffect(() => {
         setCurrent(permissions.find((item) => item.url === pathname))

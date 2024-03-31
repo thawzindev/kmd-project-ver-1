@@ -29,7 +29,7 @@ const Page = () => {
                 firstLogin && <WelcomeModal />
             }
 
-            <h1 className="text-xl mb-5">Welcome back 👋, {user.name}</h1>
+            <h1 className="text-xl mb-5">Welcome back 👋, {user?.name}</h1>
             {/* <h1>First Login {JSON.stringify(firstLogin)}</h1>  */}
 
 
