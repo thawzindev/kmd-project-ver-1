@@ -131,7 +131,7 @@ const Navbar = () => {
                   </li>
                </ul> */}
 
-               Last Login - {format(new Date(user.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
+               Last Login - {format(new Date(user?.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
             </div>
          </div>
       </nav>
