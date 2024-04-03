@@ -1,7 +1,7 @@
 "use client"
 
+import useAcademicEditModal from "@/app/hooks/customs/useAcademicEditModal";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
-import useEditModal from "@/app/hooks/customs/useCategoryEditModal";
 import { useFetchAcedamicYear } from "@/app/hooks/queries/useFetchAcademicYear";
 import { AcademicYear } from "@/types/AcademicYear";
 import { HomeIcon } from "lucide-react";
@@ -17,7 +17,7 @@ const Page = () => {
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
-    const editModal = useEditModal();
+    const editModal = useAcademicEditModal();
     const deleteModal = useDeleteModal();
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchAcedamicYear(perPage, page);
@@ -100,6 +100,9 @@ const Page = () => {
                                             Final Closure Date
                                         </th>
                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Is Active
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Action
                                         </th>
                                     </tr>
@@ -122,14 +125,17 @@ const Page = () => {
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
                                                 {Academic.finalClosureDate}
                                             </td>
+                                            <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
+                                                {Academic.isActive ? "TRUE" : "FALSE"}
+                                            </td>
 
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                 <button onClick={() => editModal.onOpen(Academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                     Edit<span className="sr-only">, {Academic.name}</span>
                                                 </button>
-                                                <button onClick={() => deleteModal.onOpen(Academic.id, Academic.startDate)} className="text-red-600 hover:text-red-900 mx-2">
+                                                {/* <button onClick={() => deleteModal.onOpen(Academic.id, Academic.startDate)} className="text-red-600 hover:text-red-900 mx-2">
                                                     Delete<span className="sr-only">, {Academic.name}</span>
-                                                </button>
+                                                </button> */}
                                             </td>
                                         </tr>
                                     ))}

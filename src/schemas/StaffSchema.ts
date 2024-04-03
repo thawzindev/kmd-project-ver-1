@@ -8,8 +8,8 @@ export const StaffSchema = z.object({
   email: z.string().email(),
   department: z.string(),
   role: z.string(),
-  password: z.string().min(4).max(20),
-  password_confirmation: z.string().min(4).max(20),
+  password: z.string().min(8).max(20),
+  password_confirmation: z.string().min(8).max(20),
   avatar: z
     .any()
     .refine((files) => files?.length >= 1, { message: "Image is required." })
@@ -21,4 +21,12 @@ export const StaffSchema = z.object({
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
       message: `Max file size is 5MB.`,
     }),
+});
+
+export const StaffEditSchema = z.object({
+  name: z.string().min(5).max(20),
+  department: z.string().optional(),
+  role: z.string().optional(),
+  password: z.string().min(5).max(20).optional().or(z.literal("")),
+  password_confirmation: z.string().min(5).max(20).optional().or(z.literal("")),
 });

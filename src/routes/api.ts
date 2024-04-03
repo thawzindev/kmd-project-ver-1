@@ -59,6 +59,12 @@ export const createStaff = async (payload: any) => {
   return response as any;
 };
 
+//Edit
+export const editStaff = async (id: string, payload: any) => {
+  const response = await httpClient.put(`staffs/${id}`, payload);
+  return response as any;
+};
+
 //list
 export const getStaffList = async (perPage: number, page: number) => {
   const response = await httpClient.get(`staffs?perpage=${perPage}&page=${page}`);
@@ -215,5 +221,21 @@ export const reportIdea = async (slug: string, payload: any) => {
 //delete idea
 export const deleteIdea = async (slug: string) => {
   const response = await httpClient.delete(`ideas/${slug}`);
+  return response as any;
+};
+
+//toggle staff status
+export const toggleStaffStatus = async (slug: string, type: string) => {
+  const response = await httpClient.get(`staffs/${slug}/${type}`);
+  return response as any;
+};
+
+export const reportAction = async (slug: string) => {
+  const response = await httpClient.get(`reports/${slug}/action`);
+  return response as any;
+};
+
+export const updateAcademic = async (id: string, payload: any) => {
+  const response = await httpClient.put(`academics/${id}`, payload);
   return response as any;
 };

@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import Comment from "@/components/Comment";
 
 const Page = () => {
   const queryClient = useQueryClient();
@@ -61,7 +62,7 @@ const Page = () => {
       toast.error(error.message, { duration: 2000 });
       console.log("error", error.message);
     },
-    onSettled: () => {},
+    onSettled: () => { },
   });
 
   const commentReactionMutation = useMutation({
@@ -76,7 +77,7 @@ const Page = () => {
       toast.error(error.message, { duration: 2000 });
       console.log("error", error.message);
     },
-    onSettled: () => {},
+    onSettled: () => { },
   });
 
   const postComment = () => {
@@ -97,17 +98,6 @@ const Page = () => {
       return;
     }
     reactionMutation.mutate(type);
-  };
-
-  const createCommentReaction = (type: string, comment: any) => {
-    if (comment?.currentReaction === "THUMBS_UP" && type === "THUMBS_DOWN") {
-      toast.error("you have already thumb up. Please remove current reaction to thumb down.");
-      return;
-    } else if (comment?.currentReaction === "THUMBS_DOWN" && type === "THUMBS_UP") {
-      toast.error("you have already thumb down. Please remove current reaction to thumb up.");
-      return;
-    }
-    commentReactionMutation.mutateAsync({ commentId: comment.id, ideaSlug: idea.slug, reaction: type });
   };
 
   return (
@@ -187,34 +177,7 @@ const Page = () => {
           <div className="space-y-6">
             {comments?.results?.data &&
               comments?.results?.data.map((comment: any) => {
-                return (
-                  <div className="flex space-x-3" key={comment.id}>
-                    <Image
-                      className="aspect-circle w-9 h-9"
-                      alt="Sarrah"
-                      src={comment?.staff?.avatar ? comment?.staff?.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"}
-                      width={9}
-                      height={9}
-                    />
-                    <div>
-                      <div className="text-sm font-medium">{comment.isAnonymous !== true ? comment?.staff?.name : "Anonymous"}</div>
-                      <div className="text-xs text-gray-500">{comment?.submittedAt}</div>
-                      <p className="mt-1 text-sm text-gray-700">{comment?.content}</p>
-                      <div className="mt-2 flex items-center text-sm text-gray-500 gap-1">
-                        <ThumbsUpIcon
-                          className={cn(comment?.currentReaction === "THUMBS_UP" ? "fill-emerald-600" : "", "cursor-pointer")}
-                          onClick={() => createCommentReaction("THUMBS_UP", comment)}
-                        />
-                        <span className="ml-1">{comment?.reactionsCount?.THUMBS_UP ?? 0}</span>
-                        <ThumbsDownIcon
-                          className={cn(comment?.currentReaction === "THUMBS_DOWN" ? "fill-red-400" : "", "cursor-pointer")}
-                          onClick={() => createCommentReaction("THUMBS_DOWN", comment)}
-                        />
-                        <span className="ml-1">{comment?.reactionsCount?.THUMBS_DOWN ?? 0}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
+                return <Comment comment={comment} idea={idea} key={comment.id} />
               })}
           </div>
 

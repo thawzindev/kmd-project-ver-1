@@ -6,8 +6,12 @@ import React, { useState } from "react";
 import { useFetchCategories } from "@/app/hooks/queries/useFetchCategories";
 import { useFetchStaffs } from "@/app/hooks/queries/useFetchStaffs";
 import { Staff } from "@/types/Staff";
-import useEditModal from "@/app/hooks/customs/useCategoryEditModal";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
+import { cn } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toggleStaffStatus } from "@/routes/api";
+import toast from "react-hot-toast";
+import useStaffEditModal from "@/app/hooks/customs/useStaffEditModal";
 
 const pages = [
     { name: 'Staffs', href: '#', current: false },
@@ -18,12 +22,39 @@ const Page = () => {
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
-    const editModal = useEditModal();
+    const editModal = useStaffEditModal();
     const deleteModal = useDeleteModal();
+
+    const queryClient = useQueryClient();
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchStaffs(perPage, page);
     const staffs = data?.results?.data as Staff[]
     const meta = data?.results?.meta
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const mutation = useMutation({
+        mutationFn: (staff: Staff) => {
+            return toggleStaffStatus(staff.id, staff.disabledAt ? 'enable' : 'disable');
+        },
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            toast.success(`Successfully update the status`, { duration: 2000 })
+        },
+        onError: (error) => {
+            toast.error(error.message, { duration: 2000 })
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+            setIsSubmitting(false);
+        },
+    })
+
+    const updateStaffStatus = (staff: Staff) => {
+        if (window.confirm(`Are you sure you want to ${staff.disabledAt ? 'enable' : 'disable'} ${staff.name}?`)) {
+            setIsSubmitting(true);
+            mutation.mutate(staff)
+        }
+    }
 
     return (
 
@@ -69,6 +100,16 @@ const Page = () => {
                 </div>
             </div >
 
+            {
+                (isFetching || isSubmitting) && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+                        <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
+                            Loading...
+                        </div>
+                    </div>
+                )
+            }
+
 
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -101,18 +142,7 @@ const Page = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-
-                                    {
-                                        (isFetching) && (
-                                            <tr>
-                                                <td colSpan={7} className="py-12 pl-4 pr-3 text-sm font-medium text-center text-gray-900 sm:pl-6">
-                                                    Loading...
-                                                </td>
-                                            </tr>
-                                        )
-                                    }
-
-                                    {(staffs && !isFetching) && staffs.map((staff, key) => (
+                                    {(staffs) && staffs.map((staff, key) => (
                                         <tr key={key}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-4 bg-gray-100">
                                                 {meta?.from + key}
@@ -136,8 +166,13 @@ const Page = () => {
                                                 <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                     Edit<span className="sr-only">, {staff.name}</span>
                                                 </button>
-                                                <button onClick={() => deleteModal.onOpen(staff.id, staff.name)} className="text-red-600 hover:text-red-900 mx-2">
+                                                {/* <button onClick={() => deleteModal.onOpen(staff.id, staff.name)} className="text-red-600 hover:text-red-900 mx-2">
                                                     Delete<span className="sr-only">, {staff.name}</span>
+                                                </button> */}
+                                                <button onClick={() => updateStaffStatus(staff)} className={cn('mx-2', staff.disabledAt ? "text-emerald-500" : "text-orange-600")}>
+                                                    {
+                                                        staff.disabledAt ? 'Enable' : 'Disable'
+                                                    }
                                                 </button>
                                             </td>
                                         </tr>

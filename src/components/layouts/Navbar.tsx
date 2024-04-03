@@ -10,7 +10,7 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@/components/ui/sheet"
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { BellIcon } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { getNotifications, markAllNotificationAsRead } from '@/routes/api';
@@ -19,6 +19,12 @@ import Link from 'next/link';
 const Navbar = () => {
 
    const [allNotificationAsRead, setAllNotificationAsRead] = React.useState(false)
+   const [sheetOpen, setSheetOpen] = React.useState(false)
+
+   const closeSheet = () => {
+      console.log('close sheet');
+      setSheetOpen(false);
+   }
 
    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
    const user = JSON.parse(cookieObj.get("user") as string)
@@ -41,12 +47,17 @@ const Navbar = () => {
 
    const markAllAsRead = () => {
       setAllNotificationAsRead(true)
+      setSheetOpen(false)
    }
 
 
    return (
 
+<<<<<<< HEAD
       <nav className="bg-white dark:bg-gray-900 fixed w-full top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+=======
+      <nav className="bg-gray-200 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+>>>>>>> 5bbb308dc27ce6d0e5e2a7823a457a94ad45123f
          <div className="max-w-screen-full flex flex-wrap items-center justify-between mx-auto p-4">
             <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"> */}
@@ -58,7 +69,9 @@ const Navbar = () => {
 
                <Sheet>
                   <SheetTrigger>
-                     <button type="button" className="text-blue-700 bg-gray-200 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                     <button type="button" className="text-blue-700 bg-gray-300 font-medium rounded-lg text-sm px-2 py-2 text-center" onClick={() => {
+                        setSheetOpen(!sheetOpen)
+                     }}>
                         <BellIcon className="w-5 h-5" />
                         {/* {data?.unread_count && ( */}
                         <span className="absolute top-2 right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
@@ -79,14 +92,6 @@ const Navbar = () => {
                            <div>
                               {
                                  data?.notifications?.data && data?.notifications?.data.map((notification: any) => (
-                                    // <div key={notification.id} className="flex items-center justify-between p-2 border-b border-gray-100 dark:border-gray-700">
-                                    //    <div className="flex items-center space-x-2">
-                                    //       <span className="text-sm font-medium">{notification.title}</span>
-                                    //       <span className="text-xs text-gray-500 dark:text-gray-400">{notification.dateTime}</span>
-                                    //    </div>
-                                    //    <br />
-                                    //    <p className="text-xs text-gray-500 dark:text-gray-400">{notification.body}</p>
-                                    // </div>
                                     <div className="flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2" key={notification.id}>
                                        <div className="w-0 flex-1 pt-0.5">
                                           <p className="text-sm font-medium text-gray-900">{notification.title}</p>

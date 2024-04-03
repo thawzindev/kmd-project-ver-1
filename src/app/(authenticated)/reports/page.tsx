@@ -18,6 +18,9 @@ import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useCategoryEditModal from "@/app/hooks/customs/useCategoryEditModal";
 import { useFetchReports } from "@/app/hooks/queries/useFetchReports";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { reportAction } from "@/routes/api";
+import toast from "react-hot-toast";
 
 const pages = [
     { name: 'Reports', href: '#', current: false },
@@ -26,8 +29,11 @@ const pages = [
 
 const Page = () => {
 
+    const queryClient = useQueryClient();
+
     const searchParams = useSearchParams();
     const urlParams = searchParams.get('page') || 1;
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(+urlParams);
@@ -37,12 +43,37 @@ const Page = () => {
     const router = useRouter();
     const pathname = usePathname();
 
+    const mutation = useMutation({
+        mutationFn: (report: any) => {
+            return reportAction(report.id);
+        },
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            toast.success(`Successfully make an action.`, { duration: 2000 })
+        },
+        onError: (error) => {
+            toast.error(error.message, { duration: 2000 })
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+            setIsSubmitting(false);
+        },
+    })
+
     useEffect(() => {
         const params = new URLSearchParams(searchParams);
         params.set('page', `${page}`);
         router.push(`${pathname}?${params.toString()}`);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
+
+
+    const makeAction = (report: any) => {
+        if (window.confirm('Are you sure you want to make action?')) {
+            setIsSubmitting(true);
+            mutation.mutate(report)
+        }
+    }
 
 
 
@@ -94,7 +125,7 @@ const Page = () => {
             </div >
 
             {
-                isFetching && (
+                (isFetching || isSubmitting) && (
                     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
                         <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
                             Loading...
@@ -127,6 +158,9 @@ const Page = () => {
                                             Reported By
                                         </th>
                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Action At
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Action
                                         </th>
                                     </tr>
@@ -149,12 +183,12 @@ const Page = () => {
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {report?.reportedBy?.name}
                                             </td>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                {report?.actionAt}
+                                            </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                <button onClick={() => editModal.onOpen(report)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {report.reason}</span>
-                                                </button>
-                                                <button onClick={() => deleteModal.onOpen(report.id, report.reason)} className="text-red-600 hover:text-red-900 mx-2">
-                                                    Delete<span className="sr-only">, {report.reason}</span>
+                                                <button onClick={() => makeAction(report)} className="text-indigo-600 hover:text-indigo-900 mx-2 disabled:text-gray-200" disabled={report?.actionAt}>
+                                                    Make Action
                                                 </button>
                                             </td>
                                         </tr>

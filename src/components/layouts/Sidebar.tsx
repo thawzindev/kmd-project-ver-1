@@ -18,6 +18,8 @@ const Sidebar = () => {
 
     // const document = window.document
 
+    const [loggingOut, setLoggingOut] = useState(false);
+
     const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
     const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
 
@@ -37,8 +39,9 @@ const Sidebar = () => {
 
 
     const logout = () => {
+        setLoggingOut(true);
         removeLoginData();
-        router.push('/login')
+        router.push('/dashboard')
     }
 
     return (
@@ -47,6 +50,16 @@ const Sidebar = () => {
                 <span className="sr-only">Open sidebar</span>
                 <AlignJustifyIcon className="h-6 w-6" aria-hidden="true" />
             </button>
+
+            {
+                loggingOut && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+                        <div className="py-12 px-4 text-sm font-medium text-center text-gray-900">
+                            Logging Out
+                        </div>
+                    </div>
+                )
+            }
 
             <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 overflow-auto bg-[#F9F9F9] lg:border-r lg:border-gray-200 lg:pt-1 lg:pb-1">
 
