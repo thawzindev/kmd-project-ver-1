@@ -43,7 +43,7 @@ const Page = () => {
             console.log('error', error.message)
         },
         onSettled: () => {
-            setIsSubmitting(false);
+            // setIsSubmitting(false);
         }
     })
 
@@ -58,7 +58,8 @@ const Page = () => {
 
             <div className="border p-6 rounded-lg shadow-sm bg-gray-50">
                 <div className="my-4">
-                    <h1 className="text-3xl font-sans font-bold">WELCOME BACK</h1>
+                    <h1 className="text-3xl font-sans font-bold mb-3">EduGateways</h1>
+                    {/* <h1 className="text-xl font-sans font-bold">WELCOME BACK</h1> */}
                     <h2 className="text-xs font-sans-serif text-gray-500">Welcome back! Please enter your details.</h2>
                 </div>
 

@@ -12,6 +12,8 @@ import { Toaster } from "react-hot-toast";
 import EditCategoryModal from "../modals/EditCategoryModal";
 import DeleteModal from "../modals/DeleteModal";
 import EditDepartmentModal from "../modals/EditDepartmentModal";
+import EditAcademicModal from "../modals/EditAcademicModal";
+import EditStaffModal from "../modals/EditStaffModal";
 
 const Providers = ({ children, ...props }: ThemeProviderProps) => {
 
@@ -39,6 +41,8 @@ const Providers = ({ children, ...props }: ThemeProviderProps) => {
                 <Toaster />
                 <EditCategoryModal />
                 <EditDepartmentModal />
+                <EditAcademicModal />
+                <EditStaffModal />
                 <DeleteModal />
             </main>
         </QueryClientProvider >

@@ -11,8 +11,8 @@ const inter = Kanit({
 });
 
 export const metadata: Metadata = {
-  title: "GP-11",
-  description: "GP-11",
+  title: "EduGateways",
+  description: "Next generation of education platform",
 };
 
 export default function RootLayout({

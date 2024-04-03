@@ -41,9 +41,8 @@ const DeleteModal = () => {
     })
 
     const onDelete = async (slug: string) => {
-        console.log(slug)
         setIsLoading(true);
-        await mutation.mutate(slug)
+        mutation.mutate(slug)
         setIsLoading(false);
         onToggle();
     }

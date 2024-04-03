@@ -32,6 +32,7 @@ const SettingPage = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors }
     } = useForm<AcademicSchemaType>({ resolver: zodResolver(AcademicSchema) });
 
@@ -52,10 +53,13 @@ const SettingPage = () => {
     const handleCalendarSelect = (selectedDate: Date, field: string) => {
         if (field === "start_date") {
             setStartDate(selectedDate);
+            setValue("start_date", format(selectedDate, 'yyyy-MM-dd'))
         } else if (field === "final_closure_date") {
             setFinalClosureDate(selectedDate);
+            setValue("final_closure_date", format(selectedDate, 'yyyy-MM-dd'))
         } else if (field === "closure_date") {
             setClosureDate(selectedDate)
+            setValue("closure_date", format(selectedDate, 'yyyy-MM-dd'))
         }
         setShowCalendar(false);
     };
@@ -70,7 +74,7 @@ const SettingPage = () => {
             router.push('/academics')
         },
         onError: (error) => {
-            toast.success(error.message, { duration: 2000 })
+            toast.error(error.message, { duration: 2000 })
             console.log('error', error.message)
         },
         onSettled: () => {
@@ -98,8 +102,8 @@ const SettingPage = () => {
                     <Input type="text" label="Academic Year"
                         autoFocus
                         placeholder="Enter academic year ..."
-                        error={errors.academic_year && errors.academic_year.message}
-                        {...register("academic_year")}
+                        error={errors.name && errors.name.message}
+                        {...register("name")}
                         className="bg-gray-100"
                     />
                 </div>
@@ -119,7 +123,7 @@ const SettingPage = () => {
                                     {...register("start_date")}
                                     error={errors.start_date && errors.start_date.message}
                                 />
-                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                                {/* <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} /> */}
                             </div>
                         </PopoverTrigger>
 
@@ -134,16 +138,6 @@ const SettingPage = () => {
 
                     </Popover>
                 </div>
-
-                {/* <div className="mt-2">
-                    <Input type="text" label="Start Date"
-                        autoFocus
-                        placeholder="Enter start date..."
-                        error={errors.start_date && errors.start_date.message}
-                        {...register("start_date")}
-                        className="bg-gray-100"
-                    />
-                </div> */}
 
                 <div className="mt-2 w-full">
                     <Popover>
@@ -160,7 +154,7 @@ const SettingPage = () => {
                                     {...register("final_closure_date")}
                                     error={errors.final_closure_date && errors.final_closure_date.message}
                                 />
-                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                                {/* <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} /> */}
                             </div>
                         </PopoverTrigger>
 
@@ -175,15 +169,6 @@ const SettingPage = () => {
                     </Popover>
                 </div>
 
-                {/* <div className="mt-2">
-                    <Input type="text" label="Final Closure Date"
-                        autoFocus
-                        placeholder="Enter final closure date..."
-                        error={errors.final_closure_date && errors.final_closure_date.message}
-                        {...register("final_closure_date")}
-                        className="bg-gray-100"
-                    />
-                </div> */}
 
                 <div className="mt-2 w-full">
                     <Popover>
@@ -200,7 +185,7 @@ const SettingPage = () => {
                                     {...register("closure_date")}
                                     error={errors.closure_date && errors.closure_date.message}
                                 />
-                                <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} />
+                                {/* <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 right-3 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleInputClick} /> */}
                             </div>
                         </PopoverTrigger>
 
