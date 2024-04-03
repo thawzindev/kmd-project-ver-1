@@ -159,7 +159,7 @@ const Page = () => {
                 <div className="flex items-center space-x-2 mt-10">
                     {
                         <Switch
-                            {...register("is_anonymous", { value: "1" })}
+                            {...register("is_anonymous", { value: "0" })}
                             onCheckedChange={(newValue: any) => {
                                 setValue('is_anonymous', newValue ? "1" : "0")
                             }}

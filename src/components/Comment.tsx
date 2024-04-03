@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { deleteIdea, postCommentReaction, reportIdea } from "@/routes/api";
+import { deleteIdea, postCommentReaction, reportComment, reportIdea } from "@/routes/api";
 import { cn } from "@/lib/utils";
 import { Ideas } from "@/types/Idea";
 
@@ -47,10 +47,10 @@ const Comment = ({ comment, idea }) => {
 
     const reportMutation = useMutation({
         mutationFn: (payload: any) => {
-            return reportIdea(idea.slug, payload);
+            return reportComment(idea.slug, comment.id, payload);
         },
         onSuccess: async (data) => {
-            toast.success('Reported this idea', { duration: 2000 })
+            toast.success('Reported the comment successfully.', { duration: 2000 })
         },
         onError: (error) => {
             toast.error(error.message, { duration: 2000 })
@@ -98,7 +98,7 @@ const Comment = ({ comment, idea }) => {
                     <div className="text-sm font-medium">{comment.isAnonymous !== true ? comment?.staff?.name : "Anonymous"}</div>
                     <DropdownMenu open={actionOpen} onOpenChange={setActionOpen}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="xs">
+                            <Button variant="ghost" size="xs" className="ml-3">
                                 <MoreHorizontalIcon className="text-gray-400" />
                             </Button>
                         </DropdownMenuTrigger>
@@ -156,7 +156,7 @@ const Comment = ({ comment, idea }) => {
                                 </div>
                             </div>
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" onClick={submitReport} disabled={isSubmitting}>
+                                <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-red-200" onClick={submitReport} disabled={isSubmitting}>
                                     Submit
                                 </button>
                                 <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" onClick={() => setModalOpen(false)} disabled={isSubmitting}>

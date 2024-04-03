@@ -90,7 +90,11 @@ const Idea = (idea: Ideas) => {
         <div className="w-full mb-4" >
             <div className="bg-white p-6 rounded-lg shadow-md mx-auto border border-gray-200">
                 <div className="flex justify-between items-start">
-                    <h2 className="text-2xl font-bold cursor-pointer" onClick={() => router.push(`/ideas/${idea.slug}`)}>{idea.title}</h2>
+                    <h2 className="text-2xl font-bold cursor-pointer"
+                        onClick={() => router.push(`/ideas/${idea.slug}`)}
+                    >
+                        {idea.title}
+                    </h2>
                     {/* <MoreHorizontalIcon className="text-gray-400" /> */}
                     <DropdownMenu open={actionOpen} onOpenChange={setActionOpen}>
                         <DropdownMenuTrigger asChild>
@@ -124,10 +128,12 @@ const Idea = (idea: Ideas) => {
                         <div className="text-xs text-gray-500">{idea.submittedAt}</div>
                     </div>
                 </div>
-                <p className="mt-4 text-gray-700">
+                <p className="mt-4 text-gray-700" onClick={() => router.push(`/ideas/${idea.slug}`)}>
                     {idea.content}
                 </p>
-                <div className="flex items-center space-x-2 mt-4">
+                <div className="flex items-center space-x-2 mt-4 cursor-pointer"
+                    onClick={() => router.push(`/ideas/${idea.slug}`)}
+                >
                     <ThumbsUpIcon className="text-gray-400" />
                     <span className="text-gray-700">{idea.reactionsCount.THUMBS_UP?.toString()}</span>
                     <ThumbsDownIcon className="text-gray-400" />
@@ -142,10 +148,14 @@ const Idea = (idea: Ideas) => {
                         {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
                             <div className="inline-flex items-center px-4 py-2 space-x-2">
                                 <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
-                                <DownloadIcon className="text-gray-700" />
+                                <DownloadIcon className="text-gray-700 cursor-pointer"
+                                    onClick={() => {
+                                        window.open(idea.file.url, '_blank')
+                                    }}
+                                />
                             </div>
                         ) : (
-                            <Image className="aspect-square" alt="Sarrah" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s" width={240} height={200} />
+                            <Image className="aspect-square" alt="Sarrah" src={idea.file.url} width={240} height={200} />
                         )}
 
                     </div>

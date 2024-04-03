@@ -239,3 +239,8 @@ export const updateAcademic = async (id: string, payload: any) => {
   const response = await httpClient.put(`academics/${id}`, payload);
   return response as any;
 };
+
+export const reportComment = async (ideaSlug: string, commentId: string, payload: any) => {
+  const response = await httpClient.post(`ideas/${ideaSlug}/comments/${commentId}/report`, payload);
+  return response as any;
+};
