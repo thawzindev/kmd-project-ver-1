@@ -9,7 +9,7 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
         <>
             <Sidebar />
             <div className="md:pl-64 flex flex-col">
-                <div className="sticky top-0 flex-shrink-0 flex h-16 bg-white">
+                <div className="sticky top-0 flex-shrink-0 flex h-16 bg-white z-20">
                     <Navbar />
                 </div>
                 <div className="content p-6">
