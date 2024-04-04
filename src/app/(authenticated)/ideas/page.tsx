@@ -35,7 +35,7 @@ const FeedPage = () => {
 
     const [queryString, setQueryString] = useState("");
 
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState(5);
     const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('');
