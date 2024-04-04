@@ -105,7 +105,59 @@ const FeedPage = () => {
                 </div>
             </div >
 
-            <div className='flex gap-4 text-sm mb-5'>
+
+            <div className='mb-5 z-0 '>
+                <div className='flex flex-wrap items-start gap-4 text-sm mb-5 z-0'>
+                    <div className='flex flex-col'>
+                        <Label>Keywords</Label>
+                        <Input placeholder='Search here ...' className='h-10 w-72' onChange={(e) => setKeyword(e.target.value)} />
+                    </div>
+                    <div className='flex flex-col'>
+                        <Label className="mb-2">Type</Label>
+                        <Select defaultValue='all' onValueChange={(value) => setType(value)}>
+                            <SelectTrigger className="w-32">
+                                <SelectValue placeholder="Sort" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="anonymous">Anonymous</SelectItem>
+                                <SelectItem value="not_anonymous">Not Anonymous</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className='flex flex-col'>
+                        <Label className="mb-2">Sort</Label>
+                        <Select defaultValue='all' onValueChange={(value) => setSort(value)}>
+                            <SelectTrigger className="w-32">
+                                <SelectValue placeholder="Sort" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="popular">Sort by most popular</SelectItem>
+                                <SelectItem value="views">Sort by most view</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className='flex flex-col'>
+                        <Label>Category</Label>
+                        <AsyncSelect
+                            className="mt-2 w-32"
+                            cacheOptions
+                            loadOptions={loadCategoryOptions}
+                            defaultOptions
+                            onChange={(newValue: any) => {
+                                setCategory(newValue.value as string)
+                            }}
+                        />
+                    </div>
+                    <div className='mt-5'>
+                        <Button className='w-32 h-10' variant={'primary'} onClick={() => filterResult()} type='submit'>Filter</Button>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* <div className='flex gap-4 text-sm mb-5'>
                 <div>
                     <Label>Keywords</Label>
                     <Input placeholder='Search here ...' className='h-10 w-72' onChange={(e) => setKeyword(e.target.value)} />
@@ -157,7 +209,7 @@ const FeedPage = () => {
                     <Label />
                     <Button className='w-32' variant={'primary'} onClick={() => filterResult()} type='submit'>Filter</Button>
                 </div>
-            </div>
+            </div> */}
 
             {/* <div className="mx-auto py-4">
                 <Feed />
