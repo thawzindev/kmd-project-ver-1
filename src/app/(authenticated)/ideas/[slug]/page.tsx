@@ -106,9 +106,7 @@ const Page = () => {
         <div className="p-6">
           {idea && idea ? (
             <>
-              <div className="flex justify-between items-start">
-                <h2 className="text-2xl font-bold">{idea.title}</h2>
-              </div>
+
               <div className="flex items-center space-x-4 mt-4">
                 <Image
                   className="aspect-square"
@@ -122,7 +120,15 @@ const Page = () => {
                   <div className="text-xs text-gray-500">{idea.submittedAt}</div>
                 </div>
               </div>
+
+              <div className="flex justify-between items-start mt-2">
+                <h2 className="text-2xl font-bold">{idea.title}</h2>
+              </div>
+
               <p className="mt-4 text-gray-700">{idea.content}</p>
+              <small className="px-2 bg-blue-200 rounded text-gray-700 mt-4">
+                {idea.category?.name}
+              </small>
               <div className="flex items-center space-x-2 mt-4">
                 <ThumbsUpIcon className={cn(idea?.currentReaction === "THUMBS_UP" ? "fill-emerald-600" : "", "cursor-pointer")} onClick={() => createReaction("THUMBS_UP")} />
                 <span className="text-gray-700">{idea.reactionsCount.THUMBS_UP?.toString()}</span>
@@ -134,27 +140,20 @@ const Page = () => {
                             <span className="text-gray-700">2k</span> */}
               </div>
               {idea.file && (
-                <div className="inline-flex items-center px-4 py-2 space-x-2 bg-gray-100 rounded-lg mt-5">
-                  {idea.file && !["jpg", "jpeg", "png"].includes(idea.file.type.toString()) ? (
-                    <div className="inline-flex items-center px-4 py-2 space-x-2">
-                      <span className="font-medium text-gray-700">
-                        {idea.file.url
-                          .split("/")
-                          .pop()
-                          ?.replace(/\.[^/.]+$/, "")}
-                        .{idea.file.type.toString()}
-                      </span>
-                      <DownloadIcon className="text-gray-700" />
+                <div className="inline-flex items-center px-2 py-1 space-x-2 bg-gray-100 rounded-lg mt-5">
+                  {idea.file && !['jpg', 'jpeg', 'png'].includes(idea.file.type.toString()) ? (
+                    <div className="inline-flex items-center px-2 py-1 space-x-2">
+                      <span className="font-medium text-gray-700">{idea.file.url.split('/').pop()?.replace(/\.[^/.]+$/, '')}.{idea.file.type.toString()}</span>
+                      <DownloadIcon className="text-gray-700 cursor-pointer"
+                        onClick={() => {
+                          window.open(idea.file.url, '_blank')
+                        }}
+                      />
                     </div>
                   ) : (
-                    <Image
-                      className="aspect-square"
-                      alt="Sarrah"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"
-                      width={240}
-                      height={200}
-                    />
+                    <Image className="aspect-square" alt="Sarrah" src={idea.file.url} width={240} height={200} />
                   )}
+
                 </div>
               )}
             </>
@@ -169,14 +168,14 @@ const Page = () => {
           )}
         </div>
 
-        <hr className="h-0.5 my-8 bg-gray-400 border-0 dark:bg-gray-400" />
+        <hr className="h-0.5 my-4 bg-gray-400 border-0 dark:bg-gray-400" />
 
         <div className="w-full mx-auto px-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Comments</h2>
 
           <div className="space-y-6">
-            {comments?.results?.data &&
-              comments?.results?.data.map((comment: any) => {
+            {comments?.results &&
+              comments?.results.map((comment: any) => {
                 return <Comment comment={comment} idea={idea} key={comment.id} />
               })}
           </div>

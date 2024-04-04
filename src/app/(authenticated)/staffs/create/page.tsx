@@ -15,6 +15,7 @@ import { useFetchRole } from "@/app/hooks/queries/useFetchRoles";
 import Select from 'react-select'
 import { Label } from "@/components/ui/label";
 import AsyncSelect from 'react-select/async';
+import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
 
 type StaffSchemaType = z.infer<typeof StaffSchema>;
 
@@ -96,10 +97,14 @@ const Page = () => {
         }
     })
 
-    const loadDepartmentOptions = async (inputValue: string) => {
-        const response = await getDepartmentList(20, 1, inputValue)
-        return response?.results?.data.map(item => ({ label: item.name, value: item.slug }));
-    };
+    const { data: departmentsRaw } = useFetchDepartment();
+
+    const departments = departmentsRaw?.results.map((department) => {
+        return {
+            label: department.name,
+            value: department.name
+        }
+    })
 
     return (
         <Form title="Create Staff" buttonText="Save" buttonLoadingText="Saving ..." onSubmit={submit} isSubmitting={isSubmitting} onCancel={onCancel}>
@@ -125,16 +130,18 @@ const Page = () => {
                 </div>
 
                 <div className="mt-2">
-                    <Label htmlFor={"Department"}>Department</Label>
-                    <AsyncSelect
-                        cacheOptions
-                        loadOptions={loadDepartmentOptions}
-                        defaultOptions
-                        {...register("department")}
-                        onChange={(newValue: any) => {
-                            setValue('department', newValue.value as string)
-                        }}
-                    />
+                    <Label htmlFor={"Role"}>Department</Label>
+
+                    {
+                        <Select
+                            options={departments}
+                            className=""
+                            {...register("department")}
+                            onChange={(newValue: any) => {
+                                setValue('department', newValue.value as string)
+                            }}
+                        />
+                    }
                     {
                         errors.department && <p className="text-red-500 text-xs my-2">{errors.department.message}</p>
                     }

@@ -51,6 +51,12 @@ export const deleteCategory = async (slug: string) => {
   return response as any;
 };
 
+//delete
+export const deleteComment = async (ideaSlug: string, slug: string) => {
+  const response = await httpClient.delete(`ideas/${ideaSlug}/comments/${slug}`);
+  return response as any;
+};
+
 //Staffs
 
 //create
@@ -86,9 +92,9 @@ export const createDepartment = async (payload: any) => {
 };
 
 //list
-export const getDepartmentList = async (perPage: number, page: number, search?: string) => {
-  let url = `departments?perpage=${perPage}&page=${page}`;
-  if (search) url += `&search=${search}`;
+export const getDepartmentList = async (search?: string) => {
+  let url = `departments`;
+  if (search) url += `?search=${search}`;
   const response = await httpClient.get(url);
   return response as any;
 };

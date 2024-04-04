@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { deleteIdea, postCommentReaction, reportComment, reportIdea } from "@/routes/api";
+import { deleteComment, deleteIdea, postCommentReaction, reportComment, reportIdea } from "@/routes/api";
 import { cn } from "@/lib/utils";
 import { Ideas } from "@/types/Idea";
 
@@ -63,6 +63,25 @@ const Comment = ({ comment, idea }) => {
         },
     })
 
+    const commentDeleteMutation = useMutation({
+        mutationFn: () => {
+            return deleteComment(idea.slug, comment.id);
+        },
+        onSuccess: async (data) => {
+            toast.success('Deleted the idea', { duration: 2000 })
+            queryClient.invalidateQueries({ queryKey: ['comments'] })
+        },
+        onError: (error) => {
+            toast.error(error.message, { duration: 2000 })
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+            setReportReason('')
+            setModalOpen(false)
+            setIsSubmitting(false)
+        },
+    })
+
     const createCommentReaction = (type: string, comment: any) => {
         if (comment?.currentReaction === "THUMBS_UP" && type === "THUMBS_DOWN") {
             toast.error("you have already thumb up. Please remove current reaction to thumb down.");
@@ -80,6 +99,13 @@ const Comment = ({ comment, idea }) => {
             reason: reportReason
         }
         reportMutation.mutate(payload)
+    }
+
+    const submitDeleteIdea = () => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            setIsSubmitting(true)
+            commentDeleteMutation.mutate()
+        }
     }
 
     return (
@@ -107,15 +133,19 @@ const Comment = ({ comment, idea }) => {
                                 <AlertCircleIcon className="w-5 h-5 mr-2" />
                                 Report
                             </DropdownMenuItem>
-                            {/* <DropdownMenuGroup>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-red-600 hover:text-red-800"
-                                    onClick={() => submitDeleteIdea()}
-                                >
-                                    <TrashIcon className="w-5 h-5 mr-2" />
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenuGroup> */}
+                            {
+                                comment?.isOwner && (
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem className="text-red-600 hover:text-red-800"
+                                            onClick={() => submitDeleteIdea()}
+                                        >
+                                            <TrashIcon className="w-5 h-5 mr-2" />
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                )
+                            }
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

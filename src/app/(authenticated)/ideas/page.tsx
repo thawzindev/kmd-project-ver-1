@@ -56,9 +56,9 @@ const FeedPage = () => {
     const filterResult = () => {
         const params = new URLSearchParams(searchParams);
         params.set('search', `${keyword}`);
-        params.set('type', `${type}`);
+        params.set('anonymous', `${type}`);
         params.set('category', `${category}`);
-        params.set('sort', `${sort}`);
+        params.set('sort', `${sort === 'all' ? '' : sort}`);
         setQueryString(params.toString());
         router.push(`${pathname}?${params.toString()}`);
     }
@@ -120,8 +120,8 @@ const FeedPage = () => {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="anonymous">Anonymous</SelectItem>
-                            <SelectItem value="not_anonymous">Not Anonymous</SelectItem>
+                            <SelectItem value="1">Anonymous</SelectItem>
+                            <SelectItem value="0">Not Anonymous</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -149,6 +149,7 @@ const FeedPage = () => {
                             <SelectItem value="all">All</SelectItem>
                             <SelectItem value="popular">Sort by most popular</SelectItem>
                             <SelectItem value="views">Sort by most view</SelectItem>
+                            <SelectItem value="comments">Sort by most comment</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

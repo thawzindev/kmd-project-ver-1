@@ -34,9 +34,7 @@ const Page = () => {
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchDepartment(perPage, page);
 
-    const departments = data?.results?.data
-
-    const meta = data?.results?.meta
+    const departments = data?.results;
 
     return (
 
@@ -115,7 +113,7 @@ const Page = () => {
                                     {departments && departments.map((department: any, key: number) => (
                                         <tr key={department.slug}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {meta?.from + key}
+                                                {key + 1}
                                             </td>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {department.name}
@@ -137,7 +135,7 @@ const Page = () => {
                 </div>
             </div>
 
-            <div className=" py-3">
+            {/* <div className=" py-3">
                 <nav
                     className="flex items-center justify-between bg-white px-4 py-3 sm:px-6"
                     aria-label="Pagination"
@@ -169,7 +167,7 @@ const Page = () => {
                         </button>
                     </div>
                 </nav>
-            </div>
+            </div> */}
 
 
         </>
