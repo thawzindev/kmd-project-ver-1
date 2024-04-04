@@ -10,4 +10,6 @@ export interface Staff {
   lastLoggedInAt: string | null;
   role: string;
   department: Department;
+  isIdeasHidden: boolean;
+  isCommentsHidden: boolean;
 }

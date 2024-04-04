@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { getToken, removeLoginData } from "./auth";
+import { useRouter } from "next/navigation";
 
 class HttpClient {
   private readonly instance: AxiosInstance;
@@ -37,12 +38,15 @@ class HttpClient {
   private _handleResponse = ({ data }: AxiosResponse) => data;
 
   private _handleError = (error: any) => {
+    const router = useRouter();
     if (error.response) {
       if (error.response.status === 401) {
         removeLoginData();
-        window.location.href = "/login";
+        router.push("/login");
+        // window.location.href = "/login";
       } else if (error.response.status === 409) {
-        window.location.href = "/verify";
+        router.push("/login");
+        // window.location.href = "/verify";
       }
       console.log("HTTP Error:", error.response.data);
     } else if (error.request) {

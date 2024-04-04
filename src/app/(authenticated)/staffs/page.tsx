@@ -9,9 +9,10 @@ import { Staff } from "@/types/Staff";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toggleStaffStatus } from "@/routes/api";
+import { toggleStaffStatus, toggleStaffVisibility } from "@/routes/api";
 import toast from "react-hot-toast";
 import useStaffEditModal from "@/app/hooks/customs/useStaffEditModal";
+import { Badge } from "@/components/ui/badge";
 
 const pages = [
     { name: 'Staffs', href: '#', current: false },
@@ -49,10 +50,52 @@ const Page = () => {
         },
     })
 
-    const updateStaffStatus = (staff: Staff) => {
+    const commentVisibleMutation = useMutation({
+        mutationFn: (staff: Staff) => {
+            return toggleStaffVisibility(staff.id, 'comments');
+        },
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            toast.success(`Successfully updated the comments visiblity.`, { duration: 2000 })
+        },
+        onError: (error) => {
+            toast.error(error.message, { duration: 2000 })
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+            setIsSubmitting(false);
+        },
+    })
+
+    const ideaVisibleMutation = useMutation({
+        mutationFn: (staff: Staff) => {
+            return toggleStaffVisibility(staff.id, 'ideas');
+        },
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            toast.success(`Successfully updated the ideas visiblity.`, { duration: 2000 })
+        },
+        onError: (error) => {
+            toast.error(error.message, { duration: 2000 })
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+            setIsSubmitting(false);
+        },
+    })
+
+
+    const updateStaffStatus = (staff: Staff): void => {
         if (window.confirm(`Are you sure you want to ${staff.disabledAt ? 'enable' : 'disable'} ${staff.name}?`)) {
             setIsSubmitting(true);
             mutation.mutate(staff)
+        }
+    }
+
+    const toggleVisibility = (staff: Staff, toggleType: string): void => {
+        if (window.confirm(`Are you sure you want to ${staff.isCommentsHidden ? 'turn on' : 'turn off'} ${toggleType} visibility for ${staff.name}?`)) {
+            setIsSubmitting(true);
+            toggleType === 'comments' ? commentVisibleMutation.mutate(staff) : ideaVisibleMutation.mutate(staff)
         }
     }
 
@@ -137,6 +180,9 @@ const Page = () => {
                                             Department
                                         </th>
                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Additional
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Action
                                         </th>
                                     </tr>
@@ -162,6 +208,14 @@ const Page = () => {
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
                                                 {staff.department?.name}
                                             </td>
+                                            <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4 space-x-2">
+                                                <Badge variant={staff.isCommentsHidden ? 'destructive' : 'secondary'}>
+                                                    {staff.isCommentsHidden ? 'Comments Hidden' : 'Comments Visible'}
+                                                </Badge>
+                                                <Badge variant={staff.isIdeasHidden ? 'destructive' : 'secondary'}>
+                                                    {staff.isIdeasHidden ? 'Ideas Hidden' : 'Ideas Visible'}
+                                                </Badge>
+                                            </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                 <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                     Edit<span className="sr-only">, {staff.name}</span>
@@ -172,6 +226,16 @@ const Page = () => {
                                                 <button onClick={() => updateStaffStatus(staff)} className={cn('mx-2', staff.disabledAt ? "text-emerald-500" : "text-orange-600")}>
                                                     {
                                                         staff.disabledAt ? 'Enable' : 'Disable'
+                                                    }
+                                                </button>
+                                                <button onClick={() => toggleVisibility(staff, 'comments')} className={cn('mx-2', staff.isCommentsHidden ? "text-emerald-500" : "text-orange-600")}>
+                                                    {
+                                                        staff.isCommentsHidden ? 'Turn On Comments Visibility' : 'Turn Off Comments Visibility'
+                                                    }
+                                                </button>
+                                                <button onClick={() => toggleVisibility(staff, 'ideas')} className={cn('mx-2', staff.isIdeasHidden ? "text-emerald-500" : "text-orange-600")}>
+                                                    {
+                                                        staff.isIdeasHidden ? 'Turn On Ideas Visibility' : 'Turn Off Ideas Visibility'
                                                     }
                                                 </button>
                                             </td>

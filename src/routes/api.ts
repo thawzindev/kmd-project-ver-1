@@ -236,6 +236,11 @@ export const toggleStaffStatus = async (slug: string, type: string) => {
   return response as any;
 };
 
+export const toggleStaffVisibility = async (id: string, type: string) => {
+  const response = await httpClient.get(`staffs/${id}/toggle-visibility/${type}`);
+  return response as any;
+};
+
 export const reportAction = async (slug: string) => {
   const response = await httpClient.get(`reports/${slug}/action`);
   return response as any;
