@@ -25,14 +25,11 @@ const pages = [
 
 const Page = () => {
 
-    const [perPage, setPerPage] = useState(10);
-    const [page, setPage] = useState(1);
-
     const editModal = useDepartmentEditModal();
     const deleteModal = useDeleteModal();
 
 
-    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchDepartment(perPage, page);
+    const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchDepartment('');
 
     const departments = data?.results;
 

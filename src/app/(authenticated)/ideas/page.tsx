@@ -56,7 +56,7 @@ const FeedPage = () => {
     const filterResult = () => {
         const params = new URLSearchParams(searchParams);
         params.set('search', `${keyword}`);
-        params.set('anonymous', `${type}`);
+        params.set('anonymous', type === 'all' ? '' : type);
         params.set('category', `${category}`);
         params.set('sort', `${sort === 'all' ? '' : sort}`);
         setQueryString(params.toString());
@@ -112,36 +112,37 @@ const FeedPage = () => {
                         <Label>Keywords</Label>
                         <Input placeholder='Search here ...' className='h-10 w-72' onChange={(e) => setKeyword(e.target.value)} />
                     </div>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col w-64'>
                         <Label className="mb-2">Type</Label>
                         <Select defaultValue='all' onValueChange={(value) => setType(value)}>
-                            <SelectTrigger className="w-32">
+                            <SelectTrigger className="">
                                 <SelectValue placeholder="Sort" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All</SelectItem>
-                                <SelectItem value="anonymous">Anonymous</SelectItem>
-                                <SelectItem value="not_anonymous">Not Anonymous</SelectItem>
+                                <SelectItem value="1">Anonymous</SelectItem>
+                                <SelectItem value="0">Not Anonymous</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col w-64'>
                         <Label className="mb-2">Sort</Label>
                         <Select defaultValue='all' onValueChange={(value) => setSort(value)}>
-                            <SelectTrigger className="w-32">
+                            <SelectTrigger className="">
                                 <SelectValue placeholder="Sort" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All</SelectItem>
                                 <SelectItem value="popular">Sort by most popular</SelectItem>
                                 <SelectItem value="views">Sort by most view</SelectItem>
+                                <SelectItem value="comments">Sort by most comments</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col w-64'>
                         <Label>Category</Label>
                         <AsyncSelect
-                            className="mt-2 w-32"
+                            className="mt-2"
                             cacheOptions
                             loadOptions={loadCategoryOptions}
                             defaultOptions
