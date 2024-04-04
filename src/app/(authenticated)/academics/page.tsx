@@ -3,7 +3,6 @@
 import useAcademicEditModal from "@/app/hooks/customs/useAcademicEditModal";
 import useDeleteModal from "@/app/hooks/customs/useDeleteModal";
 import { useFetchAcedamicYear } from "@/app/hooks/queries/useFetchAcademicYear";
-import { AcademicYear } from "@/types/AcademicYear";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -21,8 +20,18 @@ const Page = () => {
     const deleteModal = useDeleteModal();
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchAcedamicYear(perPage, page);
-    const academics = data?.results?.data as AcademicYear[]
+    const academics = data?.results?.data;
     const meta = data?.results?.meta
+
+    const downloadData = (academic: any, type: string) => {
+        const url = type === 'csv' ? academic.dataDownloadCsvUrl : academic.dataDownloadXlsxUrl;
+        window.open(url, '_blank');
+    }
+
+    const downloadFiles = (academic: any) => {
+        const url = academic.fileExportUrl;
+        window.open(url, '_blank');
+    }
 
     return (
 
@@ -108,34 +117,40 @@ const Page = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {(academics) && academics.map((Academic, key) => (
+                                    {(academics) && academics.map((academic: any, key: number) => (
                                         <tr key={key}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 pl-4 bg-gray-100">
                                                 {meta?.from + key}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.name}
+                                                {academic.name}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.startDate}
+                                                {academic.startDate}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.closureDate}
+                                                {academic.closureDate}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.finalClosureDate}
+                                                {academic.finalClosureDate}
                                             </td>
                                             <td className="whitespace-nowrap py-4 text-left text-sm font-medium text-gray-900 pl-4">
-                                                {Academic.isActive ? "TRUE" : "FALSE"}
+                                                {academic.isActive ? "TRUE" : "FALSE"}
                                             </td>
 
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                <button onClick={() => editModal.onOpen(Academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {Academic.name}</span>
+                                                <button onClick={() => editModal.onOpen(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                    Edit<span className="sr-only">, {academic.name}</span>
                                                 </button>
-                                                {/* <button onClick={() => deleteModal.onOpen(Academic.id, Academic.startDate)} className="text-red-600 hover:text-red-900 mx-2">
-                                                    Delete<span className="sr-only">, {Academic.name}</span>
-                                                </button> */}
+                                                <button onClick={() => downloadData(academic, 'csv')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                    Data Download (CSV)
+                                                </button>
+                                                <button onClick={() => downloadData(academic, 'xlsx')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                    Data Download (XLSX)
+                                                </button>
+                                                <button onClick={() => downloadFiles(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                    File Download
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}

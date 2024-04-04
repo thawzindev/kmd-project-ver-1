@@ -92,11 +92,14 @@ const Idea = (idea: Ideas) => {
                 <div className="flex justify-between items-start">
 
                     <div className="flex items-center space-x-4 mt-1" onClick={() => router.push(`/ideas/${idea.slug}`)}>
-                        <Image className="aspect-square" alt="Sarrah" src={
+                        <Image className="aspect-square w-full h-auto" alt="Image" src={
                             idea.staff ? idea.staff.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"
-                        } width={24} height={24} />
+                        } width="0"
+                            height="0"
+                            sizes="100vw"
+                        />
                         <div>
-                            <div className="font-semibold">{idea.isA ? idea.staff.name : "Anonymous"}</div>
+                            <div className="font-semibold">{idea.staff ? idea.staff.name : "Anonymous"}</div>
                             <div className="text-xs text-gray-500">{idea.submittedAt}</div>
                         </div>
                     </div>

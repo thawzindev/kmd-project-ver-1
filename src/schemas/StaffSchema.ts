@@ -24,7 +24,7 @@ export const StaffSchema = z.object({
 });
 
 export const StaffEditSchema = z.object({
-  name: z.string().min(5).max(20),
+  name: z.string().min(5).max(30),
   department: z.string(),
   role: z.string(),
   password: z.string().min(5).max(20).optional().or(z.literal("")),

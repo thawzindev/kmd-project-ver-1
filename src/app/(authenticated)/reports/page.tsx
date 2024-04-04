@@ -48,7 +48,7 @@ const Page = () => {
             return reportAction(report.id);
         },
         onSuccess: async (data) => {
-            await queryClient.invalidateQueries({ queryKey: ['staffs'] })
+            await queryClient.invalidateQueries({ queryKey: ['reports'] })
             toast.success(`Successfully make an action.`, { duration: 2000 })
         },
         onError: (error) => {

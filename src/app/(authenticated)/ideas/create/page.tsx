@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { createIdea, getCategoryList } from "@/routes/api";
 import { IdeaSchema } from "@/schemas/IdeaSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,7 +21,7 @@ type IdeaSchemaType = z.infer<typeof IdeaSchema>;
 
 const Page = () => {
 
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient()
 
     const {
         register,
@@ -161,6 +161,7 @@ const Page = () => {
                         <Switch
                             {...register("is_anonymous", { value: "0" })}
                             onCheckedChange={(newValue: any) => {
+                                console.log("AN", newValue)
                                 setValue('is_anonymous', newValue ? "1" : "0")
                             }}
                         />

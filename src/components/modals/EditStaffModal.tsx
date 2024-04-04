@@ -19,9 +19,17 @@ import useStaffEditModal from "@/app/hooks/customs/useStaffEditModal";
 import { StaffEditSchema } from "@/schemas/StaffSchema";
 import { Label } from "../ui/label";
 import AsyncSelect from 'react-select/async';
-import Select from 'react-select'
 import { useFetchRole } from "@/app/hooks/queries/useFetchRoles";
 import { useFetchDepartment } from "@/app/hooks/queries/useFetchDepartment";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 type StaffSchemaType = z.infer<typeof StaffEditSchema>;
 
@@ -68,7 +76,7 @@ const EditStaffModal = () => {
         // setValue('password', "")
         // setValue('password_confirmation', "")
 
-        console.log(editModal.payload.department?.slug)
+        console.log(editModal.payload)
 
     }, [editModal.payload.name])
 
@@ -96,7 +104,7 @@ const EditStaffModal = () => {
     const departments = departmentsRaw?.results.map((department) => {
         return {
             label: department.name,
-            value: department.name
+            value: department.slug
         }
     })
 
@@ -120,19 +128,30 @@ const EditStaffModal = () => {
                         <div className="mt-2">
                             <Label htmlFor={"Role"}>Department</Label>
 
-                            {
-                                <Select
-                                    options={departments}
-                                    className=""
-                                    {...register("department")}
-                                    onChange={(newValue: any) => {
-                                        console.log(newValue)
-                                        setValue('department', newValue.value as string)
-                                    }}
-                                    value={departments?.find((department) => department.value === editModal.payload?.department?.slug)}
-                                    defaultValue={editModal.payload?.department?.slug}
-                                />
-                            }
+                            <Select defaultValue={editModal.payload.department?.slug}
+                                {...register("department")}
+                                onValueChange={(newValue: any) => {
+                                    console.log(newValue)
+                                    setValue('department', newValue as string)
+                                }}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a department" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {
+                                            departments?.map((department, index) => {
+                                                return (
+                                                    <SelectItem key={index} value={department.value}>
+                                                        {department.label}
+                                                    </SelectItem>
+                                                )
+                                            })
+                                        }
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                             {
                                 errors.department && <p className="text-red-500 text-xs my-2">{errors.department.message}</p>
                             }
@@ -143,16 +162,31 @@ const EditStaffModal = () => {
                             <Label htmlFor={"Role"}>Role</Label>
 
                             {
-                                <Select
-                                    options={roles}
-                                    className=""
+                                <Select defaultValue={editModal.payload.role}
                                     {...register("role")}
-                                    onChange={(newValue: any) => {
-                                        setValue('role', newValue.value as string)
+                                    onValueChange={(newValue: any) => {
+                                        console.log(getValues())
+                                        console.log(newValue)
+                                        setValue('role', newValue as string)
                                     }}
-                                    value={roles?.find((role) => role.value === editModal.payload.role)}
-                                    defaultValue={editModal.payload.role}
-                                />
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {
+                                                roles?.map((role, index) => {
+                                                    return (
+                                                        <SelectItem key={index} value={role.value}>
+                                                            {role.label}
+                                                        </SelectItem>
+                                                    )
+                                                })
+                                            }
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             }
                             {
                                 errors.role && <p className="text-red-500 text-xs my-2">{errors.role.message}</p>
