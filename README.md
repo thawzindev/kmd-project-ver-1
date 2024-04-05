@@ -7,20 +7,19 @@ First, clone or fork the repository:
 git clone https://github.com/thawzindev/kmd-project-ver-1.git
 ```
 
-Then, install npm packages and run the development server:
+Then, install npm packages:
 
 ```bash
 npm install
 # or
 yarn install
-# and
+```
+
+Finally, run the development server
+```
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
