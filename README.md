@@ -3,7 +3,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 First, clone or fork the repository:
+```bash
 git clone https://github.com/thawzindev/kmd-project-ver-1.git
+```
 
 Then, install npm packages and run the development server:
 
