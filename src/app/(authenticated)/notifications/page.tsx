@@ -8,6 +8,10 @@ import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useFetchNotification } from "@/app/hooks/queries/useFetchNotification";
+import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { readNotification } from "@/routes/api";
+import { cn } from "@/lib/utils";
 
 const pages = [
     { name: 'Settings', href: '#', current: false },
@@ -16,12 +20,29 @@ const pages = [
 
 const Page = () => {
 
+    const router = useRouter();
+    const queryClient = useQueryClient();
+
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchNotification(perPage, page);
     const notifications = data?.notifications?.data as Notification[]
     const meta = data?.notifications?.meta
+
+    const mutation = useMutation({
+        mutationFn: (id: string) => {
+            return readNotification(id);
+        },
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ['notifications'] })
+        },
+        onError: (error) => {
+            console.log('error', error.message)
+        },
+        onSettled: () => {
+        },
+    })
 
     return (
 
@@ -85,7 +106,10 @@ const Page = () => {
                             //    <br />
                             //    <p className="text-xs text-gray-500 dark:text-gray-400">{notification.body}</p>
                             // </div>
-                            <div className="flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2" key={notification.id}>
+                            <div className={cn('flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2 rounded-lg', notification.read ? '' : 'bg-gray-300')} key={notification.id} onClick={() => {
+                                router.push(notification.link)
+                                mutation.mutate(notification.id)
+                            }}>
                                 <div className="w-0 flex-1 pt-0.5">
                                     <p className="text-sm font-medium text-gray-900">{notification.title}</p>
                                     <p className="mt-1 text-sm text-gray-500">{notification.body}</p>

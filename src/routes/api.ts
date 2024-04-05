@@ -255,3 +255,8 @@ export const reportComment = async (ideaSlug: string, commentId: string, payload
   const response = await httpClient.post(`ideas/${ideaSlug}/comments/${commentId}/report`, payload);
   return response as any;
 };
+
+export const readNotification = async (id: string) => {
+  const response = await httpClient.get(`notifications/read?id=${id}`);
+  return response as any;
+};

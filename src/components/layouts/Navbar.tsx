@@ -12,11 +12,17 @@ import {
 } from "@/components/ui/sheet"
 import { format, set } from 'date-fns';
 import { BellIcon } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { getNotifications, markAllNotificationAsRead } from '@/routes/api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getNotifications, markAllNotificationAsRead, readNotification } from '@/routes/api';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const Navbar = () => {
+
+   const queryClient = useQueryClient();
+
+   const router = useRouter();
 
    const [allNotificationAsRead, setAllNotificationAsRead] = React.useState(false)
    const [sheetOpen, setSheetOpen] = React.useState(false)
@@ -49,6 +55,20 @@ const Navbar = () => {
       setAllNotificationAsRead(true)
       setSheetOpen(false)
    }
+
+   const mutation = useMutation({
+      mutationFn: (id: string) => {
+         return readNotification(id);
+      },
+      onSuccess: async (data) => {
+         await queryClient.invalidateQueries({ queryKey: ['notifications'] })
+      },
+      onError: (error) => {
+         console.log('error', error.message)
+      },
+      onSettled: () => {
+      },
+   })
 
 
    return (
@@ -88,7 +108,10 @@ const Navbar = () => {
                            <div>
                               {
                                  data?.notifications?.data && data?.notifications?.data.map((notification: any) => (
-                                    <div className="flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2" key={notification.id}>
+                                    <div className={cn("flex items-start py-1 my-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 p-2 rounded-lg", notification.read ? "" : "bg-gray-300")} key={notification.id} onClick={() => {
+                                       mutation.mutate(notification.id)
+                                       router.push(notification.link)
+                                    }}>
                                        <div className="w-0 flex-1 pt-0.5">
                                           <p className="text-sm font-medium text-gray-900">{notification.title}</p>
                                           <p className="mt-1 text-sm text-gray-500">{notification.body}</p>

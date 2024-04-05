@@ -139,18 +139,24 @@ const Page = () => {
                                             </td>
 
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                <button onClick={() => editModal.onOpen(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {academic.name}</span>
-                                                </button>
-                                                <button onClick={() => downloadData(academic, 'csv')} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Data Download (CSV)
-                                                </button>
-                                                <button onClick={() => downloadData(academic, 'xlsx')} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Data Download (XLSX)
-                                                </button>
-                                                <button onClick={() => downloadFiles(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    File Download
-                                                </button>
+                                                {
+                                                    academic.isActive && (
+                                                        <div>
+                                                            <button onClick={() => editModal.onOpen(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                Edit<span className="sr-only">, {academic.name}</span>
+                                                            </button>
+                                                            <button onClick={() => downloadData(academic, 'csv')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                Data Download (CSV)
+                                                            </button>
+                                                            <button onClick={() => downloadData(academic, 'xlsx')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                Data Download (XLSX)
+                                                            </button>
+                                                            <button onClick={() => downloadFiles(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                File Download
+                                                            </button>
+                                                        </div>
+                                                    )
+                                                }
                                             </td>
                                         </tr>
                                     ))}
