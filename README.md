@@ -7,7 +7,7 @@ First, clone or fork the repository:
 git clone https://github.com/thawzindev/kmd-project-ver-1.git
 ```
 
-Then, install npm packages:
+Then, install necessary packages:
 
 ```bash
 npm install
