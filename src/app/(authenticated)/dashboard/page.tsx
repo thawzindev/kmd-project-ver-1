@@ -7,15 +7,21 @@ import MyBarChart from "../../../components/charts/MyBarChart"
 import MyDoughnut from "../../../components/charts/MyDoughnutChart"
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
+import Cookies from 'js-cookie'
 
 const Page = () => {
 
     Chart.register(CategoryScale);
 
 
-    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
-    const user = JSON.parse(cookieObj.get("user") as string)
-    const firstLogin = JSON.parse(cookieObj.get("firstLogin") as string)
+    // const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
+    // const user = JSON.parse(cookieObj.get("user") as string)
+
+    const userCookie = Cookies.get('user');
+    const user = userCookie ? JSON.parse(userCookie) : null;
+
+    const firstLoginCookie = Cookies.get('firstLogin');
+    const firstLogin = firstLoginCookie ? JSON.parse(firstLoginCookie) : null;
 
     const { data, isLoading, error } = useFetchStatistics();
 

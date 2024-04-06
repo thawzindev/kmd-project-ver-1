@@ -10,9 +10,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { removeLoginData } from '@/lib/auth'
+import { getSidebarCookie, removeLoginData } from '@/lib/auth'
 import { Permissions } from '@/types/LoginResponse'
 import Icon from '../icons/Icon'
+import Cookies from 'js-cookie'
 
 const Sidebar = () => {
 
@@ -20,8 +21,15 @@ const Sidebar = () => {
 
     const [loggingOut, setLoggingOut] = useState(false);
 
-    const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
-    const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
+    const navigationCookie = Cookies.get('sidebar');
+
+    const navigations = navigationCookie ? JSON.parse(navigationCookie) : [];
+
+    // console.log(navigations);
+
+    // // const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
+    // console.log('cookies', cookieObj)
+    // // const navigations = JSON.parse(cookieObj.get("sidebar") as string) as Permissions[];
 
     const permissions = navigations?.filter((item) => {
         return item.permissions.includes('/')
@@ -41,7 +49,7 @@ const Sidebar = () => {
     const logout = () => {
         setLoggingOut(true);
         removeLoginData();
-        router.push('/dashboard')
+        router.push('/')
     }
 
     return (

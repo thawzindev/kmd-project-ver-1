@@ -38,15 +38,15 @@ class HttpClient {
   private _handleResponse = ({ data }: AxiosResponse) => data;
 
   private _handleError = (error: any) => {
-    const router = useRouter();
     if (error.response) {
+      const currentRoute = window.location.pathname;
+
       if (error.response.status === 401) {
         removeLoginData();
-        router.push("/login");
-        // window.location.href = "/login";
+        if (currentRoute !== "/login") window.location.href = "/login";
       } else if (error.response.status === 409) {
-        router.push("/login");
-        // window.location.href = "/verify";
+        window.location.href = "/verify";
+        // if (currentRoute !== "/login") window.location.href = "/login";
       }
       console.log("HTTP Error:", error.response.data);
     } else if (error.request) {

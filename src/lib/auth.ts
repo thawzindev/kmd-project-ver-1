@@ -31,6 +31,10 @@ export async function getLoginData() {
   return data;
 }
 
+export async function getSidebarCookie() {
+  return cookies().get("sidebar")?.value;
+}
+
 export async function removeLoginData() {
   const cookieStore = cookies();
   cookieStore.delete("user");

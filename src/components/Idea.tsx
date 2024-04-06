@@ -94,9 +94,8 @@ const Idea = (idea: Ideas) => {
                     <div className="flex items-center space-x-4 mt-1" onClick={() => router.push(`/ideas/${idea.slug}`)}>
                         <Image className="aspect-square w-full h-auto" alt="Image" src={
                             idea.staff ? idea.staff.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkYbWQRmPgmQIMT7oEJFZuFWoGPMhH59WUkyToaSfXsg&s"
-                        } width="0"
-                            height="0"
-                            sizes="100vw"
+                        }
+                            fill={true}
                         />
                         <div>
                             <div className="font-semibold">{idea.staff ? idea.staff.name : "Anonymous"}</div>

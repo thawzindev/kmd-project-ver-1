@@ -17,6 +17,7 @@ import { getNotifications, markAllNotificationAsRead, readNotification } from '@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import Cookies from 'js-cookie'
 
 const Navbar = () => {
 
@@ -28,12 +29,12 @@ const Navbar = () => {
    const [sheetOpen, setSheetOpen] = React.useState(false)
 
    const closeSheet = () => {
-      console.log('close sheet');
       setSheetOpen(false);
    }
 
-   const cookieObj = new URLSearchParams(document.cookie.replaceAll("&", "%26").replaceAll("; ", "&"))
-   const user = JSON.parse(cookieObj.get("user") as string)
+   const userCookie = Cookies.get('user');
+
+   const user = userCookie ? JSON.parse(userCookie) : null;
 
    const { data: markAllAsReadResp } = useQuery({
       queryKey: [`noti-read-all`],
@@ -155,7 +156,10 @@ const Navbar = () => {
                   </li>
                </ul> */}
 
-               Last Login - {format(new Date(user?.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')}
+               {
+                  user?.lastLoggedInAt &&
+                  'Last Login -' + format(new Date(user?.lastLoggedInAt), 'dd-MM-yyyy hh:mm:ss a')
+               }
             </div>
          </div>
       </nav>
