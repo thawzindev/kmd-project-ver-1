@@ -14,6 +14,7 @@ import DeleteModal from "../modals/DeleteModal";
 import EditDepartmentModal from "../modals/EditDepartmentModal";
 import EditAcademicModal from "../modals/EditAcademicModal";
 import EditStaffModal from "../modals/EditStaffModal";
+import { useEffect } from "react";
 
 const Providers = ({ children, ...props }: ThemeProviderProps) => {
 

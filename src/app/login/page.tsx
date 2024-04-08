@@ -6,7 +6,7 @@ import { setLoginData } from "@/lib/auth";
 import { login } from "@/routes/api";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -51,6 +51,10 @@ const Page = () => {
         setIsSubmitting(true);
         mutation.mutate(data);
     }
+
+    useEffect(() => {
+        document.title = 'Login';
+    }, [])
 
     return (
 

@@ -13,6 +13,7 @@ import { toggleStaffStatus, toggleStaffVisibility } from "@/routes/api";
 import toast from "react-hot-toast";
 import useStaffEditModal from "@/app/hooks/customs/useStaffEditModal";
 import { Badge } from "@/components/ui/badge";
+import Cookies from 'js-cookie'
 
 const pages = [
     { name: 'Staffs', href: '#', current: false },
@@ -20,6 +21,14 @@ const pages = [
 ]
 
 const Page = () => {
+
+    const sidebarCookie = Cookies.get('sidebar');
+
+    const sidebarPermission = sidebarCookie ? JSON.parse(sidebarCookie) : null;
+
+    const permission = sidebarPermission.find((per) => per.url === '/staffs');
+
+    console.log(permission)
 
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
@@ -217,27 +226,37 @@ const Page = () => {
                                                 </Badge>
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                    Edit<span className="sr-only">, {staff.name}</span>
-                                                </button>
-                                                {/* <button onClick={() => deleteModal.onOpen(staff.id, staff.name)} className="text-red-600 hover:text-red-900 mx-2">
-                                                    Delete<span className="sr-only">, {staff.name}</span>
-                                                </button> */}
-                                                <button onClick={() => updateStaffStatus(staff)} className={cn('mx-2', staff.disabledAt ? "text-emerald-500" : "text-orange-600")}>
-                                                    {
-                                                        staff.disabledAt ? 'Enable' : 'Disable'
-                                                    }
-                                                </button>
-                                                <button onClick={() => toggleVisibility(staff, 'comments')} className={cn('mx-2', staff.isCommentsHidden ? "text-emerald-500" : "text-orange-600")}>
-                                                    {
-                                                        staff.isCommentsHidden ? 'Turn On Comments Visibility' : 'Turn Off Comments Visibility'
-                                                    }
-                                                </button>
-                                                <button onClick={() => toggleVisibility(staff, 'ideas')} className={cn('mx-2', staff.isIdeasHidden ? "text-emerald-500" : "text-orange-600")}>
-                                                    {
-                                                        staff.isIdeasHidden ? 'Turn On Ideas Visibility' : 'Turn Off Ideas Visibility'
-                                                    }
-                                                </button>
+                                                {
+                                                    permission.permissions.includes('/update') && (
+                                                        <>
+                                                            <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                Edit<span className="sr-only">, {staff.name}</span>
+                                                            </button>
+
+                                                            <button onClick={() => updateStaffStatus(staff)} className={cn('mx-2', staff.disabledAt ? "text-emerald-500" : "text-orange-600")}>
+                                                                {
+                                                                    staff.disabledAt ? 'Enable' : 'Disable'
+                                                                }
+                                                            </button>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    permission.permissions.includes('/toggle-visibility') && (
+                                                        <>
+                                                            <button onClick={() => toggleVisibility(staff, 'comments')} className={cn('mx-2', staff.isCommentsHidden ? "text-emerald-500" : "text-orange-600")}>
+                                                                {
+                                                                    staff.isCommentsHidden ? 'Turn On Comments Visibility' : 'Turn Off Comments Visibility'
+                                                                }
+                                                            </button>
+                                                            <button onClick={() => toggleVisibility(staff, 'ideas')} className={cn('mx-2', staff.isIdeasHidden ? "text-emerald-500" : "text-orange-600")}>
+                                                                {
+                                                                    staff.isIdeasHidden ? 'Turn On Ideas Visibility' : 'Turn Off Ideas Visibility'
+                                                                }
+                                                            </button>
+                                                        </>
+                                                    )
+                                                }
                                             </td>
                                         </tr>
                                     ))}

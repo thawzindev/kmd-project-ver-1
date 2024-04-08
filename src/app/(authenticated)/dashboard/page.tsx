@@ -8,6 +8,7 @@ import MyDoughnut from "../../../components/charts/MyDoughnutChart"
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import Cookies from 'js-cookie'
+import Head from "next/head";
 
 const Page = () => {
 

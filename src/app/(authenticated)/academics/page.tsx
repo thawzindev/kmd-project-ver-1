@@ -6,6 +6,7 @@ import { useFetchAcedamicYear } from "@/app/hooks/queries/useFetchAcademicYear";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import Cookies from 'js-cookie'
 
 const pages = [
     { name: 'Settings', href: '#', current: false },
@@ -18,6 +19,12 @@ const Page = () => {
     const [page, setPage] = useState(1);
     const editModal = useAcademicEditModal();
     const deleteModal = useDeleteModal();
+
+    const sidebarCookie = Cookies.get('sidebar');
+    const sidebarPermission = sidebarCookie ? JSON.parse(sidebarCookie) : null;
+
+    // console.log(sidebarPermission)
+
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchAcedamicYear(perPage, page);
     const academics = data?.results?.data;
