@@ -260,3 +260,7 @@ export const readNotification = async (id: string) => {
   const response = await httpClient.get(`notifications/read?id=${id}`);
   return response as any;
 };
+export const getProfile = async () => {
+  const response = await httpClient.get(`profile`);
+  return response as any;
+};

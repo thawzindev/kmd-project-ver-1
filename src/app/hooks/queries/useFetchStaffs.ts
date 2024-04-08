@@ -1,4 +1,4 @@
-import { getCategoryList, getStaffList } from "@/routes/api";
+import { getStaffList } from "@/routes/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const useFetchStaffs = (perPage: number, page: number) => {
