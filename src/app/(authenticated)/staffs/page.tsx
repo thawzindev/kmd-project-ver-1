@@ -242,7 +242,7 @@ const Page = () => {
                                                     )
                                                 }
                                                 {
-                                                    permission.permissions.includes('/toggle-visibility') && (
+                                                    permission.accountPermissions.includes('/toggle-visibility') && (
                                                         <>
                                                             <button onClick={() => toggleVisibility(staff, 'comments')} className={cn('mx-2', staff.isCommentsHidden ? "text-emerald-500" : "text-orange-600")}>
                                                                 {
