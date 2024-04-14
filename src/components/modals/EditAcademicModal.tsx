@@ -163,7 +163,7 @@ const EditAcademicModal = () => {
                                     <div className="relative">
                                         <Input
                                             type="text"
-                                            label="Final Final Closure Date"
+                                            label="Final Closure Date"
                                             readOnly
                                             placeholder="Select final closure date..."
                                             value={finalClosureDate ? format(finalClosureDate, 'yyyy-MM-dd') : ''}
