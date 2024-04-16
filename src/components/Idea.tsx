@@ -20,7 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteIdea, reportIdea } from "@/routes/api";
 
-const Idea = (idea: Ideas) => {
+const Idea = ({ idea, permission }: { idea: Ideas, permission: any }) => {
 
     const router = useRouter();
 
@@ -30,6 +30,9 @@ const Idea = (idea: Ideas) => {
     const [reportReason, setReportReason] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const canDeletePost = permission?.permissions?.includes('/delete');
+    // const canDelete = permission?.commentPermissions?.includes('/delete');
 
 
     const reportMutation = useMutation({
@@ -118,7 +121,7 @@ const Idea = (idea: Ideas) => {
                                 Report
                             </DropdownMenuItem>
                             {
-                                idea.isOwner && (
+                                (idea.isOwner || canDeletePost) && (
                                     <DropdownMenuGroup>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem className="text-red-600 hover:text-red-800"
