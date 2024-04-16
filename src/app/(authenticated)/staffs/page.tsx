@@ -227,7 +227,7 @@ const Page = () => {
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                 {
-                                                    permission.permissions.includes('/update') && (
+                                                    (permission.accountPermissions.includes('/enable') || permission.accountPermissions.includes('/disable')) && (
                                                         <>
                                                             <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                                 Edit<span className="sr-only">, {staff.name}</span>
