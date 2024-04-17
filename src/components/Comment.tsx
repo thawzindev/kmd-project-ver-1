@@ -68,7 +68,7 @@ const Comment = ({ comment, idea, canDelete }: { comment: any, idea: any, canDel
             return deleteComment(idea.slug, comment.id);
         },
         onSuccess: async (data) => {
-            toast.success('Deleted the idea', { duration: 2000 })
+            toast.success('Deleted the comment.', { duration: 2000 })
             queryClient.invalidateQueries({ queryKey: ['comments'] })
         },
         onError: (error) => {
