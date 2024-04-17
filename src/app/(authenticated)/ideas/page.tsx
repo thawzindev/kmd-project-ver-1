@@ -49,11 +49,11 @@ const FeedPage = () => {
     const ideas = data?.results?.data as Ideas[]
     const meta = data?.results?.meta
 
-    const sidebarCookie = Cookies.get('sidebar');
+    const userCookie = Cookies.get('user');
 
-    const sidebarPermission = sidebarCookie ? JSON.parse(sidebarCookie) : null;
+    const user = userCookie ? JSON.parse(userCookie) : null;
 
-    const permission = sidebarPermission.find((per) => per.url === '/ideas');
+    const canDeletePost = user?.role === 'Admin';
 
     const loadCategoryOptions = async (inputValue: string) => {
         const response = await getCategoryList(20, 1, inputValue)
@@ -236,7 +236,7 @@ const FeedPage = () => {
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
                 // eslint-disable-next-line react/jsx-key
-                <Idea idea={idea} key={idea.id} permission={permission} />
+                <Idea idea={idea} key={idea.id} canDeletePost={canDeletePost} />
             ))}
 
             {

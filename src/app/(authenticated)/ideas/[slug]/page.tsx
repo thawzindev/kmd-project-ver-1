@@ -32,13 +32,11 @@ const Page = () => {
 
   const idea = data?.results;
 
-  const sidebarCookie = Cookies.get('sidebar');
+  const userCookie = Cookies.get('user');
 
-  const sidebarPermission = sidebarCookie ? JSON.parse(sidebarCookie) : null;
+  const user = userCookie ? JSON.parse(userCookie) : null;
 
-  const permission = sidebarPermission.find((per) => per.url === '/ideas');
-
-  const canDeleteComment = permission?.commentPermissions.includes('/delete');
+  const canDeleteComment = user?.role === 'Admin';
 
 
   const commentMutation = useMutation({

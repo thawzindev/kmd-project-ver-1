@@ -20,7 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteIdea, reportIdea } from "@/routes/api";
 
-const Idea = ({ idea, permission }: { idea: Ideas, permission: any }) => {
+const Idea = ({ idea, canDeletePost }: { idea: Ideas, canDeletePost: boolean }) => {
 
     const router = useRouter();
 
@@ -30,10 +30,6 @@ const Idea = ({ idea, permission }: { idea: Ideas, permission: any }) => {
     const [reportReason, setReportReason] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const canDeletePost = permission?.permissions?.includes('/delete');
-    // const canDelete = permission?.commentPermissions?.includes('/delete');
-
 
     const reportMutation = useMutation({
         mutationFn: (payload: any) => {
