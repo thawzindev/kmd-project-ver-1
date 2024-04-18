@@ -52,10 +52,6 @@ const Page = () => {
         mutation.mutate(data);
     }
 
-    useEffect(() => {
-        document.title = 'Login';
-    }, [])
-
     return (
 
         <div className="flex flex-col justify-center min-h-screen mx-auto max-w-sm">

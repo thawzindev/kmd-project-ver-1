@@ -226,21 +226,27 @@ const Page = () => {
                                                 </Badge>
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                {
-                                                    (permission.accountPermissions.includes('/enable') || permission.accountPermissions.includes('/disable')) && (
-                                                        <>
+
+                                                <>
+                                                    {
+                                                        permission.permissions.includes('/update') && (
                                                             <button onClick={() => editModal.onOpen(staff)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                                 Edit<span className="sr-only">, {staff.name}</span>
                                                             </button>
+                                                        )
+                                                    }
 
+                                                    {
+                                                        (permission.accountPermissions.includes('/enable') || permission.accountPermissions.includes('/disable')) && (
                                                             <button onClick={() => updateStaffStatus(staff)} className={cn('mx-2', staff.disabledAt ? "text-emerald-500" : "text-orange-600")}>
                                                                 {
                                                                     staff.disabledAt ? 'Enable' : 'Disable'
                                                                 }
                                                             </button>
-                                                        </>
-                                                    )
-                                                }
+                                                        )
+                                                    }
+                                                </>
+
                                                 {
                                                     permission.accountPermissions.includes('/toggle-visibility') && (
                                                         <>
