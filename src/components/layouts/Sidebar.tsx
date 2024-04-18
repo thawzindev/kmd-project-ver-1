@@ -14,6 +14,7 @@ import { getSidebarCookie, removeLoginData } from '@/lib/auth'
 import { Permissions } from '@/types/LoginResponse'
 import Icon from '../icons/Icon'
 import Cookies from 'js-cookie'
+import useOpenSidebar from '@/app/hooks/customs/useOpenSidebar';
 
 const Sidebar = () => {
 
@@ -41,6 +42,7 @@ const Sidebar = () => {
     const [current, setCurrent] = useState(permissions?.find((item) => item.url === pathname))
 
     useEffect(() => {
+        sidebarStore.onClose();
         setCurrent(permissions.find((item) => item.url === pathname))
         //eslint-disable-next-line
     }, [pathname])
@@ -51,6 +53,9 @@ const Sidebar = () => {
         removeLoginData();
         router.push('/')
     }
+
+    const sidebarStore = useOpenSidebar();
+
 
     return (
         <>
@@ -71,7 +76,7 @@ const Sidebar = () => {
 
             <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 overflow-auto bg-[#F9F9F9] lg:border-r lg:border-gray-200 lg:pt-1 lg:pb-1">
 
-                <Transition.Root show={sidebarOpen} as={Fragment}>
+                <Transition.Root show={sidebarStore.isOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                         <Transition.Child
                             as={Fragment}
@@ -106,9 +111,11 @@ const Sidebar = () => {
                                         leaveTo="opacity-0"
                                     >
                                         <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                                            <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
+                                            <button type="button" className="-m-2.5 p-2.5" onClick={() => {
+                                                sidebarStore.toggle();
+                                            }}>
                                                 <span className="sr-only">Close sidebar</span>
-                                                <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                <XIcon className="h-6 w-6 text-gray-900" aria-hidden="true" />
                                             </button>
                                         </div>
                                     </Transition.Child>
@@ -278,7 +285,7 @@ const Sidebar = () => {
                                             </Link>
                                         </li> */}
 
-                                         <li>
+                                        <li>
                                             <Link
                                                 href={"/profile"}
                                                 className={cn(
@@ -290,7 +297,7 @@ const Sidebar = () => {
                                             >
                                                 Profile
                                             </Link>
-                                        </li> 
+                                        </li>
                                         <li>
                                             <button
                                                 onClick={() => logout()}
