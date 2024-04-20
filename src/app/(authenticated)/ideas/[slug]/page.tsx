@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Comment from "@/components/Comment";
+import Cookies from 'js-cookie'
 
 const Page = () => {
   const queryClient = useQueryClient();
@@ -30,6 +31,13 @@ const Page = () => {
   const { data: comments } = useFetchComments(30, 1, slug.toString());
 
   const idea = data?.results;
+
+  const userCookie = Cookies.get('user');
+
+  const user = userCookie ? JSON.parse(userCookie) : null;
+
+  const canDeleteComment = user?.role === 'Admin';
+
 
   const commentMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -176,7 +184,7 @@ const Page = () => {
           <div className="space-y-6">
             {comments?.results &&
               comments?.results.map((comment: any) => {
-                return <Comment comment={comment} idea={idea} key={comment.id} />
+                return <Comment comment={comment} canDelete={canDeleteComment} idea={idea} key={comment.id} />
               })}
           </div>
 
