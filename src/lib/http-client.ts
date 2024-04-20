@@ -45,7 +45,9 @@ class HttpClient {
         removeLoginData();
         if (currentRoute !== "/login") window.location.href = "/login";
       } else if (error.response.status === 409) {
-        window.location.href = "/verify";
+        if (window.location.pathname !== "/verify") {
+          window.location.href = "/verify";
+        }
         // if (currentRoute !== "/login") window.location.href = "/login";
       }
       console.log("HTTP Error:", error.response.data);
