@@ -118,7 +118,7 @@ const EditStaffModal = () => {
                         <div className="mt-2">
                             <Input type="text" label="Name"
                                 autoFocus
-                                placeholder="Enter the category name ..."
+                                placeholder="Enter the staff name ..."
                                 error={errors.name && errors.name.message}
                                 {...register("name")}
                                 className="bg-gray-100"
