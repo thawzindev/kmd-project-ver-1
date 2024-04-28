@@ -23,7 +23,9 @@ const Page = () => {
     const sidebarCookie = Cookies.get('sidebar');
     const sidebarPermission = sidebarCookie ? JSON.parse(sidebarCookie) : null;
 
-    // console.log(sidebarPermission)
+    const academicPermission = sidebarPermission?.find((item: any) => item.url === "/academics");
+
+    console.log(academicPermission)
 
 
     const { data, isFetching, error, isLoading, isPlaceholderData } = useFetchAcedamicYear(perPage, page);
@@ -145,26 +147,44 @@ const Page = () => {
                                                 {academic.isActive ? "TRUE" : "FALSE"}
                                             </td>
 
-                                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
-                                                {
-                                                    academic.isActive && (
+                                            {
+                                                (academicPermission.exportPermissions.length > 0) && (
+                                                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                                         <div>
                                                             <button onClick={() => editModal.onOpen(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
                                                                 Edit<span className="sr-only">, {academic.name}</span>
                                                             </button>
-                                                            <button onClick={() => downloadData(academic, 'csv')} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                                Data Download (CSV)
-                                                            </button>
-                                                            <button onClick={() => downloadData(academic, 'xlsx')} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                                Data Download (XLSX)
-                                                            </button>
-                                                            <button onClick={() => downloadFiles(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
-                                                                File Download
-                                                            </button>
+                                                            {
+                                                                academicPermission.exportPermissions.includes('/export-data') && (
+                                                                    <>
+                                                                        {
+                                                                            academic.dataDownloadCsvUrl && (
+                                                                                <button onClick={() => downloadData(academic, 'csv')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                                    Data Download (CSV)
+                                                                                </button>
+                                                                            )
+                                                                        }
+                                                                        {
+                                                                            academic.dataDownloadXlsxUrl && (
+                                                                                <button onClick={() => downloadData(academic, 'xlsx')} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                                    Data Download (XLSX)
+                                                                                </button>
+                                                                            )
+                                                                        }
+                                                                    </>
+                                                                )
+                                                            }
+                                                            {
+                                                                (academicPermission.exportPermissions.includes('/export-files') && academic.fileExportUrl) && (
+                                                                    <button onClick={() => downloadFiles(academic)} className="text-indigo-600 hover:text-indigo-900 mx-2">
+                                                                        File Download
+                                                                    </button>
+                                                                )
+                                                            }
                                                         </div>
-                                                    )
-                                                }
-                                            </td>
+                                                    </td>
+                                                )
+                                            }
                                         </tr>
                                     ))}
                                 </tbody>
