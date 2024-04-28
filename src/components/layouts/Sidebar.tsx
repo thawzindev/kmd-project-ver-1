@@ -231,7 +231,7 @@ const Sidebar = () => {
                                                     href={item.url}
                                                     className={cn(
                                                         current?.url === item.url || current?.url === '/dashboard'
-                                                            ? 'bg-gray-50 text-indigo-600'
+                                                            ? 'bg-gray-200 text-indigo-600'
                                                             : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                     )}
@@ -283,7 +283,7 @@ const Sidebar = () => {
                                                 href={"/profile"}
                                                 className={cn(
                                                     pathname === '/profile'
-                                                        ? 'bg-gray-50 text-indigo-600'
+                                                        ? 'bg-gray-200 text-indigo-600'
                                                         : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                 )}
