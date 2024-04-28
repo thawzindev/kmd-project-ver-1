@@ -125,15 +125,6 @@ const Page = () => {
 
                 </div>
 
-                {/* <div className="mt-2">
-                    <Input type="text" label="Content"
-                        autoFocus
-                        placeholder="Enter content ..."
-                        error={errors.content && errors.content.message}
-                        {...register("content")}
-                        className="bg-gray-100"
-                    />
-                </div> */}
                 <div className="mt-2">
                     <Label htmlFor={"Content"}>Content</Label>
                     <textarea
@@ -155,6 +146,7 @@ const Page = () => {
                         className="bg-gray-100"
                     />
                 </div>
+
 
                 <div className="flex items-center space-x-2 mt-10">
                     {

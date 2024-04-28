@@ -264,3 +264,8 @@ export const getProfile = async () => {
   const response = await httpClient.get(`profile`);
   return response as any;
 };
+
+export const updateProfile = async (payload: any) => {
+  const response = await httpClient.postAsForm(`profile/update`, payload);
+  return response as any;
+};

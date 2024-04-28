@@ -21,7 +21,7 @@ import { deleteComment, deleteIdea, postCommentReaction, reportComment, reportId
 import { cn } from "@/lib/utils";
 import { Ideas } from "@/types/Idea";
 
-const Comment = ({ comment, idea }) => {
+const Comment = ({ comment, idea, canDelete }: { comment: any, idea: any, canDelete: boolean }) => {
 
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -68,7 +68,7 @@ const Comment = ({ comment, idea }) => {
             return deleteComment(idea.slug, comment.id);
         },
         onSuccess: async (data) => {
-            toast.success('Deleted the idea', { duration: 2000 })
+            toast.success('Deleted the comment.', { duration: 2000 })
             queryClient.invalidateQueries({ queryKey: ['comments'] })
         },
         onError: (error) => {
@@ -134,7 +134,7 @@ const Comment = ({ comment, idea }) => {
                                 Report
                             </DropdownMenuItem>
                             {
-                                comment?.isOwner && (
+                                (comment?.isOwner || canDelete) && (
                                     <DropdownMenuGroup>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem className="text-red-600 hover:text-red-800"

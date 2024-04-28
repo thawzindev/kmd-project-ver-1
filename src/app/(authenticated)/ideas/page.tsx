@@ -19,6 +19,7 @@ import AsyncSelect from 'react-select/async';
 import { getCategoryList } from '@/routes/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Idea from '@/components/Idea';
+import Cookies from 'js-cookie'
 
 
 const pages = [
@@ -47,6 +48,12 @@ const FeedPage = () => {
     console.log(data?.results?.data.length);
     const ideas = data?.results?.data as Ideas[]
     const meta = data?.results?.meta
+
+    const userCookie = Cookies.get('user');
+
+    const user = userCookie ? JSON.parse(userCookie) : null;
+
+    const canDeletePost = user?.role === 'Admin';
 
     const loadCategoryOptions = async (inputValue: string) => {
         const response = await getCategoryList(20, 1, inputValue)
@@ -229,7 +236,7 @@ const FeedPage = () => {
 
             {(ideas && !isFetching) && ideas.map((idea, key) => (
                 // eslint-disable-next-line react/jsx-key
-                <Idea {...idea} key={idea.id} />
+                <Idea idea={idea} key={idea.id} canDeletePost={canDeletePost} />
             ))}
 
             {
